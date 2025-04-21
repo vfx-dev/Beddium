@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8.5",
+  "package": "com.ventooth.beddium.mixin.mixins",
+  "plugin": "com.ventooth.beddium.mixin.plugin.MixinPlugin",
+  "refmap": "mixins.beddium.refmap.json",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [],
+  "client": [],
+  "server": []
+}

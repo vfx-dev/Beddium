@@ -1,0 +1,16 @@
+[
+  {
+    "modid": "${modId}",
+    "name": "${modName}",
+    "description": "An open-source terrain renderer using the Celeritas Core API",
+    "version": "${modVersion}",
+    "mcversion": "${minecraftVersion}",
+    "url": "https://github.com/VFX-dev/Beddium",
+    "updateUrl": "",
+    "authorList": ["Ven", "FalsePattern"],
+    "credits": "The Sodium project, embeddedt",
+    "logoFile": "beddium.png",
+    "screenshots": [],
+    "dependencies": []
+  }
+]

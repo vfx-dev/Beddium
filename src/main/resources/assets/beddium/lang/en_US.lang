@@ -1,0 +1,28 @@
+# Modules Configs
+config.beddium.modules.Modules=Modules
+config.beddium.modules.Modules.tooltip=Toggles for all Beddium modules
+
+config.beddium.modules.TerrainRendering=Terrain Rendering
+config.beddium.modules.TerrainRendering.tooltip=Celeritas based terrain rendering
+
+config.beddium.modules.BiomeColorCache=Biome Color Cache
+config.beddium.modules.BiomeColorCache.tooltip=Caching of biome color selection when baking chunks
+
+config.beddium.modules.ConservativeAnimatedTextures=Conservative Animated Textures
+config.beddium.modules.ConservativeAnimatedTextures.tooltip=Only update visible animated textures
+
+config.beddium.modules.BetterMipmaps=Better Mipmaps
+config.beddium.modules.BetterMipmaps.tooltip=Better looking mipmaps
+
+config.beddium.modules.Debug=Debug
+config.beddium.modules.Debug.tooltip=Helpful debug features
+
+# Terrain Rendering Configs
+config.beddium.terrainrendering.MEGAChunks=MEGA Chunks
+config.beddium.terrainrendering.MEGAChunks.tooltip=Larger chunk renderers. One minecraft 16x256x16 chunk is 16 subchunks\n0 - 1x1x1 - 1 subchunk per renderer (disabled)\n1 - 2x2x2 - 8 subchunks per renderer\n2 - 4x4x4 - 64 subchunks per renderer\n3 - 8x8x8 - 512 subchunks per renderer (implementation limit)
+
+config.beddium.terrainrendering.ChunkDrawMode=Chunk Edge Mode
+config.beddium.terrainrendering.ChunkDrawMode.tooltip=Changes the way chunks at the world edge are rendered.\nVanilla: Renders "chunk cliffs" at the world edge. Slightly slower,\n         but fixes issues such as invisible chunks in minigame servers,\n or reduced render distance.\nFast: Only renders chunks if all of the neighboring chunks are loaded.\n      A bit faster than safe, but on some servers this might cause missing\n      chunks at map edges,\n      and it reduces visual render distance by 1 (the chunks are still present).",
+
+config.beddium.modules.UseMultiDrawIndirect=Multi-Draw Indirect
+config.beddium.modules.UseMultiDrawIndirect.tooltip=Controls if chunks should be drawn using MultiDrawIndirect.\nThis option is a trade off between CPU and GPU overhead when rendering chunks.\nIt is best left disabled in most cases, particularly on Intel iGPUs.\nCan improve performance on render distances beyond 16 if you are CPU limited.

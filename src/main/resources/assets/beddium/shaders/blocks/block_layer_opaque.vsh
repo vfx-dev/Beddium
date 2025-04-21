@@ -1,0 +1,80 @@
+#version 330 core
+
+#import <beddium:include/fog.glsl>
+#import <beddium:include/chunk_vertex.glsl>
+#import <beddium:include/chunk_matrices.glsl>
+#import <beddium:include/chunk_material.glsl>
+
+out vec4 v_Color;
+out vec2 v_TexCoord;
+
+out float v_MaterialMipBias;
+#ifdef USE_FRAGMENT_DISCARD
+out float v_MaterialAlphaCutoff;
+#endif
+
+#ifdef USE_FOG
+out float v_FragDistance;
+#endif
+
+uniform int u_FogShape;
+uniform vec3 u_RegionOffset;
+
+#if defined(RPLE)
+uniform sampler2D u_LightTex; // The light map texture sampler
+
+// TODO: Optional uniforms
+//uniform sampler2D u_LightTex_r;
+uniform sampler2D u_LightTex_g;
+uniform sampler2D u_LightTex_b;
+#else
+uniform sampler2D u_LightTex; // The light map texture sampler
+#endif
+
+
+vec4 _sample_lightmap(sampler2D lightMap, ivec2 uv) {
+    return texture(lightMap, clamp(uv / 256.0, vec2(0.5 / 16.0), vec2(15.5 / 16.0)));
+}
+
+uvec3 _get_relative_chunk_coord(uint pos) {
+    // Packing scheme is defined by LocalSectionIndex
+    return uvec3(pos) >> uvec3(5u, 0u, 2u) & uvec3(7u, 3u, 7u);
+}
+
+vec3 _get_draw_translation(uint pos) {
+    return _get_relative_chunk_coord(pos) * vec3(MEGACHUNK_SIZE);
+}
+
+void main() {
+    _vert_init();
+
+    // Transform the chunk-local vertex position into world model space
+    vec3 translation = u_RegionOffset + _get_draw_translation(_draw_id);
+    vec3 position = _vert_position + translation;
+
+#ifdef USE_FOG
+    v_FragDistance = getFragDistance(u_FogShape, position);
+#endif
+
+    // Transform the vertex position into model-view-projection space
+    gl_Position = u_ProjectionMatrix * u_ModelViewMatrix * vec4(position, 1.0);
+
+    // Add the light color to the vertex color, and pass the texture coordinates to the fragment shader
+    v_Color = _vert_color;
+
+    #if defined(RPLE)
+    // TODO: Optional uniforms
+    v_Color *= _sample_lightmap(u_LightTex, _vert_tex_light_coord_r);
+//    v_Color *= _sample_lightmap(u_LightTex_r, _vert_tex_light_coord_r);
+    v_Color *= _sample_lightmap(u_LightTex_g, _vert_tex_light_coord_g);
+    v_Color *= _sample_lightmap(u_LightTex_b, _vert_tex_light_coord_b);
+    #else
+    v_Color *= _sample_lightmap(u_LightTex, _vert_tex_light_coord);
+    #endif
+    v_TexCoord = _vert_tex_diffuse_coord;
+
+    v_MaterialMipBias = _material_mip_bias(_material_params);
+#ifdef USE_FRAGMENT_DISCARD
+    v_MaterialAlphaCutoff = _material_alpha_cutoff(_material_params);
+#endif
+}
