@@ -30,7 +30,7 @@ import org.embeddedt.embeddium.impl.gl.attribute.GlVertexFormat;
 import org.embeddedt.embeddium.impl.render.chunk.terrain.material.Material;
 import org.embeddedt.embeddium.impl.render.chunk.vertex.format.ChunkVertexEncoder;
 import org.embeddedt.embeddium.impl.render.chunk.vertex.format.ChunkVertexType;
-import org.lwjgl.system.MemoryUtil;
+import org.embeddedt.embeddium.impl.lwjgl2.MemoryUtil;
 
 import java.util.List;
 import java.util.Map;

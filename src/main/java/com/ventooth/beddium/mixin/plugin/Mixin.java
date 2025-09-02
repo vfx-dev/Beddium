@@ -76,6 +76,13 @@ enum Mixin implements IMixin {
     MEGAChunks_RenderSectionManagerMixin(Side.CLIENT, Cfg.MEGAChunks),
     MEGAChunks_SectionPosMixin(Side.CLIENT, Cfg.MEGAChunks),
     MEGAChunks_SimpleWorldRendererMixin(Side.CLIENT, Cfg.MEGAChunks),
+    // endregion
+
+    // region Lwjgl3 Compat
+    Lwjgl3_celeritas_GlFenceMixin(Side.CLIENT, Cfg.Lwjgl3),
+    Lwjgl3_celeritas_MultidrawFunctionsMixin(Side.CLIENT, Cfg.Lwjgl3),
+    Lwjgl3_celeritas_ShaderWorkaroundsMixin(Side.CLIENT, Cfg.Lwjgl3),
+    // endregion
     ;
 
     @Getter

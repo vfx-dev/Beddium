@@ -33,7 +33,7 @@ import org.embeddedt.embeddium.api.util.ColorABGR;
 import org.embeddedt.embeddium.impl.gl.device.GLRenderDevice;
 import org.embeddedt.embeddium.impl.render.chunk.sprite.SpriteTransparencyLevel;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL15C;
+import org.lwjgl.opengl.GL15;
 
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.client.ClientCommandHandler;
@@ -48,7 +48,7 @@ public final class TerrainRenderingModule {
 
     public static void init() {
         GLRenderDevice.VANILLA_STATE_RESETTER = () -> {
-            GL15C.glBindBuffer(GL15C.GL_ARRAY_BUFFER, 0);
+            GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
         };
 
         if (ModuleConfig.Debug || (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment")) {

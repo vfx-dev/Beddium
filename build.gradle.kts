@@ -6,7 +6,7 @@ group = "com.ventooth"
 
 minecraft_fp {
     java {
-        compatibility = modern
+        compatibility = jvmDowngrader
     }
 
     mod {
@@ -49,8 +49,7 @@ tasks.processResources {
 }
 
 repositories {
-    exclusive(mavenpattern(), "com.falsepattern")
-    exclusive(maven("taumcMirror", "https://mvn.falsepattern.com/taumc"), "org.embeddedt.celeritas")
+    exclusive(mavenpattern(), "com.falsepattern", "org.embeddedt.celeritas")
     exclusive(mega(), "mega")
     exclusive(venmaven(), "com.ventooth")
 }
@@ -61,8 +60,8 @@ dependencies {
     compileOnlyApi("org.joml:joml:1.10.8")
     compileOnlyApi("it.unimi.dsi:fastutil:8.5.16")
 
-    compileOnlyApi("org.embeddedt.celeritas:celeritas-common:2.4.0-dev.3")
-    shadowImplementation("org.embeddedt.celeritas:celeritas-common:2.4.0-dev.3") {
+    compileOnlyApi("org.embeddedt.celeritas:celeritas-common:2.4.0-dev.4+beddium")
+    shadowImplementation("org.embeddedt.celeritas:celeritas-common:2.4.0-dev.4+beddium") {
         excludeDeps()
     }
 

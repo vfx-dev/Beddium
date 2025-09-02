@@ -35,9 +35,19 @@ public class CoreLoadingPlugin implements IFMLLoadingPlugin {
             ConfigCompat.executeConfigFixes();
         } catch (Throwable ignored) {}
     }
+
     @Override
     public String[] getASMTransformerClass() {
-        return new String[0];
+        boolean lwjgl3 = false;
+        try {
+            Class.forName("org.lwjgl.system.MemoryUtil", false, CoreLoadingPlugin.class.getClassLoader());
+            lwjgl3 = true;
+        } catch (Throwable ignored) {}
+        if (lwjgl3) {
+            return new String[]{Tags.ROOT_PKG + ".asm.Lwjgl3ifyTransformer"};
+        } else {
+            return new String[0];
+        }
     }
 
     @Override

@@ -40,7 +40,7 @@ import org.embeddedt.embeddium.impl.render.chunk.vertex.format.ChunkVertexEncode
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
-import org.lwjgl.system.MemoryUtil;
+import org.embeddedt.embeddium.impl.lwjgl2.MemoryUtil;
 
 @SuppressWarnings("PointlessArithmeticExpression")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)

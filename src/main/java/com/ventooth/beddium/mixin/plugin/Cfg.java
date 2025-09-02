@@ -38,6 +38,24 @@ enum Cfg implements Predicate<List<ITargetedMod>> {
     ConservativeAnimatedTextures(() -> ModuleConfig.ConservativeAnimatedTextures),
     BetterMipmaps(() -> ModuleConfig.BetterMipmaps),
     MEGAChunks(() -> ModuleConfig.TerrainRendering && TerrainRenderingConfig.MEGAChunks != 0),
+    Lwjgl3(new Supplier<>() {
+        private Boolean value = null;
+
+        @Override
+        public Boolean get() {
+            Boolean v = value;
+            if (v == null) {
+                try {
+                    Class.forName("org.lwjgl.system.MemoryUtil", false, Cfg.class.getClassLoader());
+                    v = true;
+                } catch (Throwable ignored) {
+                    v = false;
+                }
+                value = v;
+            }
+            return v;
+        }
+    })
     ;
 
     private final Supplier<Boolean> enabled;

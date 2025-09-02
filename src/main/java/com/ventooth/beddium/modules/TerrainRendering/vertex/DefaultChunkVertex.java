@@ -29,7 +29,7 @@ import org.embeddedt.embeddium.impl.gl.attribute.GlVertexAttributeFormat;
 import org.embeddedt.embeddium.impl.gl.attribute.GlVertexFormat;
 import org.embeddedt.embeddium.impl.render.chunk.terrain.material.Material;
 import org.embeddedt.embeddium.impl.render.chunk.vertex.format.ChunkVertexEncoder;
-import org.lwjgl.system.MemoryUtil;
+import org.embeddedt.embeddium.impl.lwjgl2.MemoryUtil;
 
 import static com.ventooth.beddium.modules.TerrainRendering.vertex.CompatibleChunkVertex.encodeDrawParameters;
 import static com.ventooth.beddium.modules.TerrainRendering.vertex.CompatibleChunkVertex.encodeLight;
