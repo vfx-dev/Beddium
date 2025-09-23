@@ -1,0 +1,28 @@
+# 模块配置
+config.beddium.modules.Modules=模块
+config.beddium.modules.Modules.tooltip=所有 Beddium 模块的开关
+
+config.beddium.modules.TerrainRendering=地形渲染
+config.beddium.modules.TerrainRendering.tooltip=基于 Celeritas 的地形渲染
+
+config.beddium.modules.BiomeColorCache=生物群系颜色缓存
+config.beddium.modules.BiomeColorCache.tooltip=在烘焙区块时缓存生物群系颜色选择
+
+config.beddium.modules.ConservativeAnimatedTextures=保守动画材质
+config.beddium.modules.ConservativeAnimatedTextures.tooltip=仅更新可见的动画材质
+
+config.beddium.modules.BetterMipmaps=更好的多级渐远纹理
+config.beddium.modules.BetterMipmaps.tooltip=更好看的多级渐远纹理
+
+config.beddium.modules.Debug=调试
+config.beddium.modules.Debug.tooltip=有用的调试功能
+
+# 地形渲染配置
+config.beddium.terrainrendering.MEGAChunks=MEGA 区块
+config.beddium.terrainrendering.MEGAChunks.tooltip=更大的区块渲染器。一个 Minecraft 16x256x16 区块包含 16 个子区块\n0 - 1x1x1 - 每个渲染器 1 个子区块 (禁用)\n1 - 2x2x2 - 每个渲染器 8 个子区块\n2 - 4x4x4 - 每个渲染器 64 个子区块\n3 - 8x8x8 - 每个渲染器 512 个子区块 (实现限制)
+
+config.beddium.terrainrendering.ChunkDrawMode=区块边缘模式
+config.beddium.terrainrendering.ChunkDrawMode.tooltip=改变世界边缘区块的渲染方式。\n原版: 在世界边缘渲染"区块悬崖"。稍慢一些，\n       但能修复一些问题，例如在迷你游戏服务器中区块不可见，\n       或渲染距离减少。\n快速: 仅当所有相邻区块都已加载时才渲染区块。\n      比安全模式快一点，但在某些服务器上这可能会导致地图边缘缺失区块，\n      并且会使视觉渲染距离减少 1 (区块实际上仍然存在)。
+
+config.beddium.modules.UseMultiDrawIndirect=间接多重绘制
+config.beddium.modules.UseMultiDrawIndirect.tooltip=控制是否应使用间接多重绘制来绘制区块。\n此选项是在渲染区块时 CPU 和 GPU 开销之间的权衡。\n在大多数情况下，最好保持禁用，尤其是在英特尔核芯显卡上。\n如果您受 CPU 限制，在渲染距离超过 16 时可以提高性能。
