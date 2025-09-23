@@ -22,10 +22,13 @@
 
 package com.ventooth.beddium.asm;
 
+import com.ventooth.beddium.Share;
 import com.ventooth.beddium.Tags;
+import lombok.val;
 
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
+import javax.swing.JOptionPane;
 import java.util.Map;
 
 @IFMLLoadingPlugin.TransformerExclusions(Tags.ROOT_PKG + ".asm")
@@ -44,7 +47,15 @@ public class CoreLoadingPlugin implements IFMLLoadingPlugin {
             lwjgl3 = true;
         } catch (Throwable ignored) {}
         if (lwjgl3) {
-            return new String[]{Tags.ROOT_PKG + ".asm.Lwjgl3ifyTransformer"};
+            val msg = "You're trying to use the java 8 version of beddium on modern java!\nPlease replace beddium version " + Tags.MOD_VERSION + " with " + Tags.MOD_VERSION.replace("j8", "j21") + "!";
+            Share.log.fatal(msg);
+            try {
+                JOptionPane.showMessageDialog(null, msg, "Wrong Beddium Version!", JOptionPane.ERROR_MESSAGE);
+            } catch (Throwable ignored) {}
+            System.exit(1);
+            throw new Error(msg);
+            //TODO uncouple j21 builds and lwjgl3
+            // return new String[]{Tags.ROOT_PKG + ".asm.Lwjgl3ifyTransformer"};
         } else {
             return new String[0];
         }
