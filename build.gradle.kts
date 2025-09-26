@@ -42,7 +42,7 @@ minecraft_fp {
             projectId = "1065808"
             dependencies {
                 required("fplib")
-                required("lwjgl3ify")
+                incompatible("lwjgl3ify")
                 optional("lumi")
                 optional("rple")
                 optional("mcpatcher")
@@ -54,7 +54,7 @@ minecraft_fp {
             projectId = "kPtHpb7z"
             dependencies {
                 required("fplib")
-                required("lwjgl3ify")
+                incompatible("lwjgl3ify")
                 optional("lumi1710")
                 optional("rple")
                 optional("mcpatcher")
