@@ -68,5 +68,5 @@ dependencies {
 
     compileOnly("mega:fluidlogged-mc1.7.10:0.1.2:api")
 
-    compileOnly("com.ventooth:swansong-mc1.7.10:1.0.0:dev")
+    devOnlyNonPublishable("com.ventooth:swansong-mc1.7.10:1.1.2:dev")
 }
