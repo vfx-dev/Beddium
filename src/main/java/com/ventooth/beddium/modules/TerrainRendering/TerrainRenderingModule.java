@@ -26,17 +26,24 @@ import com.ventooth.beddium.config.ModuleConfig;
 import com.ventooth.beddium.modules.TerrainRendering.command.ToggleMapCommand;
 import com.ventooth.beddium.modules.TerrainRendering.command.TogglePassCommand;
 import com.ventooth.beddium.modules.TerrainRendering.command.ToggleWireframeCommand;
+import com.ventooth.beddium.modules.TerrainRendering.ext.RenderGlobalExt;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.val;
 import org.embeddedt.embeddium.api.util.ColorABGR;
 import org.embeddedt.embeddium.impl.gl.device.GLRenderDevice;
+import org.embeddedt.embeddium.impl.gl.device.RenderDevice;
 import org.embeddedt.embeddium.impl.render.chunk.sprite.SpriteTransparencyLevel;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15C;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.client.ClientCommandHandler;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.WorldEvent;
+
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -55,6 +62,31 @@ public final class TerrainRenderingModule {
             ClientCommandHandler.instance.registerCommand(new TogglePassCommand());
             ClientCommandHandler.instance.registerCommand(new ToggleWireframeCommand());
             ClientCommandHandler.instance.registerCommand(new ToggleMapCommand());
+        }
+
+        MinecraftForge.EVENT_BUS.register(new TerrainRenderingModule());
+    }
+
+    /**
+     * Required to handle de-init on world leave, in particular to ensure thread shutdown.
+     */
+    @SubscribeEvent
+    public void onWorldUnload(WorldEvent.Unload event) {
+        if (Minecraft.getMinecraft().theWorld != event.world) {
+            return;
+        }
+
+        val rg = Minecraft.getMinecraft().renderGlobal;
+        if (rg instanceof RenderGlobalExt rgExt) {
+            val renderer = rgExt.celeritas$worldRenderer();
+            if (renderer != null) {
+                RenderDevice.enterManagedCode();
+                try {
+                    renderer.setWorld(null);
+                } finally {
+                    RenderDevice.exitManagedCode();
+                }
+            }
         }
     }
 

@@ -110,9 +110,12 @@ public abstract class RenderGlobalMixin implements RenderGlobalExt {
         celeritas$worldRenderer = new CeleritasWorldRenderer(minecraft);
     }
 
+    /**
+     * Runs after render global has been initialized with a new world, does not handle de-init
+     */
     @Inject(method = "setWorldAndLoadRenderers",
             at = @At("RETURN"))
-    private void onWorldChanged(WorldClient world, CallbackInfo ci) {
+    private void onWorldLoad(WorldClient world, CallbackInfo ci) {
         RenderDevice.enterManagedCode();
         try {
             celeritas$worldRenderer.setWorld(world);
