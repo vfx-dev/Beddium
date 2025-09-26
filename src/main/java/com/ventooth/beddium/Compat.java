@@ -23,6 +23,7 @@
 package com.ventooth.beddium;
 
 import com.ventooth.swansong.api.ShaderStateInfo;
+import com.ventooth.swansong.shader.ShaderEngine;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -42,6 +43,14 @@ public final class Compat {
 
     public static boolean isSwansongInstalled() {
         return SWANSONG.PRESENT;
+    }
+
+    public static boolean isSwansongInitialized() {
+        if (SWANSONG.PRESENT) {
+            return SWANSONG.initialized();
+        } else {
+            return false;
+        }
     }
 
     public static boolean shadowPassActive() {
@@ -95,6 +104,10 @@ public final class Compat {
                 present = false;
             }
             PRESENT = present;
+        }
+
+        private static boolean initialized() {
+            return ShaderEngine.isInitialized();
         }
 
         private static boolean shadowPassExists() {

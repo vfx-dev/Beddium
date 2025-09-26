@@ -42,7 +42,7 @@ public abstract sealed class CompatibleChunkRenderer extends DefaultChunkRendere
     }
 
     public static CompatibleChunkRenderer get(RenderDevice device, RenderPassConfiguration<?> renderPassConfiguration) {
-        if (Compat.isSwansongInstalled()) {
+        if (Compat.isSwansongInitialized()) {
             return new SwanSongChunkRenderer(device, renderPassConfiguration);
         } else {
             return new SodiumChunkRenderer(device, renderPassConfiguration);

@@ -35,7 +35,7 @@ public abstract class ShaderModBridgeMixin {
      */
     @Overwrite
     public static boolean areShadersEnabled() {
-        return Compat.isSwansongInstalled();
+        return Compat.isSwansongInitialized();
     }
 
     /**

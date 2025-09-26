@@ -38,6 +38,30 @@ minecraft_fp {
             repoUrl = "https://mvn.ventooth.com/releases"
             repoName = "venmaven"
         }
+        curseforge {
+            projectId = "1065808"
+            dependencies {
+                required("fplib")
+                required("lwjgl3ify")
+                optional("lumi")
+                optional("rple")
+                optional("mcpatcher")
+                optional("falsetweaks")
+                optional("swansong")
+            }
+        }
+        modrinth {
+            projectId = "kPtHpb7z"
+            dependencies {
+                required("fplib")
+                required("lwjgl3ify")
+                optional("lumi1710")
+                optional("rple")
+                optional("mcpatcher")
+                optional("falsetweaks")
+                optional("swansong")
+            }
+        }
     }
 }
 
@@ -67,5 +91,5 @@ dependencies {
 
     compileOnly("mega:fluidlogged-mc1.7.10:0.1.2:api")
 
-    compileOnly("com.ventooth:swansong-mc1.7.10:1.0.0:dev")
+    devOnlyNonPublishable("com.ventooth:swansong-mc1.7.10:1.1.2:dev")
 }

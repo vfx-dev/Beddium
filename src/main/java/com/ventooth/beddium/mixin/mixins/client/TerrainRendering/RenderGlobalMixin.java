@@ -187,7 +187,7 @@ public abstract class RenderGlobalMixin implements RenderGlobalExt {
         RenderDevice.enterManagedCode();
         try {
             final Viewport viewport;
-            if (Compat.isSwansongInstalled() && Compat.shadowPassActive()) {
+            if (Compat.isSwansongInitialized() && Compat.shadowPassActive()) {
                 viewport = celeritas$createShadowViewport((Frustrum) camera);
             } else {
                 viewport = celeritas$createViewport((Frustrum) camera);
