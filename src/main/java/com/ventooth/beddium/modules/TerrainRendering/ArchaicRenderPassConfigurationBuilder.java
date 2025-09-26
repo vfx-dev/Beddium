@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.ventooth.beddium.Share;
 import com.ventooth.beddium.modules.TerrainRendering.vertex.CompatibleChunkVertex;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
+import lombok.val;
 import org.embeddedt.embeddium.impl.render.chunk.RenderPassConfiguration;
 import org.embeddedt.embeddium.impl.render.chunk.compile.sorting.QuadPrimitiveType;
 import org.embeddedt.embeddium.impl.render.chunk.terrain.TerrainRenderPass;
@@ -36,8 +37,8 @@ import org.lwjgl.opengl.GL11;
 import java.util.Map;
 
 public class ArchaicRenderPassConfigurationBuilder {
-    public static final TerrainRenderPass SOLID_PASS, CUTOUT_MIPPED_PASS, TRANSLUCENT_PASS;
-    public static final Material SOLID_MATERIAL, CUTOUT_MIPPED_MATERIAL, TRANSLUCENT_MATERIAL;
+    public static TerrainRenderPass SOLID_PASS, CUTOUT_MIPPED_PASS, TRANSLUCENT_PASS;
+    public static Material SOLID_MATERIAL, CUTOUT_MIPPED_MATERIAL, TRANSLUCENT_MATERIAL;
 
     private record ArchaicPipelineState(int pass, boolean disableBlend) implements TerrainRenderPass.PipelineState {
         @Override
@@ -66,7 +67,9 @@ public class ArchaicRenderPassConfigurationBuilder {
                                 .primitiveType(QuadPrimitiveType.TRIANGULATED);
     }
 
-    static {
+    public static RenderPassConfiguration<Integer> build() {
+        ImmutableListMultimap.Builder<Integer, TerrainRenderPass> vanillaRenderStages = ImmutableListMultimap.builder();
+
         SOLID_PASS = builderForRenderType(0, true).name("solid").fragmentDiscard(false).useReverseOrder(false).build();
         CUTOUT_MIPPED_PASS = builderForRenderType(0, false).name("cutout_mipped").fragmentDiscard(true).useReverseOrder(false).build();
         TRANSLUCENT_PASS = builderForRenderType(1, false).name("translucent")
@@ -77,10 +80,6 @@ public class ArchaicRenderPassConfigurationBuilder {
         TRANSLUCENT_MATERIAL = new Material(TRANSLUCENT_PASS, AlphaCutoffParameter.ZERO, true);
         SOLID_MATERIAL = new Material(SOLID_PASS, AlphaCutoffParameter.ZERO, true);
         CUTOUT_MIPPED_MATERIAL = new Material(CUTOUT_MIPPED_PASS, AlphaCutoffParameter.ONE_TENTH, true);
-    }
-
-    public static RenderPassConfiguration<Integer> build() {
-        ImmutableListMultimap.Builder<Integer, TerrainRenderPass> vanillaRenderStages = ImmutableListMultimap.builder();
 
         vanillaRenderStages.put(1, TRANSLUCENT_PASS);
         vanillaRenderStages.put(0, SOLID_PASS);

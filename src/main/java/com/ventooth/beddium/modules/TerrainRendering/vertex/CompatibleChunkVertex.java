@@ -39,7 +39,7 @@ import java.util.Map;
 
 public sealed interface CompatibleChunkVertex extends ChunkVertexType permits DefaultChunkVertex, RPLEChunkVertex, SwanSongChunkVertex, SwanSongRPLEChunkVertex {
     static CompatibleChunkVertex get() {
-        if (Compat.isSwansongInstalled()) {
+        if (Compat.isSwansongInitialized()) {
             if (Compat.rpleInstalled()) {
                 return SwanSongRPLEChunkVertex.INSTANCE;
             } else {

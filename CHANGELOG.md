@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- Compatibility for swansong 1.2.0 shader enable/disable
+
 ## [1.0.1] - 2025-09-23
 
 ### Added

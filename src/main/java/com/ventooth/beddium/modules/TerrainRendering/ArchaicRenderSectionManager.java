@@ -89,7 +89,7 @@ public class ArchaicRenderSectionManager extends RenderSectionManager {
     @Override
     protected AsyncOcclusionMode getAsyncOcclusionMode() {
         if (USE_ASYNC_OCCLUSION) {
-            if (Compat.isSwansongInstalled() && Compat.shadowPassExists()) {
+            if (Compat.isSwansongInitialized() && Compat.shadowPassExists()) {
                 return AsyncOcclusionMode.ONLY_SHADOW;
             } else {
                 return AsyncOcclusionMode.EVERYTHING;
@@ -111,7 +111,7 @@ public class ArchaicRenderSectionManager extends RenderSectionManager {
 
     @Override
     protected boolean shouldUseOcclusionCulling(Viewport positionedViewport, boolean spectator) {
-        if (Compat.isSwansongInstalled() && Compat.shadowPassActive()) {
+        if (Compat.isSwansongInitialized() && Compat.shadowPassActive()) {
             return false;
         }
 
@@ -186,7 +186,7 @@ public class ArchaicRenderSectionManager extends RenderSectionManager {
         if (bypassShadowPass) {
             return false;
         } else {
-            return Compat.isSwansongInstalled() && Compat.shadowPassActive();
+            return Compat.isSwansongInitialized() && Compat.shadowPassActive();
         }
     }
 }
