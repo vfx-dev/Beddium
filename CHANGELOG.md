@@ -1,8 +1,13 @@
 # Changelog
 
-## [1.0.2] - 2025-09-26
+## [1.0.3] - 2025-09-26
 
-## [Unreleased]
+### Fixed
+
+- Gracefully handle exceptions thrown from block render code
+- Ensure shutdown on world leave
+
+## [1.0.2] - 2025-09-26
 
 ### Added
 
