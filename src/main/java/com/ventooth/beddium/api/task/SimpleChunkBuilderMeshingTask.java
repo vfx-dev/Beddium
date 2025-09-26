@@ -23,6 +23,7 @@
 package com.ventooth.beddium.api.task;
 
 import com.ventooth.beddium.Compat;
+import com.ventooth.beddium.Share;
 import com.ventooth.beddium.api.cache.StateAwareCache;
 import com.ventooth.beddium.config.TerrainRenderingConfig;
 import com.ventooth.beddium.mixin.mixins.client.TerrainRendering.ForgeHooksClientMixin;
@@ -328,24 +329,29 @@ public abstract class SimpleChunkBuilderMeshingTask extends ChunkBuilderTask<Chu
     }
 
     protected void tryRenderBlock(Tessellator tessellator, RenderBlocks renderBlocks, int pass, Block block, int x, int y, int z) {
-        val fluidBlock = getFluidBlock(x, y, z);
-        val canFluidBlockRender = fluidBlock != null && fluidBlock.canRenderInPass(pass);
-        val canBlockRender = block.canRenderInPass(pass);
-        if (!canFluidBlockRender && !canBlockRender) {
-            return;
-        }
+        try {
+            val fluidBlock = getFluidBlock(x, y, z);
+            val canFluidBlockRender = fluidBlock != null && fluidBlock.canRenderInPass(pass);
+            val canBlockRender = block.canRenderInPass(pass);
+            if (!canFluidBlockRender && !canBlockRender) {
+                return;
+            }
 
-        if (!tessellator.isDrawing) {
-            setRenderPass(pass);
-            tessellator.startDrawingQuads();
-        }
+            if (!tessellator.isDrawing) {
+                setRenderPass(pass);
+                tessellator.startDrawingQuads();
+            }
 
-        if (canFluidBlockRender) {
-            renderBlocks.renderBlockByRenderType(fluidBlock, x, y, z);
-        }
+            if (canFluidBlockRender) {
+                renderBlocks.renderBlockByRenderType(fluidBlock, x, y, z);
+            }
 
-        if (canBlockRender) {
-            renderBlocks.renderBlockByRenderType(block, x, y, z);
+            if (canBlockRender) {
+                renderBlocks.renderBlockByRenderType(block, x, y, z);
+            }
+        } catch (Exception e) {
+            Share.log.error("Failed to render block at ({} {} {})", x, y, z);
+            Share.log.error("Stacktrace:", e);
         }
     }
 

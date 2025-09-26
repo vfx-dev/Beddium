@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+
+- Gracefully handle exceptions thrown from block render code
+
 ## [1.0.2] - 2025-09-26
 
 ### Added
