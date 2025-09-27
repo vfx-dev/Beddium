@@ -26,3 +26,6 @@ config.beddium.terrainrendering.ChunkDrawMode.tooltip=Changes the way chunks at 
 
 config.beddium.terrainrendering.UseMultiDrawIndirect=Multi-Draw Indirect
 config.beddium.terrainrendering.UseMultiDrawIndirect.tooltip=Controls if chunks should be drawn using MultiDrawIndirect.\nThis option is a trade off between CPU and GPU overhead when rendering chunks.\nIt is best left disabled in most cases, particularly on Intel iGPUs.\nCan improve performance on render distances beyond 16 if you are CPU limited.
+
+config.beddium.terrainrendering.FastFog=Faster Fog Logic
+config.beddium.terrainrendering.FastFog.tooltip=Uses a method for fog which improves performance significantly.\nTurn this off if fog looks really broken in some dimensions, but keep it enabled if that doesn't help.

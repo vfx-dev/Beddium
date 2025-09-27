@@ -24,6 +24,7 @@ package com.ventooth.beddium.mixin.plugin;
 
 import com.falsepattern.lib.mixin.IMixin;
 import com.falsepattern.lib.mixin.ITargetedMod;
+import com.ventooth.beddium.config.TerrainRenderingConfig;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -31,6 +32,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import static com.falsepattern.lib.mixin.IMixin.PredicateHelpers.always;
+import static com.falsepattern.lib.mixin.IMixin.PredicateHelpers.condition;
 import static com.falsepattern.lib.mixin.IMixin.PredicateHelpers.require;
 
 @AllArgsConstructor
@@ -43,6 +45,7 @@ enum Mixin implements IMixin {
     TerrainRendering_TextureAtlasSpriteMixin(Side.CLIENT, Cfg.TerrainRendering),
     TerrainRendering_ForgeHooksClientMixin(Side.CLIENT, Cfg.TerrainRendering),
     TerrainRendering_MinecraftMixin(Side.CLIENT, Cfg.TerrainRendering),
+    TerrainRendering_EntityRendererFastFogMixin(Side.CLIENT, Cfg.TerrainRendering.and(condition(() -> TerrainRenderingConfig.FastFog))),
 
     TerrainRendering_ShaderModBridgeMixin(Side.CLIENT, Cfg.TerrainRendering.and(require(TargetedMod.SWANSONG))),
     TerrainRendering_ShaderEngineMixin(Side.CLIENT, Cfg.TerrainRendering.and(require(TargetedMod.SWANSONG))),
