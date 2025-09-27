@@ -74,7 +74,7 @@ public final class TerrainRenderingConfig {
             "It is best left disabled in most cases, particularly on Intel iGPUs.",
             "Can improve performance on render distances beyond 16 if you are CPU limited.",
     })
-    @Config.LangKey("config.beddium.modules.UseMultiDrawIndirect")
+    @Config.LangKey("config.beddium.terrainrendering.UseMultiDrawIndirect")
     @Config.RequiresWorldRestart
     @Config.DefaultBoolean(false)
     public static boolean UseMultiDrawIndirect;
