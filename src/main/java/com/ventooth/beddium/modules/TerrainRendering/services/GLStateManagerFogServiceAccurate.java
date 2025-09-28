@@ -22,45 +22,55 @@
 
 package com.ventooth.beddium.modules.TerrainRendering.services;
 
-import com.ventooth.beddium.config.TerrainRenderingConfig;
 import org.embeddedt.embeddium.impl.render.chunk.fog.FogService;
-import org.embeddedt.embeddium.impl.render.chunk.shader.ChunkShaderComponent;
+import org.embeddedt.embeddium.impl.render.chunk.shader.ChunkFogMode;
+import org.lwjgl.opengl.GL11;
 
-public class GLStateManagerFogService implements FogService {
-    private final FogService backend = TerrainRenderingConfig.FastFog ? new GLStateManagerFogServiceFast() : new GLStateManagerFogServiceAccurate();
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.EntityRenderer;
 
+public class GLStateManagerFogServiceAccurate implements FogService {
     @Override
     public float getFogEnd() {
-        return backend.getFogEnd();
+        return GL11.glGetInteger(GL11.GL_FOG_END);
     }
 
     @Override
     public float getFogStart() {
-        return backend.getFogStart();
+        return GL11.glGetInteger(GL11.GL_FOG_START);
     }
 
     @Override
     public float getFogDensity() {
-        return backend.getFogDensity();
+        return GL11.glGetFloat(GL11.GL_FOG_DENSITY);
     }
 
     @Override
     public int getFogShapeIndex() {
-        return backend.getFogShapeIndex();
+        return 0;
     }
 
     @Override
     public float getFogCutoff() {
-        return backend.getFogCutoff();
+        return getFogEnd();
     }
 
     @Override
     public float[] getFogColor() {
-        return backend.getFogColor();
+        EntityRenderer entityRenderer = Minecraft.getMinecraft().entityRenderer;
+        return new float[]{
+                entityRenderer.fogColorRed,
+                entityRenderer.fogColorGreen,
+                entityRenderer.fogColorBlue,
+                1.0F
+        };
     }
 
     @Override
-    public ChunkShaderComponent.Factory<?> getFogMode() {
-        return backend.getFogMode();
+    public ChunkFogMode getFogMode() {
+        if (!GL11.glGetBoolean(GL11.GL_FOG)) {
+            return ChunkFogMode.NONE;
+        }
+        return ChunkFogMode.fromGLMode(GL11.glGetInteger(GL11.GL_FOG_MODE));
     }
 }

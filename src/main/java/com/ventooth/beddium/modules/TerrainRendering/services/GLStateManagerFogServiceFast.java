@@ -22,45 +22,52 @@
 
 package com.ventooth.beddium.modules.TerrainRendering.services;
 
-import com.ventooth.beddium.config.TerrainRenderingConfig;
 import org.embeddedt.embeddium.impl.render.chunk.fog.FogService;
-import org.embeddedt.embeddium.impl.render.chunk.shader.ChunkShaderComponent;
+import org.embeddedt.embeddium.impl.render.chunk.shader.ChunkFogMode;
 
-public class GLStateManagerFogService implements FogService {
-    private final FogService backend = TerrainRenderingConfig.FastFog ? new GLStateManagerFogServiceFast() : new GLStateManagerFogServiceAccurate();
+public class GLStateManagerFogServiceFast implements FogService {
+    public static final float[] color = new float[4];
+    public static boolean fog;
+    public static float fogEnd;
+    public static float fogStart;
+    public static float fogDensity;
+    public static int fogMode;
 
     @Override
     public float getFogEnd() {
-        return backend.getFogEnd();
+        return fogEnd;
     }
 
     @Override
     public float getFogStart() {
-        return backend.getFogStart();
+        return fogStart;
     }
 
     @Override
     public float getFogDensity() {
-        return backend.getFogDensity();
+        return fogDensity;
     }
 
     @Override
     public int getFogShapeIndex() {
-        return backend.getFogShapeIndex();
+        return 0;
     }
 
     @Override
     public float getFogCutoff() {
-        return backend.getFogCutoff();
+        return getFogEnd();
     }
 
     @Override
     public float[] getFogColor() {
-        return backend.getFogColor();
+        return color;
     }
 
     @Override
-    public ChunkShaderComponent.Factory<?> getFogMode() {
-        return backend.getFogMode();
+    public ChunkFogMode getFogMode() {
+        if (!fog) {
+            return ChunkFogMode.NONE;
+        }
+        return ChunkFogMode.fromGLMode(fogMode);
     }
 }

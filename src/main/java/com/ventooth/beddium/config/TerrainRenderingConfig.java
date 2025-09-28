@@ -48,7 +48,8 @@ public final class TerrainRenderingConfig {
     @Config.LangKey("config.beddium.terrainrendering.MEGAChunks")
     @Config.RequiresMcRestart
     @Config.DefaultInt(0)
-    @Config.RangeInt(min = 0, max = 3)
+    @Config.RangeInt(min = 0,
+                     max = 3)
     public static int MEGAChunks;
 
     @Config.Name("ChunkDrawMode")
@@ -74,10 +75,20 @@ public final class TerrainRenderingConfig {
             "It is best left disabled in most cases, particularly on Intel iGPUs.",
             "Can improve performance on render distances beyond 16 if you are CPU limited.",
     })
-    @Config.LangKey("config.beddium.modules.UseMultiDrawIndirect")
+    @Config.LangKey("config.beddium.terrainrendering.UseMultiDrawIndirect")
     @Config.RequiresWorldRestart
     @Config.DefaultBoolean(false)
     public static boolean UseMultiDrawIndirect;
+
+    @Config.Name("FastFog")
+    @Config.Comment({
+            "Uses a method for fog which improves performance significantly.",
+            "Turn this off if fog looks really broken in some dimensions, but keep it enabled if possible."
+    })
+    @Config.LangKey("config.beddium.terrainrendering.FastFog")
+    @Config.RequiresMcRestart
+    @Config.DefaultBoolean(true)
+    public static boolean FastFog;
 
     public enum DrawModeEnum {
         Vanilla,

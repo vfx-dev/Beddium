@@ -24,5 +24,5 @@ config.beddium.terrainrendering.MEGAChunks.tooltip=更大的区块渲染器。�
 config.beddium.terrainrendering.ChunkDrawMode=区块边缘模式
 config.beddium.terrainrendering.ChunkDrawMode.tooltip=改变世界边缘区块的渲染方式。\n原版: 在世界边缘渲染"区块悬崖"。稍慢一些，\n       但能修复一些问题，例如在迷你游戏服务器中区块不可见，\n       或渲染距离减少。\n快速: 仅当所有相邻区块都已加载时才渲染区块。\n      比安全模式快一点，但在某些服务器上这可能会导致地图边缘缺失区块，\n      并且会使视觉渲染距离减少 1 (区块实际上仍然存在)。
 
-config.beddium.modules.UseMultiDrawIndirect=间接多重绘制
-config.beddium.modules.UseMultiDrawIndirect.tooltip=控制是否应使用间接多重绘制来绘制区块。\n此选项是在渲染区块时 CPU 和 GPU 开销之间的权衡。\n在大多数情况下，最好保持禁用，尤其是在英特尔核芯显卡上。\n如果您受 CPU 限制，在渲染距离超过 16 时可以提高性能。
+config.beddium.terrainrendering.UseMultiDrawIndirect=间接多重绘制
+config.beddium.terrainrendering.UseMultiDrawIndirect.tooltip=控制是否应使用间接多重绘制来绘制区块。\n此选项是在渲染区块时 CPU 和 GPU 开销之间的权衡。\n在大多数情况下，最好保持禁用，尤其是在英特尔核芯显卡上。\n如果您受 CPU 限制，在渲染距离超过 16 时可以提高性能。
