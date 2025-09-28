@@ -1,5 +1,12 @@
 # Changelog
 
+## [Unreleased]
+
+### Changed
+
+- perf: Fast fog tracking
+- chore: Fix UseMultiDrawIndirect lang path
+
 ## [1.0.3] - 2025-09-26
 
 ### Fixed
