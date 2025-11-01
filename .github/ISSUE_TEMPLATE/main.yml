@@ -12,6 +12,14 @@ body:
   - type: textarea
     attributes:
       label: fml_client_latest.log, and crash reports, if any.
-      description: Select this text box and drag+drop the log file here. Your issue will be automatically closed without the correct log files.
+      description: Select this text box and drag+drop the log files here.
+        FML_CLIENT_LATEST.LOG IS REQUIRED EVEN IF THERE IS NO CRASH.
+        FML_CLIENT_LATEST.LOG IS REQUIRED EVEN IF THERE IS NO CRASH.
+        FML_CLIENT_LATEST.LOG IS REQUIRED EVEN IF THERE IS NO CRASH.
+        Your issue will be automatically closed without the correct log files.
+        Your issue will be automatically closed without the correct log files.
+        Your issue will be automatically closed without the correct log files.
+        Your issue will be automatically closed without the correct log files.
+        Your issue will be automatically closed without the correct log files.
     validations:
       required: true
