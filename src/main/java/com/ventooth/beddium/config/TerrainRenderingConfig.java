@@ -90,6 +90,16 @@ public final class TerrainRenderingConfig {
     @Config.DefaultBoolean(true)
     public static boolean FastFog;
 
+    @Config.Name("NetherliciousCompat")
+    @Config.Comment({
+            "Fixes compatibility with Netherlicious.",
+            "Without this, you may see intense flickering in the Nether.",
+    })
+    @Config.LangKey("config.beddium.terrainrendering.NetherliciousCompat")
+    @Config.RequiresMcRestart
+    @Config.DefaultBoolean(true)
+    public static boolean NetherliciousCompat;
+
     public enum DrawModeEnum {
         Vanilla,
         Fast
