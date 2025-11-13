@@ -29,3 +29,6 @@ config.beddium.terrainrendering.UseMultiDrawIndirect.tooltip=Controls if chunks 
 
 config.beddium.terrainrendering.FastFog=Faster Fog Logic
 config.beddium.terrainrendering.FastFog.tooltip=Uses a method for fog which improves performance significantly.\nTurn this off if fog looks really broken in some dimensions, but keep it enabled if that doesn't help.
+
+config.beddium.terrainrendering.NetherliciousCompat=Netherlicious Compat
+config.beddium.terrainrendering.NetherliciousCompat.tooltip=Fixes compatibility with Netherlicious.\nWithout this, you may see intense flickering in the Nether.

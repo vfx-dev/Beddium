@@ -77,6 +77,7 @@ repositories {
     exclusive(maven("taumcMirror", "https://mvn.falsepattern.com/taumc"), "org.embeddedt.celeritas")
     exclusive(mega(), "mega")
     exclusive(venmaven(), "com.ventooth")
+    cursemavenEX()
 }
 
 dependencies {
@@ -93,4 +94,7 @@ dependencies {
     compileOnly("mega:fluidlogged-mc1.7.10:0.1.2:api")
 
     devOnlyNonPublishable("com.ventooth:swansong-mc1.7.10:1.1.2:dev")
+
+    // netherlicious-3.2.8.jar
+    compileOnly(deobfCurse("netherlicious-385860:4363437"))
 }

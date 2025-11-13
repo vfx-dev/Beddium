@@ -33,6 +33,7 @@ import static com.falsepattern.lib.mixin.ITargetedMod.PredicateHelpers.contains;
 @RequiredArgsConstructor
 enum TargetedMod implements ITargetedMod {
     SWANSONG("SwanSong", false, contains("swansong-")),
+    NETHERLICIOUS("Netherlicious", false, contains("netherlicious-")),
     ;
 
     @Getter
