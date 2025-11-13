@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.5] - 2025-11-13
+
+## Fixed
+
+- Netherlicious blocks causing flickering
+
 ## [1.0.4] - 2025-09-28
 
 ### Changed
