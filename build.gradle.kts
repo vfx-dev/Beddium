@@ -97,4 +97,6 @@ dependencies {
 
     // netherlicious-3.2.8.jar
     compileOnly(deobfCurse("netherlicious-385860:4363437"))
+    // [1.7.10] Jewelrycraft2-1.1.4-universal.jar
+    implementation(rfg.deobf(files("${project.rootDir}/[1.7.10] Jewelrycraft2-1.1.4-universal.jar")))
 }

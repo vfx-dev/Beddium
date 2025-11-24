@@ -100,6 +100,19 @@ public final class TerrainRenderingConfig {
     @Config.DefaultBoolean(true)
     public static boolean NetherliciousCompat;
 
+    @Config.Name("AlwaysTranslucentSprites")
+    @Config.Comment({
+            "List of sprites which should always be treated as translucent.",
+            "Beddium includes a feature which can automatically downgrade opaque sprites,",
+            "incorrectly rendered on the opaque pass. Textures added to this list will",
+            "always be considered translucent.",
+            "",
+            "Requires ResourcePack reload (F3+T)",
+    })
+    @Config.LangKey("config.beddium.terrainrendering.AlwaysTranslucentSprites")
+    @Config.DefaultStringList({"jewelrycraft2:blockCrystal"})
+    public static String[] AlwaysTranslucentSprites;
+
     public enum DrawModeEnum {
         Vanilla,
         Fast
