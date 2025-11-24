@@ -91,6 +91,7 @@ public sealed interface CompatibleChunkVertex extends ChunkVertexType permits De
     default Map<String, String> getDefines() {
         val map = ChunkVertexType.super.getDefines();
         map.put("MEGACHUNK_SIZE", Float.toString(MegaChunkMetadata.BLOCKS_PER_WR_EDGE_FLOAT));
+        map.put("USE_VANILLA_COLOR_FORMAT", "");
         return map;
     }
 
