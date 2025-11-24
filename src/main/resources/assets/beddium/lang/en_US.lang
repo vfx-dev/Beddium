@@ -32,3 +32,6 @@ config.beddium.terrainrendering.FastFog.tooltip=Uses a method for fog which impr
 
 config.beddium.terrainrendering.NetherliciousCompat=Netherlicious Compat
 config.beddium.terrainrendering.NetherliciousCompat.tooltip=Fixes compatibility with Netherlicious.\nWithout this, you may see intense flickering in the Nether.
+
+config.beddium.terrainrendering.AlwaysTranslucentSprites=Always Translucent Sprites
+config.beddium.terrainrendering.AlwaysTranslucentSprites.tooltip=List of sprites which should always be treated as translucent.\nBeddium includes a feature which can automatically downgrade opaque sprites,\nincorrectly rendered on the opaque pass. Textures added to this list will\nalways be considered translucent.\n\nRequires ResourcePack reload (F3+T)

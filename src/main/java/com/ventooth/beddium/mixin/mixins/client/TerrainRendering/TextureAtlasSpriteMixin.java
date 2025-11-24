@@ -27,6 +27,7 @@ import com.ventooth.beddium.modules.TerrainRendering.TerrainRenderingModule;
 import com.ventooth.beddium.modules.TerrainRendering.ext.TextureAtlasSpriteExt;
 import lombok.val;
 import org.embeddedt.embeddium.impl.render.chunk.sprite.SpriteTransparencyLevel;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -42,6 +43,9 @@ import java.util.List;
 @Mixin(value = TextureAtlasSprite.class,
        priority = 900)
 public abstract class TextureAtlasSpriteMixin implements TextureAtlasSpriteExt {
+    @Final
+    @Shadow
+    private String iconName;
     @Shadow
     protected List<int[][]> framesTextureData;
 
@@ -53,7 +57,7 @@ public abstract class TextureAtlasSpriteMixin implements TextureAtlasSpriteExt {
     private void decideTransparencyLevel(int level, CallbackInfo ci) {
         if (TextureAtlasSpriteHelper.spriteFrameHasData(this.framesTextureData)) {
             val nativeImage = this.framesTextureData.getFirst()[0];
-            celeritas$transparencyLevel = TerrainRenderingModule.getSpriteTranslucencyLevel(nativeImage);
+            celeritas$transparencyLevel = TerrainRenderingModule.getSpriteTranslucencyLevel(this.iconName, nativeImage);
         }
     }
 

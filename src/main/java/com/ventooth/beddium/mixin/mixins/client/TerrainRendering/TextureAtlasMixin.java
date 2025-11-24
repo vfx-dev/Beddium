@@ -39,11 +39,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.client.renderer.texture.Stitcher;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraftforge.client.event.TextureStitchEvent;
 
 import java.util.Map;
 
 @Mixin(TextureMap.class)
-public class TextureAtlasMixin implements TextureMapExt {
+public abstract class TextureAtlasMixin implements TextureMapExt {
     @Shadow
     @Final
     private Map<String, TextureAtlasSprite> mapUploadedSprites;
@@ -55,7 +56,9 @@ public class TextureAtlasMixin implements TextureMapExt {
     @Unique
     private int celeritas$height;
 
-    // TODO: Validate this still works!
+    /**
+     * @implNote Can't be replaced with a {@link TextureStitchEvent.Post} event hook because we need a reference to the {@link Stitcher}.
+     */
     @Inject(method = "loadTextureAtlas",
             at = @At("RETURN"))
     private void generateQuadTree(CallbackInfo ci, @Local(ordinal = 0) Stitcher stitcher) {

@@ -22,11 +22,15 @@
 
 package com.ventooth.beddium.modules.TerrainRendering;
 
+import com.ventooth.beddium.Share;
 import com.ventooth.beddium.config.ModuleConfig;
+import com.ventooth.beddium.config.TerrainRenderingConfig;
 import com.ventooth.beddium.modules.TerrainRendering.command.ToggleMapCommand;
 import com.ventooth.beddium.modules.TerrainRendering.command.TogglePassCommand;
 import com.ventooth.beddium.modules.TerrainRendering.command.ToggleWireframeCommand;
 import com.ventooth.beddium.modules.TerrainRendering.ext.RenderGlobalExt;
+import it.unimi.dsi.fastutil.objects.ObjectArraySet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.val;
@@ -40,16 +44,18 @@ import org.lwjgl.opengl.GL15;
 import net.minecraft.client.Minecraft;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.client.ClientCommandHandler;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
-
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class TerrainRenderingModule {
     private static final AtomicInteger chunkUpdateCounter = new AtomicInteger(0);
+    private static final ObjectSet<String> alwaysTranslucentSprites = new ObjectArraySet<>();
 
     public static boolean DEBUG_WIREFRAME_MODE = false;
 
@@ -90,6 +96,21 @@ public final class TerrainRenderingModule {
         }
     }
 
+    /**
+     * @implNote Fires before the terrain atlas, where it actually makes a difference.
+     */
+    @SubscribeEvent
+    public void refreshAlwaysTranslucentSprites(TextureStitchEvent.Pre event) {
+        if (event.map.getTextureType() == 0) {
+            val list = Arrays.asList(TerrainRenderingConfig.AlwaysTranslucentSprites);
+
+            alwaysTranslucentSprites.clear();
+            alwaysTranslucentSprites.addAll(list);
+
+            list.forEach(name -> Share.log.debug("Sprite: [{}] marked as always translucent", name));
+        }
+    }
+
     public static void incrementChunkUpdateCounter() {
         chunkUpdateCounter.getAndIncrement();
     }
@@ -108,7 +129,11 @@ public final class TerrainRenderingModule {
         }
     }
 
-    public static SpriteTransparencyLevel getSpriteTranslucencyLevel(int[] nativeImage) {
+    public static SpriteTransparencyLevel getSpriteTranslucencyLevel(String name, int[] nativeImage) {
+        if (alwaysTranslucentSprites.contains(name)) {
+            return SpriteTransparencyLevel.TRANSLUCENT;
+        }
+
         // Decide the transparency level, defaulting to opaque
         var level = SpriteTransparencyLevel.OPAQUE;
         for (var y = 0; y < nativeImage.length; y++) {
