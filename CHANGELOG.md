@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.7] - 2025-11-24
+
+### Changed
+
+- Switched to using USE_VANILLA_COLOR_FORMAT
+
 ## [1.0.6] - 2025-11-24
 
 ### Added
