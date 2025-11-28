@@ -22,12 +22,14 @@
 
 package com.ventooth.beddium.mixin.mixins.client.TerrainRendering;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.ventooth.beddium.modules.TerrainRendering.services.GLStateManagerFogServiceFast;
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.renderer.EntityRenderer;
 
@@ -35,60 +37,61 @@ import java.nio.FloatBuffer;
 
 @Mixin(EntityRenderer.class)
 public abstract class EntityRendererFastFogMixin {
-    @Shadow
-    protected abstract FloatBuffer setFogColorBuffer(float red, float green, float blue, float alpha);
-
-    @Redirect(method = "setupFog",
-              at = @At(value = "INVOKE",
-                       target = "Lnet/minecraft/client/renderer/EntityRenderer;setFogColorBuffer(FFFF)Ljava/nio/FloatBuffer;"))
-    private FloatBuffer glFog(EntityRenderer instance, float red, float green, float blue, float alpha) {
-        GLStateManagerFogServiceFast.color[0] = red;
-        GLStateManagerFogServiceFast.color[1] = green;
-        GLStateManagerFogServiceFast.color[2] = blue;
-        GLStateManagerFogServiceFast.color[3] = alpha;
-        return setFogColorBuffer(red, green, blue, alpha);
+    @Inject(method = "setupFog",
+            at = @At(value = "HEAD"),
+            require = 1)
+    private void resetFog(int startCoords, float partialTicks, CallbackInfo ci) {
+        // TODO: Setup fog to a known safe state in case a mod messes it up
     }
 
-    @Redirect(method = "setupFog",
+    @WrapOperation(method = "setupFog",
+                   at = @At(value = "INVOKE",
+                            target = "Lorg/lwjgl/opengl/GL11;glFog(ILjava/nio/FloatBuffer;)V"),
+                   require = 2)
+    private void glFog(int pname, FloatBuffer params, Operation<Void> original) {
+        original.call(pname, GLStateManagerFogServiceFast.setColor(params));
+    }
+
+    @WrapOperation(method = "setupFog",
               at = @At(value = "INVOKE",
                        target = "Lorg/lwjgl/opengl/GL11;glFogf(IF)V"))
-    private void glFogf(int pname, float param) {
+    private void glFogf(int pname, float param, Operation<Void> original) {
         switch (pname) {
             case GL11.GL_FOG_START -> GLStateManagerFogServiceFast.fogStart = param;
             case GL11.GL_FOG_END -> GLStateManagerFogServiceFast.fogEnd = param;
             case GL11.GL_FOG_DENSITY -> GLStateManagerFogServiceFast.fogDensity = param;
         }
-        GL11.glFogf(pname, param);
+        original.call(pname, param);
     }
 
-    @Redirect(method = "setupFog",
+    @WrapOperation(method = "setupFog",
               at = @At(value = "INVOKE",
                        target = "Lorg/lwjgl/opengl/GL11;glFogi(II)V"))
-    private void glFogi(int pname, int param) {
+    private void glFogi(int pname, int param, Operation<Void> original) {
         if (pname == GL11.GL_FOG_MODE) {
             GLStateManagerFogServiceFast.fogMode = param;
         }
-        GL11.glFogi(pname, param);
+        original.call(pname, param);
     }
 
-    @Redirect(method = "renderWorld",
+    @WrapOperation(method = "renderWorld",
               at = @At(value = "INVOKE",
                        target = "Lorg/lwjgl/opengl/GL11;glEnable(I)V"))
-    private void enableFog(int cap) {
+    private void enableFog(int cap, Operation<Void> original) {
         if (cap == GL11.GL_FOG) {
             GLStateManagerFogServiceFast.fog = true;
         }
-        GL11.glEnable(cap);
+        original.call(cap);
     }
 
 
-    @Redirect(method = "renderWorld",
+    @WrapOperation(method = "renderWorld",
               at = @At(value = "INVOKE",
                        target = "Lorg/lwjgl/opengl/GL11;glDisable(I)V"))
-    private void disableFog(int cap) {
+    private void disableFog(int cap, Operation<Void> original) {
         if (cap == GL11.GL_FOG) {
             GLStateManagerFogServiceFast.fog = false;
         }
-        GL11.glDisable(cap);
+        original.call(cap);
     }
 }

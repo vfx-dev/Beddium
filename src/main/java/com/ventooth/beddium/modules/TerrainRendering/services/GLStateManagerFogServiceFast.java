@@ -22,8 +22,11 @@
 
 package com.ventooth.beddium.modules.TerrainRendering.services;
 
+import lombok.val;
 import org.embeddedt.embeddium.impl.render.chunk.fog.FogService;
 import org.embeddedt.embeddium.impl.render.chunk.shader.ChunkFogMode;
+
+import java.nio.FloatBuffer;
 
 public class GLStateManagerFogServiceFast implements FogService {
     public static final float[] color = new float[4];
@@ -32,6 +35,16 @@ public class GLStateManagerFogServiceFast implements FogService {
     public static float fogStart;
     public static float fogDensity;
     public static int fogMode;
+
+    public static FloatBuffer setColor(FloatBuffer buf) {
+        val pos = buf.position();
+        //noinspection PointlessArithmeticExpression
+        color[0] = buf.get(pos + 0);
+        color[1] = buf.get(pos + 1);
+        color[2] = buf.get(pos + 2);
+        color[3] = buf.get(pos + 3);
+        return buf; // This is easier from the ASM hook
+    }
 
     @Override
     public float getFogEnd() {

@@ -22,25 +22,29 @@
 
 package com.ventooth.beddium.asm;
 
-import com.ventooth.beddium.Share;
+import com.falsepattern.lib.turboasm.MergeableTurboTransformer;
+import com.falsepattern.lib.turboasm.TurboClassTransformer;
+import com.ventooth.beddium.config.TerrainRenderingConfig;
+import lombok.val;
 
-public final class ConfigCompat {
-    private ConfigCompat() {
-        throw new UnsupportedOperationException();
+import cpw.mods.fml.relauncher.FMLLaunchHandler;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@SuppressWarnings("UnstableApiUsage")
+public final class BeddiumTransformer extends MergeableTurboTransformer {
+    public BeddiumTransformer() {
+        super(transformers());
     }
 
-    public static void executeConfigFixes() {
-        FastCraftCompat.executeFastCraftConfigFixes();
-    }
-
-    public static class FastCraftCompat {
-        public static void executeFastCraftConfigFixes() {
-            ConfigFixUtil.fixConfig("fastcraft.ini", (line) -> {
-                if (line.contains("asyncCulling") || line.contains("enableCullingTweaks")) {
-                    return line.replace("true", "false");
-                }
-                return line;
-            }, e -> Share.log.fatal("Failed to apply FastCraft compatibility patches!", e));
+    private static List<TurboClassTransformer> transformers() {
+        val transformers = new ArrayList<TurboClassTransformer>();
+        if (FMLLaunchHandler.side().isClient()) {
+            if (TerrainRenderingConfig.FastFog) {
+                transformers.add(new FastFogStateTracker());
+            }
         }
+        return transformers;
     }
 }
