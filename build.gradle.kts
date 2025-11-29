@@ -96,4 +96,9 @@ dependencies {
 
     // netherlicious-3.2.8.jar
     compileOnly(deobfCurse("netherlicious-385860:4363437"))
+
+
+    // WelcomeToTheJungle-1.0.9-1.7.10.jar
+    // Here for testing the Fast Fog implementation
+//    runtimeOnly(deobfCurse("welcometothejungle-246895:2775633"))
 }

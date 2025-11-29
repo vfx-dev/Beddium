@@ -68,6 +68,17 @@ public final class TerrainRenderingConfig {
     @Config.DefaultEnum("Vanilla")
     public static DrawModeEnum ChunkDrawMode;
 
+    @Config.Name("FastChunkDrawModeFogBias")
+    @Config.Comment({
+            "Adds a bias (in blocks) to the fog distance when using Fast Chunk Edge Mode.",
+            "The default value is set to hide all pop in, but can be adjusted to taste.",
+    })
+    @Config.LangKey("config.beddium.terrainrendering.FastChunkDrawModeFogBias")
+    @Config.DefaultDouble(-16D)
+    @Config.RangeDouble(min = -16D,
+                        max = 0D)
+    public static double FastChunkDrawModeFogBias;
+
     @Config.Name("UseMultiDrawIndirect")
     @Config.Comment({
             "Controls if chunks should be drawn using MultiDrawIndirect.",
