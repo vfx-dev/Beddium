@@ -106,9 +106,7 @@ public class ArchaicChunkBuildContext extends ChunkBuildContext {
             val facing = QuadUtil.findNormalFace(trueNormal);
 
             val correctMaterial = selectMaterial(material, sprite);
-            buffers.get(correctMaterial)
-                   .getVertexBuffer(facing)
-                   .push(vertices, correctMaterial);
+            buffers.get(correctMaterial).getVertexBuffer(facing).push(vertices, correctMaterial);
         }
     }
 

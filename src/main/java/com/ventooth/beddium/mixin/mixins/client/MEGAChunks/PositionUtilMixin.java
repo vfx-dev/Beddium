@@ -38,6 +38,7 @@ public class PositionUtilMixin {
     private static int extendChunk1(int constant) {
         return MegaChunkMetadata.BLOCKS_PER_WR_EDGE_BITS;
     }
+
     @ModifyConstant(method = "sectionToBlockCoord",
                     constant = @Constant(intValue = 4),
                     require = 1)

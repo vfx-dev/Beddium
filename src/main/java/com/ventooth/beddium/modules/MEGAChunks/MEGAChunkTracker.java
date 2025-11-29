@@ -101,6 +101,7 @@ public sealed interface MEGAChunkTracker permits MEGAChunkTracker.Fast, MEGAChun
     }
 
     void onChunkStatusAddedImpl(int x, int z, int flags);
+
     void onChunkStatusRemovedImpl(int x, int z, int flags);
 
     final class Fast extends ChunkTracker implements MEGAChunkTracker {
@@ -131,6 +132,7 @@ public sealed interface MEGAChunkTracker permits MEGAChunkTracker.Fast, MEGAChun
             onChunkStatusRemovedMEGA(x, z, flags);
         }
     }
+
     final class Vanilla extends SafeChunkTracker implements MEGAChunkTracker {
         private final Long2LongMap subChunkStatus = new Long2LongOpenHashMap();
 

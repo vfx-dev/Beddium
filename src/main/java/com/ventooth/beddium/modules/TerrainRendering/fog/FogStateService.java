@@ -57,7 +57,12 @@ public final class FogStateService implements FogService {
     @Override
     public float[] getFogColor() {
         val color = FogStateTracker.color;
-        return new float[]{color.get(0), color.get(1), color.get(2), color.get(3)};
+        return new float[]{
+                color.get(0),
+                color.get(1),
+                color.get(2),
+                color.get(3)
+        };
     }
 
     @Override

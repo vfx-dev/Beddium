@@ -50,8 +50,8 @@ public class MEGASectionVisibilityBuilder {
     private static int[] buildFloodfillIndices() {
         IntArrayList indicesList = new IntArrayList(TOTAL_BLOCKS - (SECTION_AXIS_SIZE - 2) * (SECTION_AXIS_SIZE - 2) * (SECTION_AXIS_SIZE - 2));
         for (int x = 0; x < SECTION_AXIS_SIZE; x++) {
-            for(int z = 0; z < SECTION_AXIS_SIZE; z++) {
-                for(int y = 0; y < SECTION_AXIS_SIZE; y++) {
+            for (int z = 0; z < SECTION_AXIS_SIZE; z++) {
+                for (int y = 0; y < SECTION_AXIS_SIZE; y++) {
                     if (x == 0 || x == (SECTION_AXIS_SIZE - 1) || y == 0 || y == (SECTION_AXIS_SIZE - 1) || z == 0 || z == (SECTION_AXIS_SIZE - 1)) {
                         indicesList.add(getIndex(x, y, z));
                     }
@@ -80,7 +80,8 @@ public class MEGASectionVisibilityBuilder {
     }
 
     public void markOpaque(int x, int y, int z) {
-        this.blocks.set(getIndex(x & MegaChunkMetadata.BLOCKS_PER_WR_EDGE_BITMASK, y & MegaChunkMetadata.BLOCKS_PER_WR_EDGE_BITMASK, z & MegaChunkMetadata.BLOCKS_PER_WR_EDGE_BITMASK));
+        this.blocks.set(
+                getIndex(x & MegaChunkMetadata.BLOCKS_PER_WR_EDGE_BITMASK, y & MegaChunkMetadata.BLOCKS_PER_WR_EDGE_BITMASK, z & MegaChunkMetadata.BLOCKS_PER_WR_EDGE_BITMASK));
     }
 
     private long computeWithFloodFill() {
@@ -93,8 +94,8 @@ public class MEGASectionVisibilityBuilder {
                 escapedFaces.clear();
                 queue.clear();
                 this.exploreFrom(escapedFaces, queue, i);
-                for (int dir = escapedFaces.nextSetBit(0); dir >= 0; dir = escapedFaces.nextSetBit(dir+1)) {
-                    for (int dir2 = escapedFaces.nextSetBit(0); dir2 >= 0; dir2 = escapedFaces.nextSetBit(dir2+1)) {
+                for (int dir = escapedFaces.nextSetBit(0); dir >= 0; dir = escapedFaces.nextSetBit(dir + 1)) {
+                    for (int dir2 = escapedFaces.nextSetBit(0); dir2 >= 0; dir2 = escapedFaces.nextSetBit(dir2 + 1)) {
                         resultEncoding |= 1L << (dir * 8 + dir2);
                     }
                 }

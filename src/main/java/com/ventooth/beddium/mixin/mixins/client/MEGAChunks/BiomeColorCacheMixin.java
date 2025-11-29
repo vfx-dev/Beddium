@@ -37,6 +37,7 @@ public class BiomeColorCacheMixin {
     private int extendChunk1(int value) {
         return MegaChunkMetadata.BLOCKS_PER_WR_EDGE;
     }
+
     @ModifyConstant(method = "<init>",
                     constant = @Constant(intValue = (16 + (2 * 2))),
                     require = 1)

@@ -42,9 +42,7 @@ import java.util.function.Predicate;
 @NoArgsConstructor
 @SuppressWarnings("UnstableApiUsage")
 public final class FogStateAsmHookInjector implements TurboClassTransformer {
-    private static final Logger log = LogManager.getLogger(ShareAsm.ASM_NAME +
-                                                           "|" +
-                                                           FogStateAsmHookInjector.class.getSimpleName());
+    private static final Logger log = LogManager.getLogger(ShareAsm.ASM_NAME + "|" + FogStateAsmHookInjector.class.getSimpleName());
 
     @Language(value = "JAVA",
               prefix = "import ",
@@ -195,8 +193,7 @@ public final class FogStateAsmHookInjector implements TurboClassTransformer {
         return className.startsWith("org/lwjgl/opengl/") || className.startsWith("org/lwjglx/opengl/");
     }
 
-    private record MethodReference(String name,
-                                   String desc) {
+    private record MethodReference(String name, String desc) {
         private boolean matches(MethodInsnNode node) {
             return name.equals(node.name) && desc.equals(node.desc);
         }
@@ -207,20 +204,12 @@ public final class FogStateAsmHookInjector implements TurboClassTransformer {
         }
     }
 
-    private record MethodMapping(MethodReference src,
-                                 MethodReference dst) {
+    private record MethodMapping(MethodReference src, MethodReference dst) {
         private boolean tryApply(String className, MethodNode methodNode, MethodInsnNode node, String dstOwner) {
             if (src.matches(node)) {
                 dst.apply(node);
                 node.owner = dstOwner;
-                log.debug("In method [{}#{}{}], remapped method use: [{}{}]->[{}{}]",
-                          className,
-                          methodNode.name,
-                          methodNode.desc,
-                          src.name,
-                          src.desc,
-                          dst.name,
-                          dst.desc);
+                log.debug("In method [{}#{}{}], remapped method use: [{}{}]->[{}{}]", className, methodNode.name, methodNode.desc, src.name, src.desc, dst.name, dst.desc);
                 return true;
             }
             return false;

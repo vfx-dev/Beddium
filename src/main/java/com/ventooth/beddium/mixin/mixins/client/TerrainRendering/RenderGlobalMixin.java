@@ -150,7 +150,7 @@ public abstract class RenderGlobalMixin implements RenderGlobalExt {
         // Here so that SwanSong can land it's injections
         if (Boolean.valueOf(false)) {
             // It wants 3 TOTAL ENABLES (one provided above)
-//            GL11.glEnable(0);
+            //            GL11.glEnable(0);
             GL11.glEnable(0);
             GL11.glEnable(0);
 
@@ -204,7 +204,8 @@ public abstract class RenderGlobalMixin implements RenderGlobalExt {
     @Unique
     private static Viewport celeritas$createShadowViewport(Frustrum frustrum) {
         val pos = CameraHelper.getCurrentCameraPosition(RenderUtil.partialTick());
-        return new Viewport(((minX, minY, minZ, maxX, maxY, maxZ) -> frustrum.clippingHelper.isBoxInFrustum(minX + pos.x, minY + pos.y, minZ + pos.z, maxX + pos.x, maxY + pos.y, maxZ + pos.z)), pos);
+        return new Viewport(((minX, minY, minZ, maxX, maxY, maxZ) -> frustrum.clippingHelper.isBoxInFrustum(minX + pos.x, minY + pos.y, minZ + pos.z, maxX + pos.x, maxY + pos.y,
+                                                                                                            maxZ + pos.z)), pos);
     }
 
     @Unique
@@ -281,7 +282,7 @@ public abstract class RenderGlobalMixin implements RenderGlobalExt {
 
     @WrapOperation(method = "renderEntities",
                    at = @At(value = "INVOKE",
-                       target = "Lnet/minecraft/client/renderer/tileentity/TileEntityRendererDispatcher;renderTileEntity(Lnet/minecraft/tileentity/TileEntity;F)V"),
+                            target = "Lnet/minecraft/client/renderer/tileentity/TileEntityRendererDispatcher;renderTileEntity(Lnet/minecraft/tileentity/TileEntity;F)V"),
                    require = 1)
     private void safeRenderTileEntity(TileEntityRendererDispatcher instance, TileEntity te, float partialTick, Operation<Void> original) {
         try {

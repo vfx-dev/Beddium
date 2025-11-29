@@ -27,8 +27,10 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 import net.minecraftforge.client.ForgeHooksClient;
 
-@Mixin(value = ForgeHooksClient.class, remap = false)
+@Mixin(value = ForgeHooksClient.class,
+       remap = false)
 public interface ForgeHooksClientMixin {
     @Accessor
-    static void setWorldRenderPass(int pass) {}
+    static void setWorldRenderPass(int pass) {
+    }
 }

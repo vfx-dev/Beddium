@@ -38,6 +38,7 @@ public abstract class DefaultChunkRendererMixin {
     private static int extendChunk1(int constant) {
         return MegaChunkMetadata.BLOCKS_PER_WR_EDGE_BITS;
     }
+
     @ModifyConstant(method = "getVisibleFaces",
                     constant = @Constant(intValue = 16),
                     require = 3)

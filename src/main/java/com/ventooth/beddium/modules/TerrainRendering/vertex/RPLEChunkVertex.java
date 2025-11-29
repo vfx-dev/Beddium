@@ -37,7 +37,10 @@ import static com.ventooth.beddium.modules.TerrainRendering.vertex.CompatibleChu
 import static com.ventooth.beddium.modules.TerrainRendering.vertex.CompatibleChunkVertex.encodeLightRPLE;
 import static com.ventooth.beddium.modules.TerrainRendering.vertex.CompatibleChunkVertex.encodeTexture;
 
-@SuppressWarnings({"PointlessArithmeticExpression", "PointlessBitwiseExpression"})
+@SuppressWarnings({
+        "PointlessArithmeticExpression",
+        "PointlessBitwiseExpression"
+})
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 final class RPLEChunkVertex implements CompatibleChunkVertex {
     static final CompatibleChunkVertex INSTANCE = new RPLEChunkVertex();

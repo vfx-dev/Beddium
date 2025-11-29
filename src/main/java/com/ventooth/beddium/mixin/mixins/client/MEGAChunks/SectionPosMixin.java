@@ -31,14 +31,22 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 @Mixin(value = SectionPos.class,
        remap = false)
 public abstract class SectionPosMixin {
-    @ModifyConstant(method = {"minX", "minY", "minZ"},
+    @ModifyConstant(method = {
+            "minX",
+            "minY",
+            "minZ"
+    },
                     constant = @Constant(intValue = 16),
                     require = 3)
     private int extendChunk1(int constant) {
         return MegaChunkMetadata.BLOCKS_PER_WR_EDGE;
     }
 
-    @ModifyConstant(method = {"maxX", "maxY", "maxZ"},
+    @ModifyConstant(method = {
+            "maxX",
+            "maxY",
+            "maxZ"
+    },
                     constant = @Constant(intValue = 15),
                     require = 3)
     private int extendChunk2(int constant) {

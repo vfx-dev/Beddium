@@ -36,6 +36,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 public class MinimapRenderer {
     private static final MinimapRenderer INSTANCE = new MinimapRenderer();
     private static volatile boolean enabled = false;
+
     public static synchronized void toggle() {
         if (enabled) {
             disable();
@@ -43,15 +44,19 @@ public class MinimapRenderer {
             enable();
         }
     }
+
     public static synchronized void enable() {
-        if (enabled)
+        if (enabled) {
             return;
+        }
         enabled = true;
         MinecraftForge.EVENT_BUS.register(INSTANCE);
     }
+
     public static synchronized void disable() {
-        if (!enabled)
+        if (!enabled) {
             return;
+        }
         enabled = false;
         MinecraftForge.EVENT_BUS.unregister(INSTANCE);
     }
@@ -59,8 +64,9 @@ public class MinimapRenderer {
     @SubscribeEvent
     public void onDraw(RenderGameOverlayEvent.Text event) {
         val renderer = CeleritasWorldRenderer.instanceNullable();
-        if (renderer == null)
+        if (renderer == null) {
             return;
+        }
         val manager = renderer.getRenderSectionManager();
         val MINECRAFT = Minecraft.getMinecraft();
         float partialTicks = event.partialTicks;
@@ -86,9 +92,9 @@ public class MinimapRenderer {
         int playerChunkX = ((int) Math.floor(pX)) >> 4;
         int playerChunkZ = ((int) Math.floor(pZ)) >> 4;
         int range = 32;
-        for(int x = playerChunkX - range; x < playerChunkX + range; x++) {
-            for(int z = playerChunkZ - range; z < playerChunkZ + range; z++) {
-                drawChunk(new ChunkPos(x,z), playerChunkX, playerChunkZ, manager);
+        for (int x = playerChunkX - range; x < playerChunkX + range; x++) {
+            for (int z = playerChunkZ - range; z < playerChunkZ + range; z++) {
+                drawChunk(new ChunkPos(x, z), playerChunkX, playerChunkZ, manager);
             }
         }
 
@@ -129,7 +135,8 @@ public class MinimapRenderer {
             }
         }
         if (!initialized && Minecraft.getMinecraft().isIntegratedServerRunning()) {
-            val chunkProviderIntegratedServer = Minecraft.getMinecraft().getIntegratedServer().worldServerForDimension(Minecraft.getMinecraft().thePlayer.dimension).getChunkProvider();
+            val chunkProviderIntegratedServer =
+                    Minecraft.getMinecraft().getIntegratedServer().worldServerForDimension(Minecraft.getMinecraft().thePlayer.dimension).getChunkProvider();
             if (chunkProviderIntegratedServer.chunkExists(chunk.x, chunk.z)) {
                 val theChunk = chunkProviderIntegratedServer.provideChunk(chunk.x, chunk.z);
                 if (!theChunk.isLightPopulated) {
@@ -146,10 +153,10 @@ public class MinimapRenderer {
         int xEnd = xStart + 1;
         int zEnd = zStart + 1;
 
-        GL11.glVertex3d(xStart, zStart ,  0 );
-        GL11.glVertex3d(xStart, zEnd ,  0   );
-        GL11.glVertex3d(xEnd,   zEnd ,  0   );
-        GL11.glVertex3d(xEnd,   zStart ,  0 );
+        GL11.glVertex3d(xStart, zStart, 0);
+        GL11.glVertex3d(xStart, zEnd, 0);
+        GL11.glVertex3d(xEnd, zEnd, 0);
+        GL11.glVertex3d(xEnd, zStart, 0);
 
 
     }

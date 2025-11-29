@@ -53,37 +53,17 @@ public class ArchaicRenderSectionManager extends RenderSectionManager {
     private final WorldClient world;
     private final boolean alwaysDeferChunkUpdates;
 
-    public ArchaicRenderSectionManager(RenderPassConfiguration<?> configuration,
-                                       WorldClient world,
-                                       int renderDistance,
-                                       CommandList commandList,
-                                       int minSection,
-                                       int maxSection,
-                                       int requestedThreads,
-                                       boolean alwaysDeferChunkUpdates) {
-        super(configuration,
-              () -> new ArchaicChunkBuildContext(world, configuration),
-              CompatibleChunkRenderer::get,
-              renderDistance,
-              commandList,
-              minSection,
-              maxSection,
-              requestedThreads,
-              Compat.shadowPassExists());
+    public ArchaicRenderSectionManager(RenderPassConfiguration<?> configuration, WorldClient world, int renderDistance, CommandList commandList, int minSection, int maxSection, int requestedThreads, boolean alwaysDeferChunkUpdates) {
+        super(configuration, () -> new ArchaicChunkBuildContext(world, configuration), CompatibleChunkRenderer::get, renderDistance, commandList, minSection, maxSection,
+              requestedThreads, Compat.shadowPassExists());
         this.world = world;
         this.alwaysDeferChunkUpdates = alwaysDeferChunkUpdates;
     }
 
     public static ArchaicRenderSectionManager create(WorldClient world, int renderDistance, CommandList commandList) {
         val provider = ChunkTaskRegistry.getProvider();
-        return new ArchaicRenderSectionManager(ArchaicRenderPassConfigurationBuilder.build(),
-                                               world,
-                                               renderDistance,
-                                               commandList,
-                                               0,
-                                               16 / MegaChunkMetadata.EBS_PER_WR_EDGE,
-                                               provider.threadCount(),
-                                               provider.alwaysDeferChunkUpdates());
+        return new ArchaicRenderSectionManager(ArchaicRenderPassConfigurationBuilder.build(), world, renderDistance, commandList, 0, 16 / MegaChunkMetadata.EBS_PER_WR_EDGE,
+                                               provider.threadCount(), provider.alwaysDeferChunkUpdates());
     }
 
     @Override

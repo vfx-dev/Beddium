@@ -44,8 +44,7 @@ import java.util.Map;
 public final class CoreLoadingPlugin implements IFMLLoadingPlugin {
     static {
         Configs.poke();
-        Launch.blackboard.put(ShareAsm.TRACKED_FOG_STATE_ASM_EXCLUSIONS_KEY,
-                              TerrainRenderingConfig.FastFogAsmExclusions);
+        Launch.blackboard.put(ShareAsm.TRACKED_FOG_STATE_ASM_EXCLUSIONS_KEY, TerrainRenderingConfig.FastFogAsmExclusions);
 
         try {
             ConfigCompat.executeConfigFixes();

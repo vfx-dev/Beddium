@@ -104,7 +104,11 @@ public final class TerrainRenderingConfig {
     })
     @Config.LangKey("config.beddium.terrainrendering.FastFogAsmExclusions")
     @Config.RequiresMcRestart
-    @Config.DefaultStringList({"net.minecraft.*", "net.minecraftforge.*", "cpw.mods.fml.*"})
+    @Config.DefaultStringList({
+            "net.minecraft.*",
+            "net.minecraftforge.*",
+            "cpw.mods.fml.*"
+    })
     public static String[] FastFogAsmExclusions;
 
     @Config.Name("NetherliciousCompat")
