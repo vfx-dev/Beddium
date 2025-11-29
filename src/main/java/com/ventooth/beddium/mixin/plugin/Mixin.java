@@ -43,6 +43,7 @@ enum Mixin implements IMixin {
     TerrainRendering_ForgeHooksClientMixin(Side.CLIENT, Cfg.TerrainRendering),
     TerrainRendering_MinecraftMixin(Side.CLIENT, Cfg.TerrainRendering),
     TerrainRendering_EntityRendererMixin(Side.CLIENT, Cfg.TerrainRendering),
+    TerrainRendering_FrustrumMixin(Side.CLIENT, Cfg.TerrainRendering),
 
     TerrainRendering_ShaderModBridgeMixin(Side.CLIENT, Cfg.TerrainRendering.and(require(TargetedMod.SWANSONG))),
     TerrainRendering_ShaderEngineMixin(Side.CLIENT, Cfg.TerrainRendering.and(require(TargetedMod.SWANSONG))),
