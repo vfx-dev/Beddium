@@ -28,7 +28,6 @@ import com.ventooth.beddium.Tags;
 import lombok.NoArgsConstructor;
 
 import net.minecraft.client.gui.GuiScreen;
-
 import cpw.mods.fml.client.config.GuiConfig;
 
 import static com.ventooth.beddium.config.Configs.cfgElements;

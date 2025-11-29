@@ -23,7 +23,6 @@
 package com.ventooth.beddium.modules.TerrainRendering.command;
 
 import com.ventooth.beddium.modules.TerrainRendering.MinimapRenderer;
-import com.ventooth.beddium.modules.TerrainRendering.TerrainRenderingModule;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommand;

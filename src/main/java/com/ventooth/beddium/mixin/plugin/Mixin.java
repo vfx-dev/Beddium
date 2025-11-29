@@ -24,15 +24,12 @@ package com.ventooth.beddium.mixin.plugin;
 
 import com.falsepattern.lib.mixin.IMixin;
 import com.falsepattern.lib.mixin.ITargetedMod;
-import com.ventooth.beddium.config.TerrainRenderingConfig;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.List;
 import java.util.function.Predicate;
 
-import static com.falsepattern.lib.mixin.IMixin.PredicateHelpers.always;
-import static com.falsepattern.lib.mixin.IMixin.PredicateHelpers.condition;
 import static com.falsepattern.lib.mixin.IMixin.PredicateHelpers.require;
 
 @AllArgsConstructor

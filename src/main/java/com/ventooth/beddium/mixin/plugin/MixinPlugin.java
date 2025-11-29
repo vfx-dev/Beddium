@@ -26,7 +26,6 @@ import com.falsepattern.lib.mixin.IMixin;
 import com.falsepattern.lib.mixin.IMixinPlugin;
 import com.falsepattern.lib.mixin.ITargetedMod;
 import com.ventooth.beddium.Tags;
-import com.ventooth.beddium.config.Configs;
 import lombok.Getter;
 import org.apache.logging.log4j.Logger;
 

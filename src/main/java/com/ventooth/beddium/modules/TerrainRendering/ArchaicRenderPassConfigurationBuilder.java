@@ -26,7 +26,6 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.ventooth.beddium.Share;
 import com.ventooth.beddium.modules.TerrainRendering.vertex.CompatibleChunkVertex;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
-import lombok.val;
 import org.embeddedt.embeddium.impl.render.chunk.RenderPassConfiguration;
 import org.embeddedt.embeddium.impl.render.chunk.compile.sorting.QuadPrimitiveType;
 import org.embeddedt.embeddium.impl.render.chunk.terrain.TerrainRenderPass;

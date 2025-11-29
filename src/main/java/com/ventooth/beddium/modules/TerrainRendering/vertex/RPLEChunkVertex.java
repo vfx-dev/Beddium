@@ -29,10 +29,8 @@ import org.embeddedt.embeddium.impl.gl.attribute.GlVertexAttributeFormat;
 import org.embeddedt.embeddium.impl.gl.attribute.GlVertexFormat;
 import org.embeddedt.embeddium.impl.render.chunk.terrain.material.Material;
 import org.embeddedt.embeddium.impl.render.chunk.vertex.format.ChunkVertexEncoder;
-import org.embeddedt.embeddium.impl.render.chunk.vertex.format.ChunkVertexType;
 import org.lwjgl.system.MemoryUtil;
 
-import java.util.List;
 import java.util.Map;
 
 import static com.ventooth.beddium.modules.TerrainRendering.vertex.CompatibleChunkVertex.encodeDrawParameters;

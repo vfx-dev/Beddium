@@ -22,9 +22,7 @@
 
 package com.ventooth.beddium.mixin.mixins.client.MEGAChunks;
 
-import it.unimi.dsi.fastutil.objects.Object2LongMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import lombok.val;
 import org.embeddedt.embeddium.impl.gl.profiling.TimerQueryManager;
 import org.embeddedt.embeddium.impl.render.chunk.RenderSectionManager;
 import org.spongepowered.asm.mixin.Mixin;

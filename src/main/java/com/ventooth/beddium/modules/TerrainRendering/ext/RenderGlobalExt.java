@@ -25,7 +25,6 @@ package com.ventooth.beddium.modules.TerrainRendering.ext;
 import com.ventooth.beddium.modules.TerrainRendering.CeleritasWorldRenderer;
 
 import net.minecraft.client.renderer.RenderGlobal;
-import net.minecraft.client.renderer.culling.ICamera;
 
 public interface RenderGlobalExt {
     @SuppressWarnings("CastToIncompatibleInterface")
