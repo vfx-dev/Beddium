@@ -32,7 +32,7 @@ import org.lwjgl.opengl.GL11;
 import java.nio.FloatBuffer;
 
 public final class FogStateTracker {
-    static final FloatBuffer color = BufferUtils.createFloatBuffer(4);
+    static final FloatBuffer color = BufferUtils.createFloatBuffer(16);
 
     static float end = 1000F;
     static float start = 1000F;
