@@ -23,7 +23,10 @@
 package com.ventooth.beddium.asm;
 
 import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
+import lombok.val;
 
+import net.minecraft.launchwrapper.IClassTransformer;
 import net.minecraft.launchwrapper.ITweaker;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.launchwrapper.LaunchClassLoader;
@@ -33,9 +36,17 @@ import java.util.List;
 
 @NoArgsConstructor
 public final class PostMixinTweaker implements ITweaker {
+    @SneakyThrows
     @Override
     public String[] getLaunchArguments() {
-        Launch.classLoader.registerTransformer(ShareAsm.TRANSFORMER);
+        val transformers = (IClassTransformer) Launch.blackboard.remove(ShareAsm.TRANSFORMER);
+        if (transformers == null) {
+            throw new IllegalStateException("Could not retrieve transformers from blackboard!");
+        }
+        val tField = LaunchClassLoader.class.getDeclaredField("transformers");
+        tField.setAccessible(true);
+        val t = (List<IClassTransformer>)tField.get(Launch.classLoader);
+        t.add(transformers);
         ShareAsm.log.debug("Registered PostMixinTransformers");
         return new String[0];
     }
