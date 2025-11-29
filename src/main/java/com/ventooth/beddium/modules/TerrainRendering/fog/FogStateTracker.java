@@ -34,8 +34,8 @@ import java.nio.FloatBuffer;
 public final class FogStateTracker {
     static final FloatBuffer color = BufferUtils.createFloatBuffer(16);
 
-    static float end = 1000F;
-    static float start = 1000F;
+    public static float end = 1000F;
+    public static float start = 1000F;
     static float density = 0.1F;
 
     static boolean isEnabled = false;
@@ -55,7 +55,6 @@ public final class FogStateTracker {
         density = GL11.glGetInteger(GL11.GL_FOG_DENSITY);
     }
 
-    @SuppressWarnings("unused")
     public static void glFog(int pname, FloatBuffer params) {
         if (pname == GL11.GL_FOG_COLOR) {
             FogStateTracker.color.put(0, params.get(0));
@@ -65,7 +64,6 @@ public final class FogStateTracker {
         }
     }
 
-    @SuppressWarnings("unused")
     public static void glFogf(int pname, float param) {
         switch (pname) {
             case GL11.GL_FOG_END -> FogStateTracker.end = param;
@@ -74,21 +72,18 @@ public final class FogStateTracker {
         }
     }
 
-    @SuppressWarnings("unused")
     public static void glEnable(int cap) {
         if (cap == GL11.GL_FOG) {
             FogStateTracker.isEnabled = true;
         }
     }
 
-    @SuppressWarnings("unused")
     public static void glDisable(int cap) {
         if (cap == GL11.GL_FOG) {
             FogStateTracker.isEnabled = false;
         }
     }
 
-    @SuppressWarnings("unused")
     public static void glFogi(int pname, int param) {
         if (pname == GL11.GL_FOG_MODE) {
             FogStateTracker.mode = FogStateTracker.fromGLMode(param);
