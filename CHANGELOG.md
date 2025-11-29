@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.1.0] - 2025-11-29
+
+### Changed
+
+- Improved the implementation of fast fog, now with better mod compat
+
+### Added
+
+- Added a fog bias config when using ChunkDrawMode=Fast, which can pull in the fog and reduce pop-in
+
 ## [1.0.7] - 2025-11-24
 
 ### Changed
