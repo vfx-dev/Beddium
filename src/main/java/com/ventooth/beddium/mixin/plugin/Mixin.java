@@ -50,6 +50,8 @@ enum Mixin implements IMixin {
 
     TerrainRendering_compat_netherlicious_RootsRenderMixin(Side.CLIENT, Cfg.NetherliciousCompat.and(require(TargetedMod.NETHERLICIOUS))),
     TerrainRendering_compat_netherlicious_SporeBlossomRenderMixin(Side.CLIENT, Cfg.NetherliciousCompat.and(require(TargetedMod.NETHERLICIOUS))),
+
+    TerrainRendering_compat_ichundoors_FrustrumMixin(Side.CLIENT, require(TargetedMod.ICHUN_DOORS)),
     // endregion
 
     // region Biome Color Cache

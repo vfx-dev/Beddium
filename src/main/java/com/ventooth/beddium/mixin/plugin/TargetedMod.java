@@ -34,6 +34,7 @@ import static com.falsepattern.lib.mixin.ITargetedMod.PredicateHelpers.contains;
 enum TargetedMod implements ITargetedMod {
     SWANSONG("SwanSong", false, contains("swansong-")),
     NETHERLICIOUS("Netherlicious", false, contains("netherlicious-")),
+    ICHUN_DOORS("iChun Doors", false, contains("Doors-")),
     ;
 
     @Getter
