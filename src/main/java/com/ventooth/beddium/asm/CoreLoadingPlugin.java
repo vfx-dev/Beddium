@@ -78,6 +78,7 @@ public final class CoreLoadingPlugin implements IFMLLoadingPlugin {
         if (mixinTweakClasses != null) {
             if (!mixinTweakClasses.contains(ShareAsm.TWEAKER)) {
                 mixinTweakClasses.add(ShareAsm.TWEAKER);
+                Launch.blackboard.put(ShareAsm.TRANSFORMER, new PostMixinTransformers());
                 ShareAsm.log.debug("Registered PostMixinTweaker");
             }
         } else {
