@@ -93,7 +93,7 @@ dependencies {
 
     compileOnly("mega:fluidlogged-mc1.7.10:0.1.2:api")
 
-    devOnlyNonPublishable("com.ventooth:swansong-mc1.7.10:1.1.2:dev")
+    devOnlyNonPublishable("com.ventooth:swansong-mc1.7.10:1.2.5:dev")
 
     // netherlicious-3.2.8.jar
     compileOnly(deobfCurse("netherlicious-385860:4363437"))
