@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.1] - 2025-11-29
+
+### Added
+
+- Basic support for iChun's Door mod, half-fixing ([#14](https://github.com/vfx-dev/Beddium/issues/14))
+
 ## [1.1.0] - 2025-11-29
 
 ### Changed
