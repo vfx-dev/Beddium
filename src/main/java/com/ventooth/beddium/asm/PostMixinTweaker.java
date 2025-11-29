@@ -22,29 +22,36 @@
 
 package com.ventooth.beddium.asm;
 
-import com.falsepattern.lib.turboasm.MergeableTurboTransformer;
-import com.falsepattern.lib.turboasm.TurboClassTransformer;
-import com.ventooth.beddium.config.TerrainRenderingConfig;
-import lombok.val;
+import lombok.NoArgsConstructor;
 
-import cpw.mods.fml.relauncher.FMLLaunchHandler;
+import net.minecraft.launchwrapper.ITweaker;
+import net.minecraft.launchwrapper.Launch;
+import net.minecraft.launchwrapper.LaunchClassLoader;
 
-import java.util.ArrayList;
+import java.io.File;
 import java.util.List;
 
-@SuppressWarnings("UnstableApiUsage")
-public final class BeddiumTransformer extends MergeableTurboTransformer {
-    public BeddiumTransformer() {
-        super(transformers());
+@NoArgsConstructor
+public final class PostMixinTweaker implements ITweaker {
+    @Override
+    public String[] getLaunchArguments() {
+        Launch.classLoader.registerTransformer(ShareAsm.TRANSFORMER);
+        ShareAsm.log.debug("Registered PostMixinTransformers");
+        return new String[0];
     }
 
-    private static List<TurboClassTransformer> transformers() {
-        val transformers = new ArrayList<TurboClassTransformer>();
-        if (FMLLaunchHandler.side().isClient()) {
-            if (TerrainRenderingConfig.FastFog) {
-                transformers.add(new FastFogStateTracker());
-            }
-        }
-        return transformers;
+    // region Unused
+    @Override
+    public void acceptOptions(List<String> args, File gameDir, File assetsDir, String profile) {
     }
+
+    @Override
+    public void injectIntoClassLoader(LaunchClassLoader classLoader) {
+    }
+
+    @Override
+    public String getLaunchTarget() {
+        return null;
+    }
+    // endregion
 }

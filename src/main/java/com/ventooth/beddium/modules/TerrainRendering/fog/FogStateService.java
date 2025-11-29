@@ -20,29 +20,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.ventooth.beddium.modules.TerrainRendering.services;
+package com.ventooth.beddium.modules.TerrainRendering.fog;
 
+import lombok.NoArgsConstructor;
+import lombok.val;
 import org.embeddedt.embeddium.impl.render.chunk.fog.FogService;
 import org.embeddedt.embeddium.impl.render.chunk.shader.ChunkFogMode;
-import org.lwjgl.opengl.GL11;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.EntityRenderer;
-
-public class GLStateManagerFogServiceAccurate implements FogService {
+@NoArgsConstructor
+public final class FogStateService implements FogService {
     @Override
     public float getFogEnd() {
-        return GL11.glGetInteger(GL11.GL_FOG_END);
+        return FogStateTracker.end;
     }
 
     @Override
     public float getFogStart() {
-        return GL11.glGetInteger(GL11.GL_FOG_START);
+        return FogStateTracker.start;
     }
 
     @Override
     public float getFogDensity() {
-        return GL11.glGetFloat(GL11.GL_FOG_DENSITY);
+        return FogStateTracker.density;
     }
 
     @Override
@@ -57,20 +56,12 @@ public class GLStateManagerFogServiceAccurate implements FogService {
 
     @Override
     public float[] getFogColor() {
-        EntityRenderer entityRenderer = Minecraft.getMinecraft().entityRenderer;
-        return new float[]{
-                entityRenderer.fogColorRed,
-                entityRenderer.fogColorGreen,
-                entityRenderer.fogColorBlue,
-                1.0F
-        };
+        val color = FogStateTracker.color;
+        return new float[]{color.get(0), color.get(1), color.get(2), color.get(3)};
     }
 
     @Override
     public ChunkFogMode getFogMode() {
-        if (!GL11.glGetBoolean(GL11.GL_FOG)) {
-            return ChunkFogMode.NONE;
-        }
-        return ChunkFogMode.fromGLMode(GL11.glGetInteger(GL11.GL_FOG_MODE));
+        return FogStateTracker.isEnabled ? FogStateTracker.mode : ChunkFogMode.NONE;
     }
 }

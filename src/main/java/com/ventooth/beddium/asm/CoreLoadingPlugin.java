@@ -22,34 +22,49 @@
 
 package com.ventooth.beddium.asm;
 
-import com.ventooth.beddium.Tags;
+import com.ventooth.beddium.config.Configs;
+import com.ventooth.beddium.config.TerrainRenderingConfig;
 import lombok.NoArgsConstructor;
-import org.intellij.lang.annotations.Language;
+import lombok.val;
+import org.spongepowered.asm.launch.GlobalProperties;
+import org.spongepowered.asm.service.mojang.MixinServiceLaunchWrapper;
 
+import net.minecraft.launchwrapper.Launch;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
+import java.util.List;
 import java.util.Map;
 
-@IFMLLoadingPlugin.Name(Tags.MOD_NAME + "|ASM Plugin")
+@IFMLLoadingPlugin.Name(ShareAsm.ASM_NAME)
 @IFMLLoadingPlugin.MCVersion("1.7.10")
 @IFMLLoadingPlugin.SortingIndex(200_000)
-@IFMLLoadingPlugin.TransformerExclusions(Tags.ROOT_PKG + ".asm")
+@IFMLLoadingPlugin.TransformerExclusions(ShareAsm.ASM_PKG)
 @NoArgsConstructor
+@SuppressWarnings("unused")
 public final class CoreLoadingPlugin implements IFMLLoadingPlugin {
-    @Language(value = "JAVA",
-              prefix = "import ",
-              suffix = ";")
-    private static final String TRANSFORMER = Tags.ROOT_PKG + ".asm.BeddiumTransformer";
-
     static {
+        Configs.poke();
+        Launch.blackboard.put(ShareAsm.TRACKED_FOG_STATE_ASM_EXCLUSIONS_KEY,
+                              TerrainRenderingConfig.FastFogAsmExclusions);
+
         try {
             ConfigCompat.executeConfigFixes();
-        } catch (Throwable ignored) {}
+        } catch (Throwable ignored) {
+        }
     }
 
     @Override
     public String[] getASMTransformerClass() {
-        return new String[]{TRANSFORMER};
+        val mixinTweakClasses = GlobalProperties.<List<String>>get(MixinServiceLaunchWrapper.BLACKBOARD_KEY_TWEAKCLASSES);
+        if (mixinTweakClasses != null) {
+            if (!mixinTweakClasses.contains(ShareAsm.TWEAKER)) {
+                mixinTweakClasses.add(ShareAsm.TWEAKER);
+                ShareAsm.log.debug("Registered PostMixinTweaker");
+            }
+        } else {
+            ShareAsm.log.error("Failed to register PostMixinTweaker, things might not work as planned!");
+        }
+        return new String[0];
     }
 
     // region Unused
