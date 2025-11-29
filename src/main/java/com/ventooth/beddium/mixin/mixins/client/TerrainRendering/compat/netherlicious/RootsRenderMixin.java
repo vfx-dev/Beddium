@@ -33,7 +33,7 @@ import net.minecraft.client.renderer.Tessellator;
 public abstract class RootsRenderMixin {
     @WrapWithCondition(method = "renderWorldBlock",
                        at = @At(value = "INVOKE",
-                       target = "Lnet/minecraft/client/renderer/Tessellator;draw()I")
+                                target = "Lnet/minecraft/client/renderer/Tessellator;draw()I")
                        /*require = 1*/)
     private boolean snip_TessellatorDraw(Tessellator instance) {
         return false;

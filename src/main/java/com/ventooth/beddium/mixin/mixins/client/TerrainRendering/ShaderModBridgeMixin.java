@@ -27,7 +27,8 @@ import org.embeddedt.embeddium.impl.render.ShaderModBridge;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
-@Mixin(value = ShaderModBridge.class, remap = false)
+@Mixin(value = ShaderModBridge.class,
+       remap = false)
 public abstract class ShaderModBridgeMixin {
     /**
      * @author Ven

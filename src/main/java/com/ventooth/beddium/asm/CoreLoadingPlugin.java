@@ -24,19 +24,35 @@ package com.ventooth.beddium.asm;
 
 import com.ventooth.beddium.Share;
 import com.ventooth.beddium.Tags;
+import com.ventooth.beddium.config.Configs;
+import com.ventooth.beddium.config.TerrainRenderingConfig;
+import lombok.NoArgsConstructor;
 import lombok.val;
+import org.spongepowered.asm.launch.GlobalProperties;
+import org.spongepowered.asm.service.mojang.MixinServiceLaunchWrapper;
 
+import net.minecraft.launchwrapper.Launch;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
 import javax.swing.JOptionPane;
+import java.util.List;
 import java.util.Map;
 
-@IFMLLoadingPlugin.TransformerExclusions(Tags.ROOT_PKG + ".asm")
-public class CoreLoadingPlugin implements IFMLLoadingPlugin {
+@IFMLLoadingPlugin.Name(ShareAsm.ASM_NAME)
+@IFMLLoadingPlugin.MCVersion("1.7.10")
+@IFMLLoadingPlugin.SortingIndex(200_000)
+@IFMLLoadingPlugin.TransformerExclusions(ShareAsm.ASM_PKG)
+@NoArgsConstructor
+@SuppressWarnings("unused")
+public final class CoreLoadingPlugin implements IFMLLoadingPlugin {
     static {
+        Configs.poke();
+        Launch.blackboard.put(ShareAsm.TRACKED_FOG_STATE_ASM_EXCLUSIONS_KEY, TerrainRenderingConfig.FastFogAsmExclusions);
+
         try {
             ConfigCompat.executeConfigFixes();
-        } catch (Throwable ignored) {}
+        } catch (Throwable ignored) {
+        }
     }
 
     @Override
@@ -56,11 +72,21 @@ public class CoreLoadingPlugin implements IFMLLoadingPlugin {
             throw new Error(msg);
             //TODO uncouple j21 builds and lwjgl3
             // return new String[]{Tags.ROOT_PKG + ".asm.Lwjgl3ifyTransformer"};
-        } else {
-            return new String[0];
         }
+
+        val mixinTweakClasses = GlobalProperties.<List<String>>get(MixinServiceLaunchWrapper.BLACKBOARD_KEY_TWEAKCLASSES);
+        if (mixinTweakClasses != null) {
+            if (!mixinTweakClasses.contains(ShareAsm.TWEAKER)) {
+                mixinTweakClasses.add(ShareAsm.TWEAKER);
+                ShareAsm.log.debug("Registered PostMixinTweaker");
+            }
+        } else {
+            ShareAsm.log.error("Failed to register PostMixinTweaker, things might not work as planned!");
+        }
+        return new String[0];
     }
 
+    // region Unused
     @Override
     public String getModContainerClass() {
         return null;
@@ -73,11 +99,11 @@ public class CoreLoadingPlugin implements IFMLLoadingPlugin {
 
     @Override
     public void injectData(Map<String, Object> data) {
-
     }
 
     @Override
     public String getAccessTransformerClass() {
         return null;
     }
+    // endregion
 }

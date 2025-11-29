@@ -35,7 +35,10 @@ import static com.ventooth.beddium.modules.TerrainRendering.vertex.CompatibleChu
 import static com.ventooth.beddium.modules.TerrainRendering.vertex.CompatibleChunkVertex.encodeLight;
 import static com.ventooth.beddium.modules.TerrainRendering.vertex.CompatibleChunkVertex.encodeTexture;
 
-@SuppressWarnings({"PointlessArithmeticExpression", "PointlessBitwiseExpression"})
+@SuppressWarnings({
+        "PointlessArithmeticExpression",
+        "PointlessBitwiseExpression"
+})
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 final class DefaultChunkVertex implements CompatibleChunkVertex {
     static final CompatibleChunkVertex INSTANCE = new DefaultChunkVertex();

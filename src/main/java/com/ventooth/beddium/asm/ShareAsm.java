@@ -20,31 +20,30 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.ventooth.beddium.mixin.plugin;
+package com.ventooth.beddium.asm;
 
-import com.falsepattern.lib.mixin.IMixin;
-import com.falsepattern.lib.mixin.IMixinPlugin;
-import com.falsepattern.lib.mixin.ITargetedMod;
 import com.ventooth.beddium.Tags;
-import lombok.Getter;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.intellij.lang.annotations.Language;
 
-public class MixinPlugin implements IMixinPlugin {
-    @Getter
-    private final Logger logger = IMixinPlugin.createLogger(Tags.MOD_NAME);
+public final class ShareAsm {
+    public static final String ASM_NAME = Tags.MOD_NAME + "|ASM";
+    public static final String ASM_PKG = Tags.ROOT_PKG + ".asm";
+    public static final Logger log = LogManager.getLogger(ASM_NAME);
 
-    @Override
-    public ITargetedMod[] getTargetedModEnumValues() {
-        return TargetedMod.values();
-    }
+    @Language(value = "JAVA",
+              prefix = "import ",
+              suffix = ";")
+    public static final String TWEAKER = ASM_PKG + ".PostMixinTweaker";
+    @Language(value = "JAVA",
+              prefix = "import ",
+              suffix = ";")
+    public static final String TRANSFORMER = ASM_PKG + ".PostMixinTransformers";
 
-    @Override
-    public IMixin[] getMixinEnumValues() {
-        return Mixin.values();
-    }
+    public static final String TRACKED_FOG_STATE_ASM_EXCLUSIONS_KEY = Tags.MOD_ID + ".TrackedFogStateAsmExclusions";
 
-    @Override
-    public boolean useNewFindJar() {
-        return true;
+    private ShareAsm() {
+        throw new UnsupportedOperationException();
     }
 }

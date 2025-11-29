@@ -39,6 +39,7 @@ public class SafeChunkTracker extends ChunkTracker {
     private static final Field chunkReady;
     private static final Field unloadQueue;
     private static final Field loadQueue;
+
     static {
         try {
             var klass = ChunkTracker.class;

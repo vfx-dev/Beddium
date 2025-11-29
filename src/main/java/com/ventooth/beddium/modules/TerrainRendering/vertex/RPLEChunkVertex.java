@@ -29,17 +29,18 @@ import org.embeddedt.embeddium.impl.gl.attribute.GlVertexAttributeFormat;
 import org.embeddedt.embeddium.impl.gl.attribute.GlVertexFormat;
 import org.embeddedt.embeddium.impl.render.chunk.terrain.material.Material;
 import org.embeddedt.embeddium.impl.render.chunk.vertex.format.ChunkVertexEncoder;
-import org.embeddedt.embeddium.impl.render.chunk.vertex.format.ChunkVertexType;
 import org.embeddedt.embeddium.impl.lwjgl2.MemoryUtil;
 
-import java.util.List;
 import java.util.Map;
 
 import static com.ventooth.beddium.modules.TerrainRendering.vertex.CompatibleChunkVertex.encodeDrawParameters;
 import static com.ventooth.beddium.modules.TerrainRendering.vertex.CompatibleChunkVertex.encodeLightRPLE;
 import static com.ventooth.beddium.modules.TerrainRendering.vertex.CompatibleChunkVertex.encodeTexture;
 
-@SuppressWarnings({"PointlessArithmeticExpression", "PointlessBitwiseExpression"})
+@SuppressWarnings({
+        "PointlessArithmeticExpression",
+        "PointlessBitwiseExpression"
+})
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 final class RPLEChunkVertex implements CompatibleChunkVertex {
     static final CompatibleChunkVertex INSTANCE = new RPLEChunkVertex();

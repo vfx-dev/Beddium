@@ -86,9 +86,30 @@ public final class TerrainRenderingConfig {
             "Turn this off if fog looks really broken in some dimensions, but keep it enabled if possible."
     })
     @Config.LangKey("config.beddium.terrainrendering.FastFog")
-    @Config.RequiresMcRestart
     @Config.DefaultBoolean(true)
     public static boolean FastFog;
+
+    @Config.Name("FastFogAsm")
+    @Config.Comment({
+            "If extra ASM hooks should be used to help track fog state.",
+    })
+    @Config.LangKey("config.beddium.terrainrendering.FastFogAsm")
+    @Config.RequiresMcRestart
+    @Config.DefaultBoolean(true)
+    public static boolean FastFogAsm;
+
+    @Config.Name("FastFogAsmExclusions")
+    @Config.Comment({
+            "List of classes which are excluded by the ASM hooks which are excluded from fog tracking.",
+    })
+    @Config.LangKey("config.beddium.terrainrendering.FastFogAsmExclusions")
+    @Config.RequiresMcRestart
+    @Config.DefaultStringList({
+            "net.minecraft.*",
+            "net.minecraftforge.*",
+            "cpw.mods.fml.*"
+    })
+    public static String[] FastFogAsmExclusions;
 
     @Config.Name("NetherliciousCompat")
     @Config.Comment({

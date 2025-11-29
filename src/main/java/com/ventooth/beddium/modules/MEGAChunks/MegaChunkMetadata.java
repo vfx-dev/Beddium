@@ -40,7 +40,7 @@ public class MegaChunkMetadata {
 
     public static final int BLOCKS_PER_WR_EDGE_BITS = BLOCKS_PER_EBS_EDGE_BITS + EBS_PER_WR_EDGE_BITS;
     public static final int BLOCKS_PER_WR_EDGE = BLOCKS_PER_EBS_EDGE * EBS_PER_WR_EDGE;
-    public static final float BLOCKS_PER_WR_EDGE_FLOAT = (float)BLOCKS_PER_WR_EDGE;
+    public static final float BLOCKS_PER_WR_EDGE_FLOAT = (float) BLOCKS_PER_WR_EDGE;
     public static final int BLOCKS_PER_WR_EDGE_BITMASK = BLOCKS_PER_WR_EDGE - 1;
     public static final int BLOCKS_PER_WR_FACE = BLOCKS_PER_EBS_FACE * EBS_PER_WR_FACE;
     public static final int BLOCKS_PER_WR_VOLUME = BLOCKS_PER_EBS_VOLUME * EBS_PER_WR_VOLUME;

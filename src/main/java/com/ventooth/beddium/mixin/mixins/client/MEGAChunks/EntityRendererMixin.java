@@ -33,7 +33,8 @@ import net.minecraft.client.renderer.EntityRenderer;
 
 @Mixin(EntityRenderer.class)
 public class EntityRendererMixin {
-    @Shadow private float farPlaneDistance;
+    @Shadow
+    private float farPlaneDistance;
 
     @Redirect(method = "setupCameraTransform",
               at = @At(value = "FIELD",

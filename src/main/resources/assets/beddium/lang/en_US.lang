@@ -30,6 +30,12 @@ config.beddium.terrainrendering.UseMultiDrawIndirect.tooltip=Controls if chunks 
 config.beddium.terrainrendering.FastFog=Faster Fog Logic
 config.beddium.terrainrendering.FastFog.tooltip=Uses a method for fog which improves performance significantly.\nTurn this off if fog looks really broken in some dimensions, but keep it enabled if that doesn't help.
 
+config.beddium.terrainrendering.FastFogAsm=Faster Fog Logic ASM
+config.beddium.terrainrendering.FastFogAsm.tooltip=If extra ASM hooks should be used to help track fog state.
+
+config.beddium.terrainrendering.FastFogAsmExclusions=Faster Fog Logic ASM Exclusions
+config.beddium.terrainrendering.FastFogAsmExclusions.tooltip=List of classes which are excluded by the ASM hooks which are excluded from fog tracking.
+
 config.beddium.terrainrendering.NetherliciousCompat=Netherlicious Compat
 config.beddium.terrainrendering.NetherliciousCompat.tooltip=Fixes compatibility with Netherlicious.\nWithout this, you may see intense flickering in the Nether.
 

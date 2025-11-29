@@ -20,31 +20,38 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.ventooth.beddium.mixin.plugin;
+package com.ventooth.beddium.asm;
 
-import com.falsepattern.lib.mixin.IMixin;
-import com.falsepattern.lib.mixin.IMixinPlugin;
-import com.falsepattern.lib.mixin.ITargetedMod;
-import com.ventooth.beddium.Tags;
-import lombok.Getter;
-import org.apache.logging.log4j.Logger;
+import lombok.NoArgsConstructor;
 
-public class MixinPlugin implements IMixinPlugin {
-    @Getter
-    private final Logger logger = IMixinPlugin.createLogger(Tags.MOD_NAME);
+import net.minecraft.launchwrapper.ITweaker;
+import net.minecraft.launchwrapper.Launch;
+import net.minecraft.launchwrapper.LaunchClassLoader;
 
+import java.io.File;
+import java.util.List;
+
+@NoArgsConstructor
+public final class PostMixinTweaker implements ITweaker {
     @Override
-    public ITargetedMod[] getTargetedModEnumValues() {
-        return TargetedMod.values();
+    public String[] getLaunchArguments() {
+        Launch.classLoader.registerTransformer(ShareAsm.TRANSFORMER);
+        ShareAsm.log.debug("Registered PostMixinTransformers");
+        return new String[0];
+    }
+
+    // region Unused
+    @Override
+    public void acceptOptions(List<String> args, File gameDir, File assetsDir, String profile) {
     }
 
     @Override
-    public IMixin[] getMixinEnumValues() {
-        return Mixin.values();
+    public void injectIntoClassLoader(LaunchClassLoader classLoader) {
     }
 
     @Override
-    public boolean useNewFindJar() {
-        return true;
+    public String getLaunchTarget() {
+        return null;
     }
+    // endregion
 }

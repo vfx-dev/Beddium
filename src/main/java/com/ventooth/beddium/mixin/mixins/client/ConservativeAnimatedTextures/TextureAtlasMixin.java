@@ -33,7 +33,8 @@ import net.minecraft.client.renderer.texture.TextureMap;
 
 import java.util.Iterator;
 
-@Mixin(value = TextureMap.class, priority = 1010)
+@Mixin(value = TextureMap.class,
+       priority = 1010)
 public abstract class TextureAtlasMixin {
     @ModifyExpressionValue(method = "updateAnimations",
                            at = @At(value = "INVOKE",

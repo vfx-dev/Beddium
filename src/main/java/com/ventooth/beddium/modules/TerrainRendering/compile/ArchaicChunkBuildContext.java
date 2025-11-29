@@ -25,9 +25,9 @@ package com.ventooth.beddium.modules.TerrainRendering.compile;
 import com.ventooth.beddium.Share;
 import com.ventooth.beddium.config.ModuleConfig;
 import com.ventooth.beddium.modules.TerrainRendering.ArchaicRenderPassConfigurationBuilder;
-import com.ventooth.beddium.modules.TerrainRendering.vertex.CompatibleChunkVertex;
 import com.ventooth.beddium.modules.TerrainRendering.ext.TextureAtlasSpriteExt;
 import com.ventooth.beddium.modules.TerrainRendering.ext.TextureMapExt;
+import com.ventooth.beddium.modules.TerrainRendering.vertex.CompatibleChunkVertex;
 import lombok.val;
 import org.embeddedt.embeddium.impl.render.chunk.RenderPassConfiguration;
 import org.embeddedt.embeddium.impl.render.chunk.compile.ChunkBuildBuffers;
@@ -106,9 +106,7 @@ public class ArchaicChunkBuildContext extends ChunkBuildContext {
             val facing = QuadUtil.findNormalFace(trueNormal);
 
             val correctMaterial = selectMaterial(material, sprite);
-            buffers.get(correctMaterial)
-                   .getVertexBuffer(facing)
-                   .push(vertices, correctMaterial);
+            buffers.get(correctMaterial).getVertexBuffer(facing).push(vertices, correctMaterial);
         }
     }
 

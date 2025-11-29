@@ -31,7 +31,11 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class ConfigFixUtil {
+public final class ConfigFixUtil {
+    private ConfigFixUtil() {
+        throw new UnsupportedOperationException();
+    }
+
     public static void fixConfig(String configFile, Function<String, String> lineTransformer, Consumer<IOException> exceptionHandler) {
         val targetPath = FileUtil.getMinecraftHomePath().resolve("config").resolve(configFile);
         if (!Files.exists(targetPath)) {

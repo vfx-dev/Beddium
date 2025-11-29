@@ -32,13 +32,22 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 @Mixin(value = AbstractSection.class,
        remap = false)
 public class AbstractSectionMixin {
-    @ModifyConstant(method = {"getCenterX", "getCenterY", "getCenterZ"},
+    @ModifyConstant(method = {
+            "getCenterX",
+            "getCenterY",
+            "getCenterZ"
+    },
                     constant = @Constant(intValue = 8),
                     require = 3)
     private int extendChunk1(int constant) {
         return MegaChunkMetadata.BLOCKS_PER_WR_EDGE / 2;
     }
-    @ModifyConstant(method = {"getOriginX", "getOriginY", "getOriginZ"},
+
+    @ModifyConstant(method = {
+            "getOriginX",
+            "getOriginY",
+            "getOriginZ"
+    },
                     constant = @Constant(intValue = 4),
                     require = 3)
     private int extendChunk2(int constant) {
