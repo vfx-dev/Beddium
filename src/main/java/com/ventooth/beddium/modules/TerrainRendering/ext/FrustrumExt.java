@@ -20,27 +20,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.ventooth.beddium.mixin.plugin;
+package com.ventooth.beddium.modules.TerrainRendering.ext;
 
-import com.falsepattern.lib.mixin.ITargetedMod;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import org.joml.Vector3d;
 
-import java.util.function.Predicate;
+import net.minecraft.client.renderer.culling.ICamera;
 
-import static com.falsepattern.lib.mixin.ITargetedMod.PredicateHelpers.contains;
+public interface FrustrumExt {
+    static FrustrumExt of(ICamera thiz) {
+        if (thiz instanceof FrustrumExt ext) {
+            return ext;
+        }
+        throw new IllegalArgumentException("Unsupported frustrum, some mod doing custom culling? Class: " + thiz.getClass());
+    }
 
-@RequiredArgsConstructor
-enum TargetedMod implements ITargetedMod {
-    SWANSONG("SwanSong", false, contains("swansong-")),
-    NETHERLICIOUS("Netherlicious", false, contains("netherlicious-")),
-    ICHUN_DOORS("iChun Doors", false, contains("Doors-")),
-    ;
+    default boolean beddium$isBoxInFrustum(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+        return beddium$isBoxInFrustum(minX, minY, minZ, maxX, maxY, (double) maxZ);
+    }
 
-    @Getter
-    private final String modName;
-    @Getter
-    private final boolean loadInDevelopment;
-    @Getter
-    private final Predicate<String> condition;
+    boolean beddium$isBoxInFrustum(double minX, double minY, double minZ, double maxX, double maxY, double maxZ);
+
+    Vector3d beddium$getPosition();
 }

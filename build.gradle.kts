@@ -97,6 +97,12 @@ dependencies {
     // netherlicious-3.2.8.jar
     compileOnly(deobfCurse("netherlicious-385860:4363437"))
 
+    // iChunUtil-4.2.3.jar
+    // Needed for doors mod when testing
+//    runtimeOnly(deobfCurse("ichunutil-229060:2338148"))
+
+    // Doors-4.0.1.jar
+    compileOnly(deobfCurse("doorsbyichun-229070:2232517"))
 
     // WelcomeToTheJungle-1.0.9-1.7.10.jar
     // Here for testing the Fast Fog implementation

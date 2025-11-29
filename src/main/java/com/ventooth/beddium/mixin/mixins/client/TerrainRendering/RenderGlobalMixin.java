@@ -22,7 +22,6 @@
 
 package com.ventooth.beddium.mixin.mixins.client.TerrainRendering;
 
-import com.falsepattern.lib.util.RenderUtil;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.ventooth.beddium.Compat;
@@ -30,6 +29,7 @@ import com.ventooth.beddium.Share;
 import com.ventooth.beddium.modules.TerrainRendering.CameraHelper;
 import com.ventooth.beddium.modules.TerrainRendering.CeleritasWorldRenderer;
 import com.ventooth.beddium.modules.TerrainRendering.TerrainRenderingModule;
+import com.ventooth.beddium.modules.TerrainRendering.ext.FrustrumExt;
 import com.ventooth.beddium.modules.TerrainRendering.ext.RenderGlobalExt;
 import lombok.val;
 import org.embeddedt.embeddium.impl.gl.device.RenderDevice;
@@ -55,7 +55,6 @@ import net.minecraft.client.renderer.DestroyBlockProgress;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.culling.Frustrum;
 import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.EntityLivingBase;
@@ -191,9 +190,9 @@ public abstract class RenderGlobalMixin implements RenderGlobalExt {
         try {
             final Viewport viewport;
             if (Compat.isSwansongInitialized() && Compat.shadowPassActive()) {
-                viewport = celeritas$createShadowViewport((Frustrum) camera);
+                viewport = celeritas$createShadowViewport(FrustrumExt.of(camera), partialTick);
             } else {
-                viewport = celeritas$createViewport((Frustrum) camera);
+                viewport = celeritas$createViewport(FrustrumExt.of(camera));
             }
             celeritas$worldRenderer.setupTerrain(viewport, partialTick, celeritas$frame++, this.mc.thePlayer.noClip, false);
         } finally {
@@ -202,16 +201,18 @@ public abstract class RenderGlobalMixin implements RenderGlobalExt {
     }
 
     @Unique
-    private static Viewport celeritas$createShadowViewport(Frustrum frustrum) {
-        val pos = CameraHelper.getCurrentCameraPosition(RenderUtil.partialTick());
-        return new Viewport(((minX, minY, minZ, maxX, maxY, maxZ) -> frustrum.clippingHelper.isBoxInFrustum(minX + pos.x, minY + pos.y, minZ + pos.z, maxX + pos.x, maxY + pos.y,
-                                                                                                            maxZ + pos.z)), pos);
+    private static Viewport celeritas$createShadowViewport(FrustrumExt frustrum, float partialTick) {
+        val pos = CameraHelper.getCurrentCameraPosition(partialTick);
+        // @formatter:off
+        return new Viewport((minX, minY, minZ, maxX, maxY, maxZ) ->
+                            frustrum.beddium$isBoxInFrustum(minX + pos.x, minY + pos.y, minZ + pos.z, maxX + pos.x, maxY + pos.y, maxZ + pos.z),
+                            pos);
+        // @formatter:on
     }
 
     @Unique
-    private static Viewport celeritas$createViewport(Frustrum frustrum) {
-        return new Viewport(((minX, minY, minZ, maxX, maxY, maxZ) -> frustrum.clippingHelper.isBoxInFrustum(minX, minY, minZ, maxX, maxY, maxZ)),
-                            new org.joml.Vector3d(frustrum.xPosition, frustrum.yPosition, frustrum.zPosition));
+    private static Viewport celeritas$createViewport(FrustrumExt frustrum) {
+        return new Viewport(frustrum::beddium$isBoxInFrustum, frustrum.beddium$getPosition());
     }
 
     /**
