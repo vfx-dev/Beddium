@@ -26,3 +26,18 @@ config.beddium.terrainrendering.ChunkDrawMode.tooltip=改变世界边缘区块�
 
 config.beddium.terrainrendering.UseMultiDrawIndirect=间接多重绘制
 config.beddium.terrainrendering.UseMultiDrawIndirect.tooltip=控制是否应使用间接多重绘制来绘制区块。\n此选项是在渲染区块时 CPU 和 GPU 开销之间的权衡。\n在大多数情况下，最好保持禁用，尤其是在英特尔核芯显卡上。\n如果您受 CPU 限制，在渲染距离超过 16 时可以提高性能。
+
+config.beddium.terrainrendering.FastFog=更快的迷雾逻辑
+config.beddium.terrainrendering.FastFog.tooltip=使用一种能显著提升性能的迷雾渲染方法。\n如果在某些维度中迷雾显示异常，可关闭此选项；若修复无效则建议保持开启
+
+config.beddium.terrainrendering.FastFogAsm=更快的迷雾逻辑 ASM
+config.beddium.terrainrendering.FastFogAsm.tooltip=是否使用额外的 ASM 钩子来辅助追踪迷雾状态
+
+config.beddium.terrainrendering.FastFogAsmExclusions=更快的迷雾逻辑 ASM 排除项
+config.beddium.terrainrendering.FastFogAsmExclusions.tooltip=ASM 钩子从迷雾追踪中排除的类列表
+
+config.beddium.terrainrendering.NetherliciousCompat=Netherlicious 兼容
+config.beddium.terrainrendering.NetherliciousCompat.tooltip=修复与 Netherlicious 模组的兼容性问题。\n若不开启，在下界可能出现严重画面闪烁
+
+config.beddium.terrainrendering.AlwaysTranslucentSprites=始终视为透明的贴图
+config.beddium.terrainrendering.AlwaysTranslucentSprites.tooltip=应始终被视为透明处理的贴图列表。\nBeddium 包含可自动降级不透明贴图的功能，\n这些贴图在不透明通道中会被错误渲染。\n添加至此列表的纹理将始终按透明方式处理。\n\n需要重载资源包 (F3+T)
