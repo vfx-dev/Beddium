@@ -22,13 +22,10 @@
 
 package com.ventooth.beddium.mixin.mixins.client.TerrainRendering;
 
-import com.falsepattern.lib.util.MathUtil;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.ventooth.beddium.config.TerrainRenderingConfig;
 import com.ventooth.beddium.modules.TerrainRendering.fog.FogStateTracker;
-import lombok.val;
-import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -46,38 +43,8 @@ public abstract class EntityRendererMixin {
 
     @Inject(method = "setupFog",
             at = @At(value = "RETURN"))
-    private void applyFogBias(CallbackInfo ci) {
-        val fogBias = (float) TerrainRenderingConfig.FastChunkDrawModeFogBias;
-        if (TerrainRenderingConfig.ChunkDrawMode != TerrainRenderingConfig.DrawModeEnum.Fast || MathUtil.epsilonEquals(fogBias, 0F)) {
-            return;
-        }
-
-        float fogEnd;
-        float fogStart;
-        if (TerrainRenderingConfig.FastFog) {
-            fogEnd = FogStateTracker.end;
-            fogStart = FogStateTracker.start;
-        } else {
-            fogEnd = GL11.glGetInteger(GL11.GL_FOG_END);
-            fogStart = GL11.glGetInteger(GL11.GL_FOG_START);
-        }
-        val maxFogEnd = this.farPlaneDistance + fogBias;
-
-        if (maxFogEnd >= fogEnd || fogStart > fogEnd) {
-            return;
-        }
-
-        val biasRatio = maxFogEnd / fogEnd;
-        fogEnd = maxFogEnd;
-        fogStart *= biasRatio;
-
-        GL11.glFogf(GL11.GL_FOG_END, fogEnd);
-        GL11.glFogf(GL11.GL_FOG_START, fogStart);
-
-        if (TerrainRenderingConfig.FastFog) {
-            FogStateTracker.end = fogEnd;
-            FogStateTracker.start = fogStart;
-        }
+    private void hook_postSetupFog(CallbackInfo ci) {
+        FogStateTracker.postSetupFog(this.farPlaneDistance);
     }
 
     @WrapOperation(method = "setupFog",

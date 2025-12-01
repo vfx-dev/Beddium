@@ -22,8 +22,11 @@
 
 package com.ventooth.beddium.modules.TerrainRendering.fog;
 
+import com.falsepattern.lib.util.MathUtil;
 import com.ventooth.beddium.Share;
 import com.ventooth.beddium.config.ModuleConfig;
+import com.ventooth.beddium.config.TerrainRenderingConfig;
+import lombok.val;
 import org.embeddedt.embeddium.impl.render.chunk.shader.ChunkFogMode;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.BufferUtils;
@@ -34,8 +37,8 @@ import java.nio.FloatBuffer;
 public final class FogStateTracker {
     static final FloatBuffer color = BufferUtils.createFloatBuffer(16);
 
-    public static float end = 1000F;
-    public static float start = 1000F;
+    static float end = 1000F;
+    static float start = 1000F;
     static float density = 0.1F;
 
     static boolean isEnabled = false;
@@ -53,6 +56,44 @@ public final class FogStateTracker {
         end = GL11.glGetInteger(GL11.GL_FOG_END);
         start = GL11.glGetInteger(GL11.GL_FOG_START);
         density = GL11.glGetInteger(GL11.GL_FOG_DENSITY);
+    }
+    
+    public static void postSetupFog(float farPlaneDistance) {
+        if (TerrainRenderingConfig.ChunkDrawMode != TerrainRenderingConfig.DrawModeEnum.Fast) {
+            return;
+        }
+
+        val fogBias = (float) TerrainRenderingConfig.FastChunkDrawModeFogBias;
+        if (MathUtil.epsilonEquals(fogBias, 0F)) {
+            return;
+        }
+
+        float fogEnd;
+        float fogStart;
+        if (TerrainRenderingConfig.FastFog) {
+            fogEnd = FogStateTracker.end;
+            fogStart = FogStateTracker.start;
+        } else {
+            fogEnd = GL11.glGetInteger(GL11.GL_FOG_END);
+            fogStart = GL11.glGetInteger(GL11.GL_FOG_START);
+        }
+        val maxFogEnd = farPlaneDistance + fogBias;
+
+        if (maxFogEnd >= fogEnd || fogStart > fogEnd) {
+            return;
+        }
+
+        val biasRatio = maxFogEnd / fogEnd;
+        fogEnd = maxFogEnd;
+        fogStart *= biasRatio;
+
+        GL11.glFogf(GL11.GL_FOG_END, fogEnd);
+        GL11.glFogf(GL11.GL_FOG_START, fogStart);
+
+        if (TerrainRenderingConfig.FastFog) {
+            FogStateTracker.end = fogEnd;
+            FogStateTracker.start = fogStart;
+        }
     }
 
     public static void glFog(int pname, FloatBuffer params) {
