@@ -96,6 +96,8 @@ dependencies {
 
     // netherlicious-3.2.8.jar
     compileOnly(deobfCurse("netherlicious-385860:4363437"))
+    // FlenixCitiesCore_[1.7.10]-0.17.0-b139.jar
+    compileOnly(deobfCurse("flenixcities-237634:2722234"))
 
     // iChunUtil-4.2.3.jar
     // Needed for doors mod when testing

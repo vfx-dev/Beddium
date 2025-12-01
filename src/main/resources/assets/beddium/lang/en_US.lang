@@ -44,3 +44,6 @@ config.beddium.terrainrendering.NetherliciousCompat.tooltip=Fixes compatibility 
 
 config.beddium.terrainrendering.AlwaysTranslucentSprites=Always Translucent Sprites
 config.beddium.terrainrendering.AlwaysTranslucentSprites.tooltip=List of sprites which should always be treated as translucent.\nBeddium includes a feature which can automatically downgrade opaque sprites,\nincorrectly rendered on the opaque pass. Textures added to this list will\nalways be considered translucent.\n\nRequires ResourcePack reload (F3+T)
+
+config.beddium.terrainrendering.LockTessellatorMode=Lock Tessellator
+config.beddium.terrainrendering.LockTessellatorMode.tooltip=Allows Beddium to 'lock' the tessellator.\nEnable to help debug blocks making chunks turn invisible.\nHas a minor performance impact on chunk updates.

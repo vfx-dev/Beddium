@@ -34,6 +34,7 @@ import java.util.function.Supplier;
 @AllArgsConstructor
 enum Cfg implements Predicate<List<ITargetedMod>> {
     TerrainRendering(() -> ModuleConfig.TerrainRendering),
+    LockTessellator(() -> ModuleConfig.TerrainRendering && TerrainRenderingConfig.LockTessellator),
     NetherliciousCompat(() -> ModuleConfig.TerrainRendering && TerrainRenderingConfig.NetherliciousCompat),
     BiomeColorCache(() -> ModuleConfig.BiomeColorCache),
     ConservativeAnimatedTextures(() -> ModuleConfig.ConservativeAnimatedTextures),

@@ -32,6 +32,7 @@ import com.ventooth.beddium.modules.MEGAChunks.MEGASectionVisibilityBuilder;
 import com.ventooth.beddium.modules.TerrainRendering.CeleritasWorldRenderer;
 import com.ventooth.beddium.modules.TerrainRendering.TerrainRenderingModule;
 import com.ventooth.beddium.modules.TerrainRendering.compile.ArchaicChunkBuildContext;
+import com.ventooth.beddium.modules.TerrainRendering.compat.LockableTess;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceMap;
@@ -146,7 +147,7 @@ public abstract class SimpleChunkBuilderMeshingTask extends ChunkBuilderTask<Chu
         BiomeColorCacheModule.update(chunkCache, this.render.getChunkX(), this.render.getChunkY(), this.render.getChunkZ());
 
         var renderBlocks = new RenderBlocks(chunkCache);
-        var tessellator = getTessellator();
+        val tessellator = getTessellator();
 
         tessellator.setTranslation(-minX, -minY, -minZ);
 
@@ -214,6 +215,10 @@ public abstract class SimpleChunkBuilderMeshingTask extends ChunkBuilderTask<Chu
             if (tessellator.isDrawing) {
                 buildContext.copyRawBuffer(tessellator.rawBuffer, tessellator.vertexCount, buffers, buffers.getRenderPassConfiguration().getMaterialForRenderType(0));
                 tessellator.isDrawing = false;
+
+                if (tessellator instanceof LockableTess lockableTess) {
+                    lockableTess.beddium$unlock();
+                }
                 tessellator.reset();
                 setRenderPass(-1);
             }
@@ -260,6 +265,9 @@ public abstract class SimpleChunkBuilderMeshingTask extends ChunkBuilderTask<Chu
                 if (tessellator.isDrawing) {
                     buildContext.copyRawBuffer(tessellator.rawBuffer, tessellator.vertexCount, buffers, buffers.getRenderPassConfiguration().getMaterialForRenderType(pass));
                     tessellator.isDrawing = false;
+                    if (tessellator instanceof LockableTess lockableTess) {
+                        lockableTess.beddium$unlock();
+                    }
                     tessellator.reset();
                     setRenderPass(-1);
                 }
@@ -271,6 +279,10 @@ public abstract class SimpleChunkBuilderMeshingTask extends ChunkBuilderTask<Chu
             // Create a new crash report for other exceptions (e.g. thrown in getQuads)
             throw fillCrashInfo(CrashReport.makeCrashReport(ex, "Encountered exception while building chunk meshes"), chunkCache, blockX, blockY, blockZ);
         } finally {
+            if (tessellator instanceof LockableTess lockableTess) {
+                lockableTess.beddium$unlock();
+            }
+
             BiomeColorCacheModule.toggleCacheActive(false);
             tessellator.setTranslation(0, 0, 0);
             if (chunkCache instanceof StateAwareCache state) {
@@ -340,6 +352,9 @@ public abstract class SimpleChunkBuilderMeshingTask extends ChunkBuilderTask<Chu
             if (!tessellator.isDrawing) {
                 setRenderPass(pass);
                 tessellator.startDrawingQuads();
+                if (tessellator instanceof LockableTess lockableTess) {
+                    lockableTess.beddium$lock();
+                }
             }
 
             if (canFluidBlockRender) {

@@ -20,28 +20,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.ventooth.beddium.mixin.plugin;
+package com.ventooth.beddium.modules.TerrainRendering.compat;
 
-import com.falsepattern.lib.mixin.ITargetedMod;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
-import java.util.function.Predicate;
-
-import static com.falsepattern.lib.mixin.ITargetedMod.PredicateHelpers.contains;
-
-@RequiredArgsConstructor
-enum TargetedMod implements ITargetedMod {
-    SWANSONG("SwanSong", false, contains("swansong-")),
-    NETHERLICIOUS("Netherlicious", false, contains("netherlicious-")),
-    ICHUN_DOORS("iChun Doors", false, contains("Doors-")),
-    FLENIX_CITIES("FlenixCities", true, contains("FlenixCitiesCore_")),
-    ;
-
-    @Getter
-    private final String modName;
-    @Getter
-    private final boolean loadInDevelopment;
-    @Getter
-    private final Predicate<String> condition;
+public interface LockableTess {
+    void beddium$lock();
+    
+    void beddium$unlock();
 }
