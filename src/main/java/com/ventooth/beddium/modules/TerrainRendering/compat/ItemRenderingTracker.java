@@ -20,28 +20,35 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.ventooth.beddium.mixin.plugin;
+package com.ventooth.beddium.modules.TerrainRendering.compat;
 
-import com.falsepattern.lib.mixin.ITargetedMod;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.val;
 
-import java.util.function.Predicate;
+public final class ItemRenderingTracker {
+    private static final int MAX_LEVEL = 20;
+    private static final ThreadLocal<Integer> stack = ThreadLocal.withInitial(() -> 0);
 
-import static com.falsepattern.lib.mixin.ITargetedMod.PredicateHelpers.contains;
+    private ItemRenderingTracker() {
+        throw new UnsupportedOperationException();
+    }
 
-@RequiredArgsConstructor
-enum TargetedMod implements ITargetedMod {
-    SWANSONG("SwanSong", false, contains("swansong-")),
-    NETHERLICIOUS("Netherlicious", false, contains("netherlicious-")),
-    ICHUN_DOORS("iChun Doors", false, contains("Doors-")),
-    FLENIX_CITIES("FlenixCities", true, contains("FlenixCitiesCore_")),
-    ;
+    public static void preRenderItem() {
+        val cur = stack.get() + 1;
+        if (cur > MAX_LEVEL) {
+            throw new AssertionError("I messed up");
+        }
+        stack.set(cur);
+    }
 
-    @Getter
-    private final String modName;
-    @Getter
-    private final boolean loadInDevelopment;
-    @Getter
-    private final Predicate<String> condition;
+    public static void postRenderItem() {
+        val cur = stack.get() - 1;
+        if (cur < 0) {
+            throw new AssertionError("I messed up");
+        }
+        stack.set(cur);
+    }
+
+    public static boolean isRenderingItem() {
+        return stack.get() > 0;
+    }
 }
