@@ -145,6 +145,17 @@ public final class TerrainRenderingConfig {
     @Config.DefaultStringList({"jewelrycraft2:blockCrystal"})
     public static String[] AlwaysTranslucentSprites;
 
+    @Config.Name("LockTessellatorMode")
+    @Config.Comment({
+            "Allows Beddium to 'lock' the tessellator.",
+            "Enable to help debug blocks making chunks turn invisible.",
+            "Has a minor performance impact on chunk updates.",
+    })
+    @Config.LangKey("config.beddium.terrainrendering.LockTessellatorMode")
+    @Config.RequiresMcRestart
+    @Config.DefaultBoolean(false)
+    public static boolean LockTessellator;
+
     public enum DrawModeEnum {
         Vanilla,
         Fast
