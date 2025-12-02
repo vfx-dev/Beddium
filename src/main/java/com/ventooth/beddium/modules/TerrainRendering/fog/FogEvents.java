@@ -46,7 +46,7 @@ public final class FogEvents {
     @SubscribeEvent(priority = EventPriority.LOWEST,
                     receiveCanceled = true)
     public void onFogDensity(EntityViewRenderEvent.FogDensity event) {
-        if (TerrainRenderingConfig.FastFog) {
+        if (event.isCanceled() && TerrainRenderingConfig.FastFog) {
             FogState.density = event.density;
         }
     }
