@@ -20,31 +20,27 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.ventooth.beddium.mixin.plugin;
+package com.ventooth.beddium.mixin;
 
-import com.falsepattern.lib.mixin.IMixin;
-import com.falsepattern.lib.mixin.IMixinPlugin;
-import com.falsepattern.lib.mixin.ITargetedMod;
-import com.ventooth.beddium.Tags;
-import lombok.Getter;
-import org.apache.logging.log4j.Logger;
+import com.gtnewhorizon.gtnhmixins.ILateMixinLoader;
+import com.gtnewhorizon.gtnhmixins.LateMixin;
+import com.gtnewhorizon.gtnhmixins.builders.IMixins;
+import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
-public class MixinPlugin implements IMixinPlugin {
-    @Getter
-    private final Logger logger = IMixinPlugin.createLogger(Tags.MOD_NAME);
+import java.util.List;
+import java.util.Set;
 
+@LateMixin
+@NoArgsConstructor
+public final class LateMixins implements ILateMixinLoader {
     @Override
-    public ITargetedMod[] getTargetedModEnumValues() {
-        return TargetedMod.values();
+    public String getMixinConfig() {
+        return "mixins.beddium.late.json";
     }
 
     @Override
-    public IMixin[] getMixinEnumValues() {
-        return Mixin.values();
-    }
-
-    @Override
-    public boolean useNewFindJar() {
-        return true;
+    public @NotNull List<String> getMixins(Set<String> loadedMods) {
+        return IMixins.getLateMixins(Mixin.class, loadedMods);
     }
 }

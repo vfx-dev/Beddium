@@ -21,7 +21,6 @@ minecraft_fp {
 
     mixin {
         pkg = "mixin.mixins"
-        pluginClass = "mixin.plugin.MixinPlugin"
     }
 
     core {

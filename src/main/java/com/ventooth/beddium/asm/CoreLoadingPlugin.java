@@ -22,8 +22,11 @@
 
 package com.ventooth.beddium.asm;
 
+import com.gtnewhorizon.gtnhmixins.IEarlyMixinLoader;
+import com.gtnewhorizon.gtnhmixins.builders.IMixins;
 import com.ventooth.beddium.config.Configs;
 import com.ventooth.beddium.config.TerrainRenderingConfig;
+import com.ventooth.beddium.mixin.Mixin;
 import lombok.NoArgsConstructor;
 import lombok.val;
 import org.spongepowered.asm.launch.GlobalProperties;
@@ -34,6 +37,7 @@ import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @IFMLLoadingPlugin.Name(ShareAsm.ASM_NAME)
 @IFMLLoadingPlugin.MCVersion("1.7.10")
@@ -41,7 +45,7 @@ import java.util.Map;
 @IFMLLoadingPlugin.TransformerExclusions(ShareAsm.ASM_PKG)
 @NoArgsConstructor
 @SuppressWarnings("unused")
-public final class CoreLoadingPlugin implements IFMLLoadingPlugin {
+public final class CoreLoadingPlugin implements IFMLLoadingPlugin, IEarlyMixinLoader {
     static {
         Configs.poke();
         Launch.blackboard.put(ShareAsm.TRACKED_FOG_STATE_ASM_EXCLUSIONS_KEY, TerrainRenderingConfig.FastFogAsmExclusions);
@@ -65,6 +69,16 @@ public final class CoreLoadingPlugin implements IFMLLoadingPlugin {
             ShareAsm.log.error("Failed to register PostMixinTweaker, things might not work as planned!");
         }
         return new String[0];
+    }
+
+    @Override
+    public String getMixinConfig() {
+        return "mixins.beddium.early.json";
+    }
+
+    @Override
+    public List<String> getMixins(Set<String> loadedCoreMods) {
+        return IMixins.getEarlyMixins(Mixin.class, loadedCoreMods);
     }
 
     // region Unused
