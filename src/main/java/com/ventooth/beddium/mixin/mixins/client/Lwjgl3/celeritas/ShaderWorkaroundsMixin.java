@@ -36,20 +36,20 @@ import java.nio.ByteBuffer;
 @Lwjgl3Aware
 @Mixin(targets = "org.embeddedt.embeddium.impl.gl.shader.ShaderWorkarounds",
        remap = false)
-public class ShaderWorkaroundsMixin {
+public abstract class ShaderWorkaroundsMixin {
     /**
      * @author FalsePattern
      * @reason Lwjgl3
      */
     @Overwrite
     static void safeShaderSource(int glId, CharSequence source) {
-		try (MemoryStack stack = MemoryStack.stackPush()) {
-			final ByteBuffer sourceBuffer = MemoryUtil.memUTF8(source, true);
-			final PointerBuffer pointers = stack.mallocPointer(1);
-			pointers.put(sourceBuffer);
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            final ByteBuffer sourceBuffer = MemoryUtil.memUTF8(source, true);
+            final PointerBuffer pointers = stack.mallocPointer(1);
+            pointers.put(sourceBuffer);
 
-			GL20C.nglShaderSource(glId, 1, pointers.address0(), 0);
-			APIUtil.apiArrayFree(pointers.address0(), 1);
-		}
+            GL20C.nglShaderSource(glId, 1, pointers.address0(), 0);
+            APIUtil.apiArrayFree(pointers.address0(), 1);
+        }
     }
 }

@@ -23,10 +23,10 @@
 package com.ventooth.beddium.mixin.mixins.client.Lwjgl3.celeritas;
 
 import com.ventooth.beddium.stubpackage.me.eigenraven.lwjgl3ify.api.Lwjgl3Aware;
-import org.embeddedt.embeddium.impl.gl.sync.GlFence;
 import com.ventooth.beddium.stubpackage.org.lwjgl.opengl.GL32C;
-import com.ventooth.beddium.stubpackage.org.lwjglx.opengl.GLSync;
 import com.ventooth.beddium.stubpackage.org.lwjgl.system.MemoryStack;
+import com.ventooth.beddium.stubpackage.org.lwjglx.opengl.GLSync;
+import org.embeddedt.embeddium.impl.gl.sync.GlFence;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -38,16 +38,14 @@ import java.nio.IntBuffer;
 @Mixin(value = GlFence.class,
        remap = false)
 public abstract class GlFenceMixin {
+    @Final
+    @Shadow
+    private Object id;
+    @Shadow
+    private boolean disposed;
 
     @Shadow
     protected abstract void checkDisposed();
-
-    @Shadow
-    @Final
-    private Object id;
-
-    @Shadow
-    private boolean disposed;
 
     /**
      * @author FalsePattern
@@ -61,7 +59,7 @@ public abstract class GlFenceMixin {
 
         try (MemoryStack stack = MemoryStack.stackPush()) {
             IntBuffer count = stack.callocInt(1);
-            result = GL32C.glGetSynci(((GLSync)this.id).getPointer(), GL32C.GL_SYNC_STATUS, count);
+            result = GL32C.glGetSynci(((GLSync) this.id).getPointer(), GL32C.GL_SYNC_STATUS, count);
 
             if (count.get(0) != 1) {
                 throw new RuntimeException("glGetSync returned more than one value");
@@ -78,7 +76,7 @@ public abstract class GlFenceMixin {
     @Overwrite
     public void sync(long timeout) {
         this.checkDisposed();
-        GL32C.glWaitSync(((GLSync)this.id).getPointer(), GL32C.GL_SYNC_FLUSH_COMMANDS_BIT, timeout);
+        GL32C.glWaitSync(((GLSync) this.id).getPointer(), GL32C.GL_SYNC_FLUSH_COMMANDS_BIT, timeout);
     }
 
     /**
@@ -87,7 +85,7 @@ public abstract class GlFenceMixin {
      */
     @Overwrite
     public void delete() {
-        GL32C.glDeleteSync(((GLSync)this.id).getPointer());
+        GL32C.glDeleteSync(((GLSync) this.id).getPointer());
         this.disposed = true;
     }
 }

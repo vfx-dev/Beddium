@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
 @Mixin(targets = "org.embeddedt.embeddium.impl.gl.functions.MultidrawFunctions$3")
-public class MultidrawFunctionsMixin {
+public abstract class MultidrawFunctionsMixin {
     /**
      * @author FalsePattern
      * @reason Lwjgl3
