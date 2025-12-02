@@ -31,7 +31,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 //SUSCRIBE NOW!
 @Mixin(value = PositionUtil.class,
        remap = false)
-public class PositionUtilMixin {
+public abstract class PositionUtilMixin {
     @ModifyConstant(method = "posToSectionCoord(I)I",
                     constant = @Constant(intValue = 4),
                     require = 1)

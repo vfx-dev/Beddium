@@ -31,7 +31,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 //DON'T FORGET TO [Like and Subscribe] FOR MORE [Hyperlink Blocked]!
 @Mixin(value = OcclusionCuller.class,
        remap = false)
-public class OcclusionCullerMixin {
+public abstract class OcclusionCullerMixin {
     @ModifyConstant(method = "isWithinRenderDistance",
                     constant = @Constant(intValue = 16),
                     require = 3)

@@ -31,7 +31,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 //HAEAHAEAHAEAHAEAH!!
 @Mixin(value = AbstractSection.class,
        remap = false)
-public class AbstractSectionMixin {
+public abstract class AbstractSectionMixin {
     @ModifyConstant(method = {
             "getCenterX",
             "getCenterY",
