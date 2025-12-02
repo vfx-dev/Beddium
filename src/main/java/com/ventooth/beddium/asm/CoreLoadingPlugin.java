@@ -24,8 +24,6 @@ package com.ventooth.beddium.asm;
 
 import com.gtnewhorizon.gtnhmixins.IEarlyMixinLoader;
 import com.gtnewhorizon.gtnhmixins.builders.IMixins;
-import com.ventooth.beddium.Share;
-import com.ventooth.beddium.Tags;
 import com.ventooth.beddium.config.Configs;
 import com.ventooth.beddium.config.TerrainRenderingConfig;
 import com.ventooth.beddium.mixin.Mixin;
@@ -37,7 +35,6 @@ import org.spongepowered.asm.service.mojang.MixinServiceLaunchWrapper;
 import net.minecraft.launchwrapper.Launch;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
-import javax.swing.JOptionPane;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -61,22 +58,7 @@ public final class CoreLoadingPlugin implements IFMLLoadingPlugin, IEarlyMixinLo
 
     @Override
     public String[] getASMTransformerClass() {
-        boolean lwjgl3 = false;
-        try {
-            Class.forName("org.lwjgl.system.MemoryUtil", false, CoreLoadingPlugin.class.getClassLoader());
-            lwjgl3 = true;
-        } catch (Throwable ignored) {}
-        if (lwjgl3) {
-            val msg = "You're trying to use the java 8 version of beddium on modern java!\nPlease replace beddium version " + Tags.MOD_VERSION + " with " + Tags.MOD_VERSION.replace("j8", "j21") + "!";
-            Share.log.fatal(msg);
-            try {
-                JOptionPane.showMessageDialog(null, msg, "Wrong Beddium Version!", JOptionPane.ERROR_MESSAGE);
-            } catch (Throwable ignored) {}
-            System.exit(1);
-            throw new Error(msg);
-            //TODO uncouple j21 builds and lwjgl3
-            // return new String[]{Tags.ROOT_PKG + ".asm.Lwjgl3ifyTransformer"};
-        }
+        JavaVersionCheck.ensureJ8();
 
         val mixinTweakClasses = GlobalProperties.<List<String>>get(MixinServiceLaunchWrapper.BLACKBOARD_KEY_TWEAKCLASSES);
         if (mixinTweakClasses != null) {
