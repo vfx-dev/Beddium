@@ -44,7 +44,7 @@ public final class FogGL {
         FogState.enabled = GL11.glGetBoolean(GL11.GL_FOG);
         FogState.mode = GL11.glGetInteger(GL11.GL_FOG_MODE);
 
-        GL11.glGetFloatv(GL11.GL_FOG_COLOR, tempBuf);
+        GL11.glGetFloat(GL11.GL_FOG_COLOR, tempBuf);
         FogState.red = tempBuf.get(0);
         FogState.green = tempBuf.get(1);
         FogState.blue = tempBuf.get(2);
@@ -65,7 +65,7 @@ public final class FogGL {
         tempBuf.put(0, FogState.red);
         tempBuf.put(1, FogState.green);
         tempBuf.put(2, FogState.blue);
-        GL11.glFogfv(GL11.GL_FOG_COLOR, tempBuf);
+        GL11.glFog(GL11.GL_FOG_COLOR, tempBuf);
 
         GL11.glFogf(GL11.GL_FOG_START, FogState.start);
         GL11.glFogf(GL11.GL_FOG_END, FogState.end);
@@ -92,7 +92,7 @@ public final class FogGL {
             mismatches++;
         }
 
-        GL11.glGetFloatv(GL11.GL_FOG_COLOR, tempBuf);
+        GL11.glGetFloat(GL11.GL_FOG_COLOR, tempBuf);
         val red = tempBuf.get(0);
         if (MathUtil.epsilonEquals(FogState.red, red)) {
             Share.log.info("FogState.red=[{}]", red);
