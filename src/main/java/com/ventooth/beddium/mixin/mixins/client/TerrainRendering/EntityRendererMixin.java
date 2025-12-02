@@ -25,7 +25,8 @@ package com.ventooth.beddium.mixin.mixins.client.TerrainRendering;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.ventooth.beddium.config.TerrainRenderingConfig;
-import com.ventooth.beddium.modules.TerrainRendering.fog.FogStateTracker;
+import com.ventooth.beddium.modules.TerrainRendering.fog.FogGL;
+import com.ventooth.beddium.modules.TerrainRendering.fog.FogHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -42,9 +43,15 @@ public abstract class EntityRendererMixin {
     private float farPlaneDistance;
 
     @Inject(method = "setupFog",
+            at = @At(value = "HEAD"))
+    private void hook_preSetupFog(CallbackInfo ci) {
+        FogHandler.preSetupFog(this.farPlaneDistance);
+    }
+
+    @Inject(method = "setupFog",
             at = @At(value = "RETURN"))
     private void hook_postSetupFog(CallbackInfo ci) {
-        FogStateTracker.postSetupFog(this.farPlaneDistance);
+        FogHandler.postSetupFog(this.farPlaneDistance);
     }
 
     @WrapOperation(method = "setupFog",
@@ -52,7 +59,7 @@ public abstract class EntityRendererMixin {
                             target = "Lorg/lwjgl/opengl/GL11;glFog(ILjava/nio/FloatBuffer;)V"))
     private void track_glFog(int pname, FloatBuffer params, Operation<Void> original) {
         if (TerrainRenderingConfig.FastFog) {
-            FogStateTracker.glFog(pname, params);
+            FogGL.glFog(pname, params);
         }
         original.call(pname, params);
     }
@@ -62,7 +69,7 @@ public abstract class EntityRendererMixin {
                             target = "Lorg/lwjgl/opengl/GL11;glFogf(IF)V"))
     private void track_glFogf(int pname, float param, Operation<Void> original) {
         if (TerrainRenderingConfig.FastFog) {
-            FogStateTracker.glFogf(pname, param);
+            FogGL.glFogf(pname, param);
         }
         original.call(pname, param);
     }
@@ -72,7 +79,7 @@ public abstract class EntityRendererMixin {
                             target = "Lorg/lwjgl/opengl/GL11;glFogi(II)V"))
     private void track_glFogi(int pname, int param, Operation<Void> original) {
         if (TerrainRenderingConfig.FastFog) {
-            FogStateTracker.glFogi(pname, param);
+            FogGL.glFogi(pname, param);
         }
         original.call(pname, param);
     }
@@ -82,7 +89,7 @@ public abstract class EntityRendererMixin {
                             target = "Lorg/lwjgl/opengl/GL11;glEnable(I)V"))
     private void track_glEnable(int cap, Operation<Void> original) {
         if (TerrainRenderingConfig.FastFog) {
-            FogStateTracker.glEnable(cap);
+            FogGL.glEnable(cap);
         }
         original.call(cap);
     }
@@ -92,7 +99,7 @@ public abstract class EntityRendererMixin {
                             target = "Lorg/lwjgl/opengl/GL11;glDisable(I)V"))
     private void track_glDisable(int cap, Operation<Void> original) {
         if (TerrainRenderingConfig.FastFog) {
-            FogStateTracker.glDisable(cap);
+            FogGL.glDisable(cap);
         }
         original.call(cap);
     }

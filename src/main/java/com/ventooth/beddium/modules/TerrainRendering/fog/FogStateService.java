@@ -23,25 +23,27 @@
 package com.ventooth.beddium.modules.TerrainRendering.fog;
 
 import lombok.NoArgsConstructor;
-import lombok.val;
 import org.embeddedt.embeddium.impl.render.chunk.fog.FogService;
 import org.embeddedt.embeddium.impl.render.chunk.shader.ChunkFogMode;
 
+/**
+ * Informs Celeritas about the current fog state
+ */
 @NoArgsConstructor
 public final class FogStateService implements FogService {
     @Override
     public float getFogEnd() {
-        return FogStateTracker.end;
+        return FogState.end;
     }
 
     @Override
     public float getFogStart() {
-        return FogStateTracker.start;
+        return FogState.start;
     }
 
     @Override
     public float getFogDensity() {
-        return FogStateTracker.density;
+        return FogState.density;
     }
 
     @Override
@@ -56,17 +58,16 @@ public final class FogStateService implements FogService {
 
     @Override
     public float[] getFogColor() {
-        val color = FogStateTracker.color;
         return new float[]{
-                color.get(0),
-                color.get(1),
-                color.get(2),
-                color.get(3)
+                FogState.red,
+                FogState.green,
+                FogState.blue,
+                1F
         };
     }
 
     @Override
     public ChunkFogMode getFogMode() {
-        return FogStateTracker.isEnabled ? FogStateTracker.mode : ChunkFogMode.NONE;
+        return FogState.enabled ? ChunkFogMode.fromGLMode(FogState.mode) : ChunkFogMode.NONE;
     }
 }

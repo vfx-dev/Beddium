@@ -26,7 +26,8 @@ import com.ventooth.beddium.config.TerrainRenderingConfig;
 import com.ventooth.beddium.modules.MEGAChunks.MEGAChunkTracker;
 import com.ventooth.beddium.modules.MEGAChunks.MegaChunkMetadata;
 import com.ventooth.beddium.modules.TerrainRendering.ext.RenderGlobalExt;
-import com.ventooth.beddium.modules.TerrainRendering.fog.FogStateTracker;
+import com.ventooth.beddium.modules.TerrainRendering.fog.FogGL;
+import com.ventooth.beddium.modules.TerrainRendering.fog.FogState;
 import lombok.Getter;
 import lombok.val;
 import org.embeddedt.embeddium.impl.common.util.NativeBuffer;
@@ -184,10 +185,6 @@ public class CeleritasWorldRenderer {
      * Called prior to any chunk rendering in order to update necessary state.
      */
     public void setupTerrain(Viewport viewport, float ticks, @Deprecated(forRemoval = true) int frame, boolean spectator, boolean updateChunksImmediately) {
-        if (!TerrainRenderingConfig.FastFog) {
-            FogStateTracker.setFromGl();
-        }
-
         NativeBuffer.reclaim(false);
 
         boolean isShadowPass = this.renderSectionManager.isInShadowPass();
@@ -279,6 +276,10 @@ public class CeleritasWorldRenderer {
      * Draws all visible chunks for the given pass.
      */
     public void drawChunkLayer(int vanillaPass, double x, double y, double z) {
+        if (!TerrainRenderingConfig.FastFog) {
+            FogGL.read();
+        }
+
         ChunkRenderMatrices matrices = new ChunkRenderMatrices(new Matrix4f(ActiveRenderInfo.projection), new Matrix4f(ActiveRenderInfo.modelview));
 
         Collection<TerrainRenderPass> passes = this.renderSectionManager.getRenderPassConfiguration().vanillaRenderStages().get(vanillaPass);
@@ -306,7 +307,11 @@ public class CeleritasWorldRenderer {
     }
 
     private void initRenderer(CommandList commandList) {
-        FogStateTracker.setFromGl();
+        if (TerrainRenderingConfig.FastFog) {
+            FogState.setDefault(getEffectiveRenderDistance());
+        } else {
+            FogGL.read();
+        }
 
         if (this.renderSectionManager != null) {
             this.renderSectionManager.destroy();

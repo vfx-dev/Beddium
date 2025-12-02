@@ -22,52 +22,60 @@
 
 package com.ventooth.beddium.modules.TerrainRendering.fog;
 
-import com.ventooth.beddium.config.TerrainRenderingConfig;
 import org.lwjgl.opengl.GL11;
 
 import java.nio.FloatBuffer;
 
-public final class FogStateAsmHooks {
-    private FogStateAsmHooks() {
+/**
+ * Captures fog state from other mods during fog setup
+ */
+@SuppressWarnings("unused")
+public final class FogAsmHooks {
+    private static boolean enabled = false;
+
+    private FogAsmHooks() {
         throw new UnsupportedOperationException();
     }
 
-    @SuppressWarnings("unused")
+    public static void enable() {
+        enabled = true;
+    }
+
+    public static void disable() {
+        enabled = false;
+    }
+
     public static void beddium$glFog(int pname, FloatBuffer params) {
-        if (TerrainRenderingConfig.FastFog) {
-            FogStateTracker.glFog(pname, params);
+        if (enabled) {
+            FogGL.glFog(pname, params);
         }
         GL11.glFogfv(pname, params);
     }
 
-    @SuppressWarnings("unused")
     public static void beddium$glFogf(int pname, float param) {
-        if (TerrainRenderingConfig.FastFog) {
-            FogStateTracker.glFogf(pname, param);
+        if (enabled) {
+            FogGL.glFogf(pname, param);
         }
         GL11.glFogf(pname, param);
     }
 
-    @SuppressWarnings("unused")
     public static void beddium$glEnable(int cap) {
-        if (TerrainRenderingConfig.FastFog) {
-            FogStateTracker.glEnable(cap);
+        if (enabled) {
+            FogGL.glEnable(cap);
         }
         GL11.glEnable(cap);
     }
 
-    @SuppressWarnings("unused")
     public static void beddium$glDisable(int cap) {
-        if (TerrainRenderingConfig.FastFog) {
-            FogStateTracker.glDisable(cap);
+        if (enabled) {
+            FogGL.glDisable(cap);
         }
         GL11.glDisable(cap);
     }
 
-    @SuppressWarnings("unused")
     public static void beddium$glFogi(int pname, int param) {
-        if (TerrainRenderingConfig.FastFog) {
-            FogStateTracker.glFogi(pname, param);
+        if (enabled) {
+            FogGL.glFogi(pname, param);
         }
         GL11.glFogi(pname, param);
     }

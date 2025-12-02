@@ -29,6 +29,7 @@ import com.ventooth.beddium.modules.TerrainRendering.command.ToggleMapCommand;
 import com.ventooth.beddium.modules.TerrainRendering.command.TogglePassCommand;
 import com.ventooth.beddium.modules.TerrainRendering.command.ToggleWireframeCommand;
 import com.ventooth.beddium.modules.TerrainRendering.ext.RenderGlobalExt;
+import com.ventooth.beddium.modules.TerrainRendering.fog.FogEvents;
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import lombok.AccessLevel;
@@ -71,6 +72,7 @@ public final class TerrainRenderingModule {
         }
 
         MinecraftForge.EVENT_BUS.register(new TerrainRenderingModule());
+        MinecraftForge.EVENT_BUS.register(new FogEvents());
     }
 
     /**
