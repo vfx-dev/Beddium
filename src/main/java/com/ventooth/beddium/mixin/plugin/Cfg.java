@@ -38,7 +38,6 @@ enum Cfg implements Predicate<List<ITargetedMod>> {
     NetherliciousCompat(() -> ModuleConfig.TerrainRendering && TerrainRenderingConfig.NetherliciousCompat),
     BiomeColorCache(() -> ModuleConfig.BiomeColorCache),
     ConservativeAnimatedTextures(() -> ModuleConfig.ConservativeAnimatedTextures),
-    BetterMipmaps(() -> ModuleConfig.BetterMipmaps),
     MEGAChunks(() -> ModuleConfig.TerrainRendering && TerrainRenderingConfig.MEGAChunks != 0),
     ;
 

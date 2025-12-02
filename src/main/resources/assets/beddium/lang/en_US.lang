@@ -11,9 +11,6 @@ config.beddium.modules.BiomeColorCache.tooltip=Caching of biome color selection 
 config.beddium.modules.ConservativeAnimatedTextures=Conservative Animated Textures
 config.beddium.modules.ConservativeAnimatedTextures.tooltip=Only update visible animated textures
 
-config.beddium.modules.BetterMipmaps=Better Mipmaps
-config.beddium.modules.BetterMipmaps.tooltip=Better looking mipmaps
-
 config.beddium.modules.Debug=Debug
 config.beddium.modules.Debug.tooltip=Helpful debug features
 

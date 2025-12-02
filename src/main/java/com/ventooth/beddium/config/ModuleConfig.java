@@ -58,13 +58,6 @@ public final class ModuleConfig {
     @Config.DefaultBoolean(false) // TODO: Ship enabled
     public static boolean ConservativeAnimatedTextures;
 
-    @Config.Name("BetterMipmaps")
-    @Config.Comment({"Better looking mipmaps"})
-    @Config.LangKey("config.beddium.modules.BetterMipmaps")
-    @Config.RequiresMcRestart
-    @Config.DefaultBoolean(false) // TODO: Ship enabled
-    public static boolean BetterMipmaps;
-
     @Config.Name("Debug")
     @Config.Comment({"Helpful debug features"})
     @Config.LangKey("config.beddium.modules.Debug")

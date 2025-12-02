@@ -71,11 +71,6 @@ enum Mixin implements IMixin {
     ConservativeAnimatedTextures_TextureAtlasSpriteMixin(Side.CLIENT, Cfg.ConservativeAnimatedTextures),
     // endregion
 
-    // region Better Mipmaps
-    BetterMipmaps_TextureAtlasSpriteMixin(Side.CLIENT, Cfg.BetterMipmaps),
-    BetterMipmaps_TextureUtilMixin(Side.CLIENT, Cfg.BetterMipmaps),
-    // endregion
-
     // region MEGA Chunks
     MEGAChunks_AbstractSectionMixin(Side.CLIENT, Cfg.MEGAChunks),
     MEGAChunks_BiomeColorCacheMixin(Side.CLIENT, Cfg.MEGAChunks),
