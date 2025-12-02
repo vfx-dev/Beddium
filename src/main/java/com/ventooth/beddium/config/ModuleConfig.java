@@ -55,20 +55,13 @@ public final class ModuleConfig {
     @Config.Comment({"Only update visible animated textures"})
     @Config.LangKey("config.beddium.modules.ConservativeAnimatedTextures")
     @Config.RequiresMcRestart
-    @Config.DefaultBoolean(false) // TODO: Ship enabled
+    @Config.DefaultBoolean(true)
     public static boolean ConservativeAnimatedTextures;
-
-    @Config.Name("BetterMipmaps")
-    @Config.Comment({"Better looking mipmaps"})
-    @Config.LangKey("config.beddium.modules.BetterMipmaps")
-    @Config.RequiresMcRestart
-    @Config.DefaultBoolean(false) // TODO: Ship enabled
-    public static boolean BetterMipmaps;
 
     @Config.Name("Debug")
     @Config.Comment({"Helpful debug features"})
     @Config.LangKey("config.beddium.modules.Debug")
     @Config.RequiresMcRestart
-    @Config.DefaultBoolean(true) //TODO: Ship disabled
+    @Config.DefaultBoolean(false)
     public static boolean Debug;
 }

@@ -11,9 +11,6 @@ config.beddium.modules.BiomeColorCache.tooltip=在烘焙区块时缓存生物群
 config.beddium.modules.ConservativeAnimatedTextures=保守动画材质
 config.beddium.modules.ConservativeAnimatedTextures.tooltip=仅更新可见的动画材质
 
-config.beddium.modules.BetterMipmaps=更好的多级渐远纹理
-config.beddium.modules.BetterMipmaps.tooltip=更好看的多级渐远纹理
-
 config.beddium.modules.Debug=调试
 config.beddium.modules.Debug.tooltip=有用的调试功能
 

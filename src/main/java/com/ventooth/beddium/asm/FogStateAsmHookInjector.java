@@ -47,7 +47,7 @@ public final class FogStateAsmHookInjector implements TurboClassTransformer {
     @Language(value = "JAVA",
               prefix = "import ",
               suffix = ";")
-    private static final String HOOK_CLASS = Tags.ROOT_PKG + ".modules.TerrainRendering.fog.FogStateAsmHooks";
+    private static final String HOOK_CLASS = Tags.ROOT_PKG + ".modules.TerrainRendering.fog.FogAsmHooks";
 
     // region Mappings
     // @formatter:off

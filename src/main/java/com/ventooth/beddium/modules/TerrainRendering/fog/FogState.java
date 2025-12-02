@@ -20,22 +20,39 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.ventooth.beddium.mixin.mixins.client.BetterMipmaps;
+package com.ventooth.beddium.modules.TerrainRendering.fog;
 
-import com.ventooth.beddium.modules.BetterMipmaps.BetterMipmapsModule;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
+import org.lwjgl.opengl.GL11;
 
-import net.minecraft.client.renderer.texture.TextureUtil;
+/**
+ * Keeps track of the current fog state
+ */
+public final class FogState {
+    public static boolean enabled;
+    public static int mode;
 
-@Mixin(TextureUtil.class)
-public class TextureUtilMixin {
-    /**
-     * @author coderbot
-     * @reason replace the vanilla blending function with our improved function
-     */
-    @Overwrite
-    private static int func_147943_a(int v1, int v2, int v3, int v4, boolean checkAlpha) {
-        return BetterMipmapsModule.weightedAverageColor(v1, v2, v3, v4);
+    public static float start;
+    public static float end;
+    public static float density;
+
+    public static float red;
+    public static float green;
+    public static float blue;
+
+    private FogState() {
+        throw new UnsupportedOperationException();
+    }
+
+    public static void setDefault(float farPlaneDistance) {
+        FogState.enabled = true;
+        FogState.mode = GL11.GL_LINEAR;
+
+        FogState.red = 1F;
+        FogState.green = 1F;
+        FogState.blue = 1F;
+
+        FogState.start = farPlaneDistance * 0.75F;
+        FogState.end = farPlaneDistance;
+        FogState.density = 0.1F;
     }
 }
