@@ -88,22 +88,6 @@ public abstract class LockableTessellatorMixin implements LockableTess {
         }
     }
 
-    @WrapMethod(method = "setTranslation",
-                require = 1)
-    private void lock_setTranslation(double x, double y, double z, Operation<Void> original) {
-        if (beddium$checkLock()) {
-            original.call(x, y, z);
-        }
-    }
-
-    @WrapMethod(method = "addTranslation",
-                require = 1)
-    private void lock_addTranslation(float x, float y, float z, Operation<Void> original) {
-        if (beddium$checkLock()) {
-            original.call(x, y, z);
-        }
-    }
-
     @Override
     public void beddium$lock() {
         beddium$locked = true;
