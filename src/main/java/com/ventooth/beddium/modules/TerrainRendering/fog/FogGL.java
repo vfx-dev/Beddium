@@ -69,6 +69,7 @@ public final class FogGL {
 
         GL11.glFogf(GL11.GL_FOG_START, FogState.start);
         GL11.glFogf(GL11.GL_FOG_END, FogState.end);
+        GL11.glFogf(GL11.GL_FOG_DENSITY, FogState.density);
     }
 
     public static void debug(int pass) {
