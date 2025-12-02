@@ -32,6 +32,8 @@ import org.lwjgl.opengl.GL11;
  * Orchestrates tracking of the fog state
  */
 public final class FogHandler {
+    public static boolean DEBUG;
+
     private FogHandler() {
         throw new UnsupportedOperationException();
     }

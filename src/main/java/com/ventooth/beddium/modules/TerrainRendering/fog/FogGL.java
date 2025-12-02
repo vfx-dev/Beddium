@@ -22,6 +22,9 @@
 
 package com.ventooth.beddium.modules.TerrainRendering.fog;
 
+import com.falsepattern.lib.util.MathUtil;
+import com.ventooth.beddium.Share;
+import lombok.val;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
@@ -66,6 +69,78 @@ public final class FogGL {
 
         GL11.glFogf(GL11.GL_FOG_START, FogState.start);
         GL11.glFogf(GL11.GL_FOG_END, FogState.end);
+    }
+
+    public static void debug(int pass) {
+        Share.log.info("Fog Debug for pass: {}", pass);
+
+        var mismatches = 0;
+
+        val enabled = GL11.glGetBoolean(GL11.GL_FOG);
+        if (FogState.enabled == enabled) {
+            Share.log.info("FogState.enabled=[{}]", enabled);
+        } else {
+            Share.log.error("FogState.enabled=[{}] != GL.enabled=[{}]", FogState.enabled, enabled);
+            mismatches++;
+        }
+        val mode = GL11.glGetInteger(GL11.GL_FOG_MODE);
+        if (FogState.mode == mode) {
+            Share.log.info("FogState.mode=[{}]", mode);
+        } else {
+            Share.log.error("FogState.mode=[{}] != GL.mode=[{}]", FogState.mode, mode);
+            mismatches++;
+        }
+
+        GL11.glGetFloatv(GL11.GL_FOG_COLOR, tempBuf);
+        val red = tempBuf.get(0);
+        if (MathUtil.epsilonEquals(FogState.red, red)) {
+            Share.log.info("FogState.red=[{}]", red);
+        } else {
+            Share.log.error("FogState.red=[{}] != GL.red=[{}]", FogState.red, red);
+            mismatches++;
+        }
+        val green = tempBuf.get(1);
+        if (MathUtil.epsilonEquals(FogState.green, green)) {
+            Share.log.info("FogState.green=[{}]", green);
+        } else {
+            Share.log.error("FogState.green=[{}] != GL.green=[{}]", FogState.green, green);
+            mismatches++;
+        }
+        val blue = tempBuf.get(2);
+        if (MathUtil.epsilonEquals(FogState.blue, blue)) {
+            Share.log.info("FogState.blue=[{}]", blue);
+        } else {
+            Share.log.error("FogState.blue=[{}] != GL.blue=[{}]", FogState.blue, blue);
+            mismatches++;
+        }
+
+        val start = GL11.glGetFloat(GL11.GL_FOG_START);
+        if (MathUtil.epsilonEquals(FogState.start, start)) {
+            Share.log.info("FogState.start=[{}]", start);
+        } else {
+            Share.log.error("FogState.start=[{}] != GL.start=[{}]", FogState.start, start);
+            mismatches++;
+        }
+        val end = GL11.glGetFloat(GL11.GL_FOG_END);
+        if (MathUtil.epsilonEquals(FogState.end, end)) {
+            Share.log.info("FogState.end=[{}]", end);
+        } else {
+            Share.log.error("FogState.end=[{}] != GL.end=[{}]", FogState.end, end);
+            mismatches++;
+        }
+        val density = GL11.glGetFloat(GL11.GL_FOG_DENSITY);
+        if (MathUtil.epsilonEquals(FogState.density, density)) {
+            Share.log.info("FogState.density=[{}]", density);
+        } else {
+            Share.log.error("FogState.density=[{}] != GL.density=[{}]", FogState.density, density);
+            mismatches++;
+        }
+
+        if (mismatches == 0) {
+            Share.log.info("FogState Valid");
+        } else {
+            Share.log.error("FogState mismatch on: [{}] elements", mismatches);
+        }
     }
 
     public static void glFog(int pname, FloatBuffer params) {

@@ -27,6 +27,7 @@ import com.ventooth.beddium.modules.MEGAChunks.MEGAChunkTracker;
 import com.ventooth.beddium.modules.MEGAChunks.MegaChunkMetadata;
 import com.ventooth.beddium.modules.TerrainRendering.ext.RenderGlobalExt;
 import com.ventooth.beddium.modules.TerrainRendering.fog.FogGL;
+import com.ventooth.beddium.modules.TerrainRendering.fog.FogHandler;
 import com.ventooth.beddium.modules.TerrainRendering.fog.FogState;
 import lombok.Getter;
 import lombok.val;
@@ -278,6 +279,9 @@ public class CeleritasWorldRenderer {
     public void drawChunkLayer(int vanillaPass, double x, double y, double z) {
         if (!TerrainRenderingConfig.FastFog) {
             FogGL.read();
+        }
+        if (FogHandler.DEBUG) {
+            FogGL.debug(vanillaPass);
         }
 
         ChunkRenderMatrices matrices = new ChunkRenderMatrices(new Matrix4f(ActiveRenderInfo.projection), new Matrix4f(ActiveRenderInfo.modelview));

@@ -25,6 +25,7 @@ package com.ventooth.beddium.modules.TerrainRendering;
 import com.ventooth.beddium.Share;
 import com.ventooth.beddium.config.ModuleConfig;
 import com.ventooth.beddium.config.TerrainRenderingConfig;
+import com.ventooth.beddium.modules.TerrainRendering.command.FogDebugCommand;
 import com.ventooth.beddium.modules.TerrainRendering.command.ToggleMapCommand;
 import com.ventooth.beddium.modules.TerrainRendering.command.TogglePassCommand;
 import com.ventooth.beddium.modules.TerrainRendering.command.ToggleWireframeCommand;
@@ -69,6 +70,7 @@ public final class TerrainRenderingModule {
             ClientCommandHandler.instance.registerCommand(new TogglePassCommand());
             ClientCommandHandler.instance.registerCommand(new ToggleWireframeCommand());
             ClientCommandHandler.instance.registerCommand(new ToggleMapCommand());
+            ClientCommandHandler.instance.registerCommand(new FogDebugCommand());
         }
 
         MinecraftForge.EVENT_BUS.register(new TerrainRenderingModule());
