@@ -25,7 +25,6 @@ package com.ventooth.beddium.mixin.mixins.client.TerrainRendering.compat;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.ventooth.beddium.Share;
-import com.ventooth.beddium.config.TerrainRenderingConfig;
 import com.ventooth.beddium.modules.TerrainRendering.compat.LockableTess;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

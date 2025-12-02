@@ -33,7 +33,7 @@ import java.util.function.Function;
 
 @Mixin(value = RenderSectionManager.class,
        remap = false)
-public class RenderSectionManagerMixin {
+public abstract class RenderSectionManagerMixin {
     @Redirect(method = "renderLayer",
               at = @At(value = "INVOKE",
                        target = "Lorg/embeddedt/embeddium/impl/gl/profiling/TimerQueryManager;startProfiling()V"),

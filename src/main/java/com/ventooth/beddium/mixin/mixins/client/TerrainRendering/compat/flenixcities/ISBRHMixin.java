@@ -63,7 +63,9 @@ import net.minecraft.client.renderer.Tessellator;
         WalkwayStairsRenderer.class,
         WalkwayStairsTraditionalRenderer.class,
         WalkwayTraditionalRenderer.class,
-}, remap = false, priority = 10_000)
+},
+       remap = false,
+       priority = 10_000)
 public abstract class ISBRHMixin {
     @Dynamic
     @WrapMethod(method = "renderInventoryBlock")

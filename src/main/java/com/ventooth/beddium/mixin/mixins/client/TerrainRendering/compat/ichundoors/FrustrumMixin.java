@@ -32,7 +32,7 @@ import net.minecraft.client.renderer.culling.ClippingHelper;
 
 @Mixin(value = Frustrum.class,
        remap = false)
-public final class FrustrumMixin implements FrustrumExt {
+public abstract class FrustrumMixin implements FrustrumExt {
     @Shadow
     private ClippingHelper clippingHelper;
 
@@ -45,7 +45,7 @@ public final class FrustrumMixin implements FrustrumExt {
 
     @Override
     public boolean beddium$isBoxInFrustum(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
-        return true;
+        return true; //TODO: This makes it work a little better, but it's still broken af
     }
 
     @Override

@@ -32,7 +32,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import net.minecraft.client.renderer.EntityRenderer;
 
 @Mixin(EntityRenderer.class)
-public class EntityRendererMixin {
+public abstract class EntityRendererMixin {
     @Shadow
     private float farPlaneDistance;
 

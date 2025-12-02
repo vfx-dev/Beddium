@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.2.0] - 2025-12-02
+
+### Changed
+
+- Updated localizations ([huihiuhuai/Update zh_CN.lang#26](https://github.com/vfx-dev/Beddium/pull/26))
+- Improved fast fog, now works correctly with Chromaticraft
+- Debug config is now disabled by default
+- Conservative Animated Textures are now enabled by default
+
+### Added
+
+- Optional Tessellator locking to help debug misbehaving mods
+- Support for FlenixCities
+
+### Removed
+
+- Better Mipmaps Module was removed as it was buggy and unfinished. Use the FalseTweaks one instead.
+
 ## [1.1.1] - 2025-11-29
 
 ### Added

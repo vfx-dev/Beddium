@@ -30,7 +30,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 @Mixin(value = BiomeColorCache.class,
        remap = false)
-public class BiomeColorCacheMixin {
+public abstract class BiomeColorCacheMixin {
     @ModifyConstant(method = "<init>",
                     constant = @Constant(intValue = 16),
                     require = 1)

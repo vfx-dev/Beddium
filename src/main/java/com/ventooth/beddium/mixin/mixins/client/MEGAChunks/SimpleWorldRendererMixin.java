@@ -31,7 +31,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 //There's nothing wrong. There's NOTHING WRONG. THERE'S NOTHING WRONG.
 @Mixin(value = SimpleWorldRenderer.class,
        remap = false)
-public class SimpleWorldRendererMixin {
+public abstract class SimpleWorldRendererMixin {
     @ModifyConstant(method = "scheduleRebuildForBlockArea",
                     constant = @Constant(intValue = 4),
                     require = 1)

@@ -33,7 +33,7 @@ import net.minecraft.block.BlockLeaves;
 import net.minecraft.world.IBlockAccess;
 
 @Mixin(BlockLeaves.class)
-public class BlockLeavesMixin {
+public abstract class BlockLeavesMixin {
     @WrapMethod(method = "colorMultiplier")
     private int smoothBlendColor(IBlockAccess access, int posX, int posY, int posZ, Operation<Integer> original) {
         if (BiomeColorCacheModule.isCacheActive() && access instanceof BiomeColorCacheCapable ext) {
