@@ -44,6 +44,14 @@ import static com.falsepattern.lib.mixin.v2.MixinHelper.require;
 public enum Mixin implements IMixins {
     // @formatter:off
 
+    // region Lwjgl3
+    Lwjgl3(Phase.EARLY,
+           require(TargetMod.Lwjgl3),
+           client("Lwjgl3.celeritas.GlFenceMixin",
+                  "Lwjgl3.celeritas.MultidrawFunctionsMixin",
+                  "Lwjgl3.celeritas.ShaderWorkaroundsMixin")),
+    // endregion
+
     // region Terrain Rendering
     TerrainRendering(Phase.EARLY,
                       () -> ModuleConfig.TerrainRendering,

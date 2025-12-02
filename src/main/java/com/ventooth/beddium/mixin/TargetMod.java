@@ -32,6 +32,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Consumer;
 
 public enum TargetMod implements ITargetMod {
+    Lwjgl3("org.lwjgl.system.MemoryUtil"),
+
     Swansong("com.ventooth.swansong.asm.CoreLoadingPlugin"),
     Netherlicious("DelirusCrux.Netherlicious.Netherlicious"),
     iChunDoors("us.ichun.mods.doors.common.Doors"),
