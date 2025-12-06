@@ -30,6 +30,7 @@ import com.ventooth.beddium.mixin.mixins.client.TerrainRendering.ForgeHooksClien
 import com.ventooth.beddium.modules.BiomeColorCache.BiomeColorCacheModule;
 import com.ventooth.beddium.modules.MEGAChunks.MEGASectionVisibilityBuilder;
 import com.ventooth.beddium.modules.TerrainRendering.CeleritasWorldRenderer;
+import com.ventooth.beddium.modules.TerrainRendering.Profiling;
 import com.ventooth.beddium.modules.TerrainRendering.TerrainRenderingModule;
 import com.ventooth.beddium.modules.TerrainRendering.compile.ArchaicChunkBuildContext;
 import com.ventooth.beddium.modules.TerrainRendering.compat.LockableTess;
@@ -61,6 +62,7 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.init.Blocks;
+import net.minecraft.profiler.Profiler;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.ChunkCache;
@@ -76,6 +78,8 @@ import java.util.concurrent.TimeoutException;
  * @implNote No longer fires: {@link net.minecraftforge.client.event.RenderWorldEvent RenderWorldEvent}, may lead to compat issues.
  */
 public abstract class SimpleChunkBuilderMeshingTask extends ChunkBuilderTask<ChunkBuildOutput> {
+    protected final Profiler profiler;
+
     protected final RenderSection render;
     protected final int buildTime;
     protected final Vector3d camera;
@@ -83,6 +87,8 @@ public abstract class SimpleChunkBuilderMeshingTask extends ChunkBuilderTask<Chu
     protected final ChunkCache chunkCache;
 
     public SimpleChunkBuilderMeshingTask(RenderSection render, WorldRenderRegion region, int time, Vector3d camera) {
+        this.profiler = Profiling.getProfiler();
+        
         this.render = render;
         this.buildTime = time;
         this.camera = camera;
@@ -108,13 +114,17 @@ public abstract class SimpleChunkBuilderMeshingTask extends ChunkBuilderTask<Chu
         ForgeHooksClientMixin.setWorldRenderPass(pass);
     }
 
+    protected static void addProfilerMessage(String fmt, Object... args) {
+        Profiling.addMessage(fmt, args);
+    }
+    
     /**
      * Increments the beddium chunk update counter
      */
     public static void incrementChunkUpdateCounter() {
         TerrainRenderingModule.incrementChunkUpdateCounter();
     }
-
+    
     @Override
     public ChunkBuildOutput execute(ChunkBuildContext context, CancellationToken cancellationToken) {
         ArchaicChunkBuildContext buildContext = (ArchaicChunkBuildContext) context;
