@@ -186,15 +186,22 @@ public abstract class RenderGlobalMixin implements RenderGlobalExt {
      */
     @Overwrite
     public void clipRenderersByFrustum(ICamera camera, float partialTick) {
+        val isShadowPass = Compat.isSwansongInitialized() && Compat.shadowPassActive();
+
         RenderDevice.enterManagedCode();
         try {
             final Viewport viewport;
-            if (Compat.isSwansongInitialized() && Compat.shadowPassActive()) {
+            if (isShadowPass) {
                 viewport = celeritas$createShadowViewport(FrustrumExt.of(camera), partialTick);
             } else {
                 viewport = celeritas$createViewport(FrustrumExt.of(camera));
             }
+
+            val profiler = this.mc.mcProfiler;
+            val sectionName = isShadowPass ? "bed_shadow_setup_terrain" : "bed_setup_terrain";
+            profiler.startSection(sectionName);
             celeritas$worldRenderer.setupTerrain(viewport, partialTick, celeritas$frame++, this.mc.thePlayer.noClip, false);
+            profiler.endSection();
         } finally {
             RenderDevice.exitManagedCode();
         }

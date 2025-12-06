@@ -184,16 +184,23 @@ public class CeleritasWorldRenderer {
 
     /**
      * Called prior to any chunk rendering in order to update necessary state.
+     *
+     * @implNote Avoid big changes, this is meant to be kept in sync with the reference impl as close as possible!
      */
     public void setupTerrain(Viewport viewport, float ticks, @Deprecated(forRemoval = true) int frame, boolean spectator, boolean updateChunksImmediately) {
+        Profiler profiler = Minecraft.getMinecraft().mcProfiler;
+
+        profiler.startSection("bed_reclaim_mem");
         NativeBuffer.reclaim(false);
 
         boolean isShadowPass = this.renderSectionManager.isInShadowPass();
 
         if (this.renderSectionManager != null) {
+            profiler.endStartSection("bed_graph_updates");
             this.renderSectionManager.finishAllGraphUpdates();
         }
 
+        profiler.endStartSection("bed_chunk_updates");
         this.processChunkEvents();
 
         this.useEntityCulling = true;
@@ -202,8 +209,7 @@ public class CeleritasWorldRenderer {
             this.reload();
         }
 
-        Profiler profiler = Minecraft.getMinecraft().mcProfiler;
-        profiler.startSection("camera_setup");
+        profiler.startSection("bed_setup_camera");
 
         Entity viewEntity = Objects.requireNonNull(this.client.renderViewEntity, "Client must have view entity");
 
@@ -220,6 +226,7 @@ public class CeleritasWorldRenderer {
                         fogDistance != this.lastFogDistance;
 
         if (dirty) {
+            profiler.startSection("bed_mark_graph_dirty");
             this.renderSectionManager.markGraphDirty();
         }
 
@@ -232,30 +239,32 @@ public class CeleritasWorldRenderer {
         this.lastCameraYaw = yaw;
         this.lastFogDistance = fogDistance;
 
+        profiler.endStartSection("bed_run_async_tasks");
+
         this.renderSectionManager.runAsyncTasks();
 
-        profiler.endStartSection("chunk_update");
+        profiler.endStartSection("bed_chunk_update");
 
         this.renderSectionManager.updateChunks(updateChunksImmediately);
 
-        profiler.endStartSection("chunk_upload");
+        profiler.endStartSection("bed_chunk_upload");
 
         this.renderSectionManager.uploadChunks();
 
         // TODO: detect sun not moving and skip update during shadow pass
         if (this.renderSectionManager.needsUpdate() || isShadowPass) {
-            profiler.endStartSection("chunk_render_lists");
+            profiler.endStartSection("bed_chunk_render_lists");
 
             this.renderSectionManager.update(viewport, frame, spectator);
         }
 
         if (updateChunksImmediately) {
-            profiler.endStartSection("chunk_upload_immediately");
+            profiler.endStartSection("bed_chunk_upload_immediately");
 
             this.renderSectionManager.uploadChunks();
         }
 
-        profiler.endStartSection("chunk_render_tick");
+        profiler.endStartSection("bed_chunk_render_tick");
 
         this.renderSectionManager.tickVisibleRenders();
 
