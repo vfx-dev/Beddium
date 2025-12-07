@@ -209,7 +209,7 @@ public class CeleritasWorldRenderer {
             this.reload();
         }
 
-        profiler.startSection("setup_camera");
+        profiler.endStartSection("setup_camera");
 
         Entity viewEntity = Objects.requireNonNull(this.client.renderViewEntity, "Client must have view entity");
 
@@ -226,7 +226,7 @@ public class CeleritasWorldRenderer {
                         fogDistance != this.lastFogDistance;
 
         if (dirty) {
-            profiler.startSection("mark_graph_dirty");
+            profiler.endStartSection("mark_graph_dirty");
             this.renderSectionManager.markGraphDirty();
         }
 
