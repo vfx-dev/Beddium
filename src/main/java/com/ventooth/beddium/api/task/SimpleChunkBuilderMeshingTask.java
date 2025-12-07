@@ -79,17 +79,15 @@ import java.util.concurrent.TimeoutException;
  * @implNote No longer fires: {@link net.minecraftforge.client.event.RenderWorldEvent RenderWorldEvent}, may lead to compat issues.
  */
 public abstract class SimpleChunkBuilderMeshingTask extends ChunkBuilderTask<ChunkBuildOutput> {
-    protected final Profiler profiler;
-
     protected final RenderSection render;
     protected final int buildTime;
     protected final Vector3d camera;
     protected final WorldRenderRegion region;
     protected final ChunkCache chunkCache;
 
-    public SimpleChunkBuilderMeshingTask(RenderSection render, WorldRenderRegion region, int time, Vector3d camera) {
-        this.profiler = Profiling.getProfiler();
+    protected Profiler profiler;
 
+    public SimpleChunkBuilderMeshingTask(RenderSection render, WorldRenderRegion region, int time, Vector3d camera) {
         this.render = render;
         this.buildTime = time;
         this.camera = camera;
@@ -128,6 +126,8 @@ public abstract class SimpleChunkBuilderMeshingTask extends ChunkBuilderTask<Chu
 
     @Override
     public final ChunkBuildOutput execute(ChunkBuildContext context, CancellationToken cancellationToken) {
+        this.profiler = Profiling.getProfiler();
+
         val x = region.maxX - region.minX;
         val y = region.maxY - region.minY;
         val z = region.maxZ - region.minZ;
