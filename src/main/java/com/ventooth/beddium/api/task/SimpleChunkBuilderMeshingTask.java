@@ -25,6 +25,7 @@ package com.ventooth.beddium.api.task;
 import com.ventooth.beddium.Compat;
 import com.ventooth.beddium.Share;
 import com.ventooth.beddium.api.cache.StateAwareCache;
+import com.ventooth.beddium.config.ModuleConfig;
 import com.ventooth.beddium.config.TerrainRenderingConfig;
 import com.ventooth.beddium.mixin.mixins.client.TerrainRendering.ForgeHooksClientMixin;
 import com.ventooth.beddium.modules.BiomeColorCache.BiomeColorCacheModule;
@@ -32,8 +33,8 @@ import com.ventooth.beddium.modules.MEGAChunks.MEGASectionVisibilityBuilder;
 import com.ventooth.beddium.modules.TerrainRendering.CeleritasWorldRenderer;
 import com.ventooth.beddium.modules.TerrainRendering.Profiling;
 import com.ventooth.beddium.modules.TerrainRendering.TerrainRenderingModule;
-import com.ventooth.beddium.modules.TerrainRendering.compile.ArchaicChunkBuildContext;
 import com.ventooth.beddium.modules.TerrainRendering.compat.LockableTess;
+import com.ventooth.beddium.modules.TerrainRendering.compile.ArchaicChunkBuildContext;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceMap;
@@ -88,7 +89,7 @@ public abstract class SimpleChunkBuilderMeshingTask extends ChunkBuilderTask<Chu
 
     public SimpleChunkBuilderMeshingTask(RenderSection render, WorldRenderRegion region, int time, Vector3d camera) {
         this.profiler = Profiling.getProfiler();
-        
+
         this.render = render;
         this.buildTime = time;
         this.camera = camera;
@@ -117,16 +118,41 @@ public abstract class SimpleChunkBuilderMeshingTask extends ChunkBuilderTask<Chu
     protected static void addProfilerMessage(String fmt, Object... args) {
         Profiling.addMessage(fmt, args);
     }
-    
+
     /**
      * Increments the beddium chunk update counter
      */
     public static void incrementChunkUpdateCounter() {
         TerrainRenderingModule.incrementChunkUpdateCounter();
     }
-    
+
     @Override
-    public ChunkBuildOutput execute(ChunkBuildContext context, CancellationToken cancellationToken) {
+    public final ChunkBuildOutput execute(ChunkBuildContext context, CancellationToken cancellationToken) {
+        val x = region.maxX - region.minX;
+        val y = region.maxY - region.minY;
+        val z = region.maxZ - region.minZ;
+
+        ChunkBuildOutput ret = null;
+        profiler.startSection("mesh_executing");
+        try {
+            if (ModuleConfig.Debug) {
+                addProfilerMessage("mesh_region: [x=%d,y=%d,z=%d]", x, y, z);
+            }
+            ret = tryExecute(context, cancellationToken);
+            return ret;
+        } finally {
+            if (ModuleConfig.Debug) {
+                if (ret != null) {
+                    addProfilerMessage("mesh_complete");
+                } else {
+                    addProfilerMessage("mesh_canceled");
+                }
+            }
+            profiler.endSection();
+        }
+    }
+
+    protected ChunkBuildOutput tryExecute(ChunkBuildContext context, CancellationToken cancellationToken) {
         ArchaicChunkBuildContext buildContext = (ArchaicChunkBuildContext) context;
         MinecraftBuiltRenderSectionData<TextureAtlasSprite, TileEntity> renderData = new MinecraftBuiltRenderSectionData<>();
 
@@ -191,16 +217,24 @@ public abstract class SimpleChunkBuilderMeshingTask extends ChunkBuilderTask<Chu
                             }
                         }
 
-                        if (!threaded || canRenderOffThread(0, block, x, y, z)) {
-                            tryRenderBlock(tessellator, renderBlocks, 0, block, x, y, z);
-                        } else {
-                            if (deferredWork == null) {
-                                deferredWork = new IntArrayList(384);
+                        if (threaded) {
+                            if (canRenderOffThread(0, block, x, y, z)) {
+                                tryRenderBlock(tessellator, renderBlocks, 0, block, x, y, z);
+                            } else {
+                                if (deferredWork == null) {
+                                    deferredWork = new IntArrayList(384);
+                                }
+                                deferredWork.add(x);
+                                deferredWork.add(y);
+                                deferredWork.add(z);
+                                hasDeferredWork = true;
+
+                                if (ModuleConfig.Debug) {
+                                    addProfilerMessage("mesh_queue_deferred: (%d, %d, %d)", x, y, z);
+                                }
                             }
-                            deferredWork.add(x);
-                            deferredWork.add(y);
-                            deferredWork.add(z);
-                            hasDeferredWork = true;
+                        } else {
+                            tryRenderBlock(tessellator, renderBlocks, 0, block, x, y, z);
                         }
 
                         if (block.isOpaqueCube()) {
@@ -250,16 +284,24 @@ public abstract class SimpleChunkBuilderMeshingTask extends ChunkBuilderTask<Chu
                                 continue;
                             }
 
-                            if (!threaded || canRenderOffThread(pass, block, x, y, z)) {
-                                tryRenderBlock(tessellator, renderBlocks, pass, block, x, y, z);
-                            } else {
-                                if (deferredWork == null) {
-                                    deferredWork = new IntArrayList(384);
+                            if (threaded) {
+                                if (canRenderOffThread(pass, block, x, y, z)) {
+                                    tryRenderBlock(tessellator, renderBlocks, pass, block, x, y, z);
+                                } else {
+                                    if (deferredWork == null) {
+                                        deferredWork = new IntArrayList(384);
+                                    }
+                                    deferredWork.add(x);
+                                    deferredWork.add(y);
+                                    deferredWork.add(z);
+                                    hasDeferredWork = true;
+
+                                    if (ModuleConfig.Debug) {
+                                        addProfilerMessage("mesh_queue_deferred: (%d, %d, %d)", x, y, z);
+                                    }
                                 }
-                                deferredWork.add(x);
-                                deferredWork.add(y);
-                                deferredWork.add(z);
-                                hasDeferredWork = true;
+                            } else {
+                                tryRenderBlock(tessellator, renderBlocks, pass, block, x, y, z);
                             }
                         }
                     }
@@ -331,14 +373,24 @@ public abstract class SimpleChunkBuilderMeshingTask extends ChunkBuilderTask<Chu
         val work = createMainThreadWork(pass, coords, tessellator, renderBlocks, cancellationToken);
         val manager = CeleritasWorldRenderer.instance().getRenderSectionManager();
         val task = CompletableFuture.runAsync(work, manager::scheduleAsyncTask);
-        while (!cancellationToken.isCancelled()) {
-            try {
-                task.get(2, TimeUnit.SECONDS);
-                break;
-            } catch (InterruptedException | TimeoutException ignored) {
-            } catch (ExecutionException e) {
-                throw new CompletionException(e);
+
+        profiler.startSection("mesh_deferred_wait");
+        try {
+            while (!cancellationToken.isCancelled()) {
+                try {
+                    task.get(2, TimeUnit.SECONDS);
+                    break;
+                } catch (InterruptedException | TimeoutException ignored) {
+                } catch (ExecutionException e) {
+                    val cause = e.getCause();
+                    if (cause instanceof RuntimeException re) {
+                        throw re;
+                    }
+                    throw new CompletionException(cause);
+                }
             }
+        } finally {
+            profiler.endSection();
         }
     }
 
@@ -433,6 +485,9 @@ public abstract class SimpleChunkBuilderMeshingTask extends ChunkBuilderTask<Chu
 
         @Override
         public void run() {
+            val profiler = Profiling.getProfiler();
+
+            profiler.startSection("mesh_deferred_bake");
             int len = coords.size();
             for (int i = 0; i < len; i += 3) {
                 if (cancellationToken.isCancelled()) {
@@ -445,6 +500,7 @@ public abstract class SimpleChunkBuilderMeshingTask extends ChunkBuilderTask<Chu
                 var block = chunkCache.getBlock(x, y, z);
                 SimpleChunkBuilderMeshingTask.this.tryRenderBlock(tessellator, renderBlocks, pass, block, x, y, z);
             }
+            profiler.endSection();
         }
     }
 }
