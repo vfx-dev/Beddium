@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.2.1] - 2025-12-20
+
+### Changed
+
+- Improvements to profiling
+
+### Added
+
+- Integration with MEGATrace profiling
+
 ## [1.2.0] - 2025-12-02
 
 ### Changed

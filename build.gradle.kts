@@ -89,6 +89,7 @@ dependencies {
         excludeDeps()
     }
 
+    compileOnly("mega:megatraceservice:1.3.0")
     compileOnly("mega:fluidlogged-mc1.7.10:0.1.2:api")
 
     devOnlyNonPublishable("com.ventooth:swansong-mc1.7.10:1.2.5:dev")
@@ -108,4 +109,10 @@ dependencies {
     // WelcomeToTheJungle-1.0.9-1.7.10.jar
     // Here for testing the Fast Fog implementation
 //    runtimeOnly(deobfCurse("welcometothejungle-246895:2775633"))
+}
+
+tasks.processResources.configure {
+    into("META-INF/falsepatternlib_repo/mega/megatraceservice/1.3.0/") {
+        from(configurations.compileClasspath.map { it.filter { file -> file.name.contains("megatraceservice") } })
+    }
 }

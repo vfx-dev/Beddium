@@ -184,16 +184,23 @@ public class CeleritasWorldRenderer {
 
     /**
      * Called prior to any chunk rendering in order to update necessary state.
+     *
+     * @implNote Avoid big changes, this is meant to be kept in sync with the reference impl as close as possible!
      */
     public void setupTerrain(Viewport viewport, float ticks, @Deprecated(forRemoval = true) int frame, boolean spectator, boolean updateChunksImmediately) {
+        Profiler profiler = Profiling.getProfiler();
+
+        profiler.startSection("reclaim_mem");
         NativeBuffer.reclaim(false);
 
         boolean isShadowPass = this.renderSectionManager.isInShadowPass();
 
         if (this.renderSectionManager != null) {
+            profiler.endStartSection("bed_graph_updates");
             this.renderSectionManager.finishAllGraphUpdates();
         }
 
+        profiler.endStartSection("chunk_updates");
         this.processChunkEvents();
 
         this.useEntityCulling = true;
@@ -202,8 +209,7 @@ public class CeleritasWorldRenderer {
             this.reload();
         }
 
-        Profiler profiler = Minecraft.getMinecraft().mcProfiler;
-        profiler.startSection("camera_setup");
+        profiler.endStartSection("setup_camera");
 
         Entity viewEntity = Objects.requireNonNull(this.client.renderViewEntity, "Client must have view entity");
 
@@ -220,6 +226,7 @@ public class CeleritasWorldRenderer {
                         fogDistance != this.lastFogDistance;
 
         if (dirty) {
+            profiler.endStartSection("mark_graph_dirty");
             this.renderSectionManager.markGraphDirty();
         }
 
@@ -231,6 +238,8 @@ public class CeleritasWorldRenderer {
         this.lastCameraPitch = pitch;
         this.lastCameraYaw = yaw;
         this.lastFogDistance = fogDistance;
+
+        profiler.endStartSection("run_async_tasks");
 
         this.renderSectionManager.runAsyncTasks();
 

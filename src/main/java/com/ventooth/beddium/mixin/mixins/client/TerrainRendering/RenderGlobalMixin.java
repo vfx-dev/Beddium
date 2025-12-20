@@ -28,6 +28,7 @@ import com.ventooth.beddium.Compat;
 import com.ventooth.beddium.Share;
 import com.ventooth.beddium.modules.TerrainRendering.CameraHelper;
 import com.ventooth.beddium.modules.TerrainRendering.CeleritasWorldRenderer;
+import com.ventooth.beddium.modules.TerrainRendering.Profiling;
 import com.ventooth.beddium.modules.TerrainRendering.TerrainRenderingModule;
 import com.ventooth.beddium.modules.TerrainRendering.ext.FrustrumExt;
 import com.ventooth.beddium.modules.TerrainRendering.ext.RenderGlobalExt;
@@ -186,15 +187,22 @@ public abstract class RenderGlobalMixin implements RenderGlobalExt {
      */
     @Overwrite
     public void clipRenderersByFrustum(ICamera camera, float partialTick) {
+        val isShadowPass = Compat.isSwansongInitialized() && Compat.shadowPassActive();
+
         RenderDevice.enterManagedCode();
         try {
             final Viewport viewport;
-            if (Compat.isSwansongInitialized() && Compat.shadowPassActive()) {
+            if (isShadowPass) {
                 viewport = celeritas$createShadowViewport(FrustrumExt.of(camera), partialTick);
             } else {
                 viewport = celeritas$createViewport(FrustrumExt.of(camera));
             }
+
+            val profiler = Profiling.getProfiler();
+            val sectionName = isShadowPass ? "shadow_setup_terrain" : "_setup_terrain";
+            profiler.startSection(sectionName);
             celeritas$worldRenderer.setupTerrain(viewport, partialTick, celeritas$frame++, this.mc.thePlayer.noClip, false);
+            profiler.endSection();
         } finally {
             RenderDevice.exitManagedCode();
         }

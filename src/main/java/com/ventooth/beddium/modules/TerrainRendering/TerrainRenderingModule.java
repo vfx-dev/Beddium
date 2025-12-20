@@ -75,6 +75,7 @@ public final class TerrainRenderingModule {
 
         MinecraftForge.EVENT_BUS.register(new TerrainRenderingModule());
         MinecraftForge.EVENT_BUS.register(new FogEvents());
+        Profiling.markMainThread();
     }
 
     /**
