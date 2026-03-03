@@ -27,6 +27,7 @@ import lombok.NoArgsConstructor;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.relauncher.Side;
 
 @NoArgsConstructor
 @Mod(modid = Tags.MOD_ID,
@@ -36,7 +37,9 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 public final class Beddium {
     @Mod.EventHandler
     public void onInit(FMLInitializationEvent event) {
-        TerrainRenderingModule.init();
-        F3Display.init();
+        if (event.getSide() == Side.CLIENT) {
+            TerrainRenderingModule.init();
+            F3Display.init();
+        }
     }
 }
