@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.2] - 2025-3-3
+
+### Changed
+
+- No longer crashes game on serverside
+
 ## [1.2.1] - 2025-12-20
 
 ### Changed
