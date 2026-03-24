@@ -27,6 +27,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.ventooth.beddium.config.TerrainRenderingConfig;
 import com.ventooth.beddium.modules.TerrainRendering.fog.FogGL;
 import com.ventooth.beddium.modules.TerrainRendering.fog.FogHandler;
+import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -34,6 +35,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.renderer.RenderGlobal;
 
 import java.nio.FloatBuffer;
 
@@ -52,6 +54,17 @@ public abstract class EntityRendererMixin {
             at = @At(value = "RETURN"))
     private void hook_postSetupFog(CallbackInfo ci) {
         FogHandler.postSetupFog(this.farPlaneDistance);
+    }
+
+    @Inject(method = "renderCloudsCheck",
+            at = @At(value = "INVOKE",
+                     target = "Lnet/minecraft/client/renderer/EntityRenderer;setupFog(IF)V",
+                     shift = At.Shift.AFTER))
+    private void hook_postCloudFogDisable(RenderGlobal renderer, float tickDelta, CallbackInfo ci) {
+        if (TerrainRenderingConfig.FastFog) {
+            FogGL.glDisable(GL11.GL_FOG);
+            GL11.glDisable(GL11.GL_FOG);
+        }
     }
 
     @WrapOperation(method = "setupFog",
