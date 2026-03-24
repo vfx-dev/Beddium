@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.3] - 2026-03-23
+
+### Fixed
+
+- FastFog breaking when Y>=128 ([#29](https://github.com/vfx-dev/Beddium/issues/29))
+
 ## [1.2.2] - 2025-3-3
 
 ### Changed
