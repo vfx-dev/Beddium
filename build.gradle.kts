@@ -89,6 +89,8 @@ dependencies {
         excludeDeps()
     }
 
+    compileOnly("xyz.wagyourtail.jvmdowngrader:jvmdowngrader-java-api:1.3.6:downgraded-8")
+
     compileOnly("mega:megatraceservice:1.3.0")
     compileOnly("mega:fluidlogged-mc1.7.10:0.1.2:api")
 
