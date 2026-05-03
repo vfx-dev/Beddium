@@ -118,7 +118,9 @@ public final class TerrainRenderingConfig {
     @Config.DefaultStringList({
             "net.minecraft.*",
             "net.minecraftforge.*",
-            "cpw.mods.fml.*"
+            "cpw.mods.fml.*",
+            "org.lwjgl.*",
+            "org.lwjglx.*"
     })
     public static String[] FastFogAsmExclusions;
 
