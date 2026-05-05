@@ -33,6 +33,7 @@ minecraft_fp {
     }
 
     publish {
+        changelog = "https://github.com/vfx-dev/Beddium/blob/master/CHANGELOG.md"
         maven {
             repoUrl = "https://mvn.ventooth.com/releases"
             repoName = "venmaven"
