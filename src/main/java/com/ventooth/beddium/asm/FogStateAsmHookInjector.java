@@ -37,6 +37,8 @@ import org.objectweb.asm.tree.MethodNode;
 import net.minecraft.launchwrapper.Launch;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.function.Predicate;
 
 @NoArgsConstructor
@@ -98,28 +100,47 @@ public final class FogStateAsmHookInjector implements TurboClassTransformer {
 
     static {
         val list = new ArrayList<Predicate<String>>();
-
         {
             list.add(s -> s.equals(HOOK_CLASS));
             log.debug("Added root exclusion: {}", HOOK_CLASS);
         }
 
+        val defaultExcludes = new HashSet<String>();
+        defaultExcludes.add("net.minecraft.*");
+        defaultExcludes.add("net.minecraftforge.*");
+        defaultExcludes.add("cpw.mods.fml.*");
+        defaultExcludes.add("org.lwjgl.*");
+        defaultExcludes.add("org.lwjglx.*");
+
         val exclusionCfg = (String[]) Launch.blackboard.get(ShareAsm.TRACKED_FOG_STATE_ASM_EXCLUSIONS_KEY);
         if (exclusionCfg != null) {
             for (val exclusion : exclusionCfg) {
-                if (exclusion.endsWith("*")) {
-                    val prefix = exclusion.substring(0, exclusion.length() - 1);
-
-                    list.add(s -> s.startsWith(prefix));
-                } else {
-                    list.add(s -> s.equals(exclusion));
+                if (exclusion.startsWith("-")) {
+                    defaultExcludes.remove(exclusion.substring(1));
+                    continue;
                 }
-                log.debug("Added exclusion: {}", exclusion);
+                //overlap prevention
+                defaultExcludes.remove(exclusion);
+                addExclusion(list, exclusion);
             }
+        }
+        for (val exclusion: defaultExcludes) {
+            addExclusion(list, exclusion);
         }
 
         //noinspection unchecked
         EXCLUSIONS = list.toArray(new Predicate[0]);
+    }
+
+    private static void addExclusion(List<Predicate<String>> list, String exclusion) {
+        if (exclusion.endsWith("*")) {
+            val prefix = exclusion.substring(0, exclusion.length() - 1);
+
+            list.add(s -> s.startsWith(prefix));
+        } else {
+            list.add(s -> s.equals(exclusion));
+        }
+        log.debug("Added exclusion: {}", exclusion);
     }
 
     @Override
