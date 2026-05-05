@@ -1,5 +1,5 @@
 plugins {
-    id("com.falsepattern.fpgradle-mc") version "4.0.1"
+    id("com.falsepattern.fpgradle-mc") version "4.0.2"
 }
 
 group = "com.ventooth"
@@ -33,6 +33,7 @@ minecraft_fp {
     }
 
     publish {
+        changelog = "https://github.com/vfx-dev/Beddium/blob/master/CHANGELOG.md"
         maven {
             repoUrl = "https://mvn.ventooth.com/releases"
             repoName = "venmaven"

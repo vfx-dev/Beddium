@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.4] - 2026-05-05
+
+### Fixed
+
+- Crash with ASJCore ([#41](https://github.com/vfx-dev/Beddium/pull/41))
+
 ## [1.2.3] - 2026-03-23
 
 ### Fixed

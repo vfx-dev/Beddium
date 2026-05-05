@@ -112,14 +112,17 @@ public final class TerrainRenderingConfig {
     @Config.Name("FastFogAsmExclusions")
     @Config.Comment({
             "List of classes which are excluded by the ASM hooks which are excluded from fog tracking.",
+            "The following are excluded by default:",
+            "net.minecraft.*",
+            "net.minecraftforge.*",
+            "cpw.mods.fml.*",
+            "org.lwjgl.*",
+            "org.lwjglx.*",
+            "If you want to disable any of these for testing, add it but with a - sign in front (e.g. -net.minecraft.*)"
     })
     @Config.LangKey("config.beddium.terrainrendering.FastFogAsmExclusions")
     @Config.RequiresMcRestart
-    @Config.DefaultStringList({
-            "net.minecraft.*",
-            "net.minecraftforge.*",
-            "cpw.mods.fml.*"
-    })
+    @Config.DefaultStringList({})
     public static String[] FastFogAsmExclusions;
 
     @Config.Name("NetherliciousCompat")
