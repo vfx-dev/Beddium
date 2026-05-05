@@ -1,5 +1,5 @@
 plugins {
-    id("com.falsepattern.fpgradle-mc") version "4.0.1"
+    id("com.falsepattern.fpgradle-mc") version "4.0.2"
 }
 
 group = "com.ventooth"
