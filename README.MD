@@ -49,6 +49,18 @@ The mod was developed by `Ven` and `FalsePattern`, Copyright 2025, licensed unde
 
 For more information, see the LICENSE file. This readme section is not a replacement for the full license text.
 
+## Strict No LLM / No AI Policy
+
+No LLMs for issues.
+
+No LLMs for patches / pull requests.
+
+No LLMs for comments on the bug tracker, including translation.
+
+English is encouraged, but not required. You are welcome to post in your native
+language and rely on others to have their own translation tools of choice to
+interpret your words.
+
 ## Credits
 
 Designed by Ven, written by FalsePattern
