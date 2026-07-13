@@ -70,11 +70,11 @@ public enum Mixin implements IMixins {
                               client("TerrainRendering.ShaderModBridgeMixin",
                                      "TerrainRendering.ShaderEngineMixin")),
     TerrainRendering_LockTessellator(Phase.EARLY,
-                                     () -> ModuleConfig.TerrainRendering,
+                                     () -> ModuleConfig.TerrainRendering && TerrainRenderingConfig.LockTessellator,
                                      client("TerrainRendering.compat.LockableTessellatorMixin")),
 
     TerrainRendering_Netherlicious(Phase.LATE,
-                                   () -> ModuleConfig.TerrainRendering,
+                                   () -> ModuleConfig.TerrainRendering && TerrainRenderingConfig.NetherliciousCompat,
                                    require(TargetMod.Netherlicious),
                                    client("TerrainRendering.compat.netherlicious.RootsRenderMixin",
                                           "TerrainRendering.compat.netherlicious.SporeBlossomRenderMixin")),

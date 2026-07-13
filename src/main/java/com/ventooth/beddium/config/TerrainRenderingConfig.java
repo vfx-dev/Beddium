@@ -148,16 +148,35 @@ public final class TerrainRenderingConfig {
     @Config.DefaultStringList({"jewelrycraft2:blockCrystal"})
     public static String[] AlwaysTranslucentSprites;
 
-    @Config.Name("LockTessellatorMode")
+    @Config.Name("LockTessellator")
     @Config.Comment({
             "Allows Beddium to 'lock' the tessellator.",
             "Enable to help debug blocks making chunks turn invisible.",
             "Has a minor performance impact on chunk updates.",
     })
-    @Config.LangKey("config.beddium.terrainrendering.LockTessellatorMode")
+    @Config.LangKey("config.beddium.terrainrendering.LockTessellator")
     @Config.RequiresMcRestart
     @Config.DefaultBoolean(false)
     public static boolean LockTessellator;
+
+    @Config.Name("AsyncOcclusionCulling")
+    @Config.Comment({
+            "Asynchronous Chunk Occlusion Culling",
+            "Might cause chunks to be hidden for a moment if quickly turning the camera"
+    })
+    @Config.LangKey("config.beddium.terrainrendering.AsyncOcclusionCulling")
+    @Config.DefaultBoolean(true)
+    public static boolean AsyncOcclusionCulling;
+
+    @Config.Name("FogOcclusionCulling")
+    @Config.Comment({
+            "Fog Chunk Occlusion Culling",
+            "Disable this if you can see chunks popping in and out past the fog cutoff,",
+            "such as with certain biome or cave mods when using shaders.",
+    })
+    @Config.LangKey("config.beddium.terrainrendering.FogOcclusionCulling")
+    @Config.DefaultBoolean(true)
+    public static boolean FogOcclusionCulling;
 
     public enum DrawModeEnum {
         Vanilla,
