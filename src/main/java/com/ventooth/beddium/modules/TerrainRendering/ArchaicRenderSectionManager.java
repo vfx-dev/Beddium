@@ -24,6 +24,7 @@ package com.ventooth.beddium.modules.TerrainRendering;
 
 import com.ventooth.beddium.Compat;
 import com.ventooth.beddium.api.task.ChunkTaskRegistry;
+import com.ventooth.beddium.config.TerrainRenderingConfig;
 import com.ventooth.beddium.modules.ConservativeAnimatedTextures.ConservativeAnimatedTexturesModule;
 import com.ventooth.beddium.modules.MEGAChunks.MegaChunkMetadata;
 import com.ventooth.beddium.modules.TerrainRendering.compile.ArchaicChunkBuildContext;
@@ -47,9 +48,6 @@ import net.minecraft.world.chunk.Chunk;
 
 
 public class ArchaicRenderSectionManager extends RenderSectionManager {
-    private static final boolean USE_ASYNC_OCCLUSION = true;          // TODO: Wire up config
-    private static final boolean USE_FOG_OCCLUSION = true;            // TODO: Wire up config
-
     private final WorldClient world;
     private final boolean alwaysDeferChunkUpdates;
 
@@ -68,7 +66,7 @@ public class ArchaicRenderSectionManager extends RenderSectionManager {
 
     @Override
     protected AsyncOcclusionMode getAsyncOcclusionMode() {
-        if (USE_ASYNC_OCCLUSION) {
+        if (TerrainRenderingConfig.AsyncOcclusionCulling) {
             if (Compat.isSwansongInitialized() && Compat.shadowPassExists()) {
                 return AsyncOcclusionMode.ONLY_SHADOW;
             } else {
@@ -86,7 +84,7 @@ public class ArchaicRenderSectionManager extends RenderSectionManager {
 
     @Override
     protected boolean useFogOcclusion() {
-        return USE_FOG_OCCLUSION;
+        return TerrainRenderingConfig.FogOcclusionCulling;
     }
 
     @Override

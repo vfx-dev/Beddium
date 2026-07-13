@@ -44,3 +44,9 @@ config.beddium.terrainrendering.AlwaysTranslucentSprites.tooltip=List of sprites
 
 config.beddium.terrainrendering.LockTessellator=Lock Tessellator
 config.beddium.terrainrendering.LockTessellator.tooltip=Allows Beddium to 'lock' the tessellator.\nEnable to help debug blocks making chunks turn invisible.\nHas a minor performance impact on chunk updates.
+
+config.beddium.terrainrendering.AsyncOcclusionCulling=Async Occlusion Culling
+config.beddium.terrainrendering.AsyncOcclusionCulling.tooltip=Asynchronous Chunk Occlusion Culling\nMight cause chunks to be hidden for a moment if quickly turning the camera
+
+config.beddium.terrainrendering.FogOcclusionCulling=Fog Occlusion Culling
+config.beddium.terrainrendering.FogOcclusionCulling.tooltip=Fog Chunk Occlusion Culling\nDisable this if you can see chunks popping in and out past the fog cutoff,\nsuch as with certain biome or cave mods when using shaders.
