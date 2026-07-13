@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.2.5] - 2026-07-13
+
+### Added
+
+- Config options for culling
+
+### Fixed
+
+- Certain config options not applying
+
 ## [1.2.4] - 2026-05-05
 
 ### Fixed
