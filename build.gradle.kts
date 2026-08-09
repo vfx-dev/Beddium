@@ -1,5 +1,5 @@
 plugins {
-    id("com.falsepattern.fpgradle-mc") version "4.0.2"
+    id("com.falsepattern.fpgradle-mc") version "4.1.0"
 }
 
 group = "com.ventooth"
@@ -40,6 +40,7 @@ minecraft_fp {
         }
         curseforge {
             projectId = "1065808"
+            side = Client
             dependencies {
                 required("fplib")
                 required("lwjgl3ify")
